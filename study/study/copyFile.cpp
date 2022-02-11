@@ -4,12 +4,41 @@
 #include <iostream>
 #include <fstream>
 
+void CopyStream(std::istream& input, std::ostream& output)
+{
+
+}
+
+int Add(int a, int b)
+{
+
+}
+
+void Swap(int& a, int& b)
+{
+    int tmp = a;
+    a = b;
+    b = tmp;
+}
+
+void AppendEndOfLine(std::string& s)
+{
+    s += '\n';
+}
+
 int main(int argc, char* argv[])
 {
+    std::string s = "hello";
+    AppendEndOfLine(s);
+    int x = 42;
+    int y = 13;
+    Swap(x, y);
+
     //Проверяем необходимое количество аргументов
     if (argc != 3) {
         std::cout << "Error was occured\n";
         std::cout << "Must be 2 arguments: study.exe <input file name> <output file name>\n";
+        //Поменять название программы.
         return 1;
     }
 
