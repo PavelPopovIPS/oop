@@ -33,7 +33,7 @@ echo:
 
 REM Input Output files are not specified
 %MyProgram% && goto err
-echo It is Ok!\
+echo It is Ok!
 echo:
 
 REM Тесты прошли успешно
