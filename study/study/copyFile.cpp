@@ -17,6 +17,8 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
+		std::cout << "Invalid argument count\n";
+		std::cout << "Usage: CopyFile.exe <input file name> <output file name>\n";
 		return std::nullopt;
 	}
 	Args args;
@@ -27,37 +29,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 void CopyStream(std::istream& input, std::ostream& output)
 {
-}
-
-int main(int argc, char* argv[])
-{
-	auto args = ParseArgs(argc, argv);
-	//Проверяем необходимое количество аргументов
-	if (!args)
-	{
-		std::cout << "Invalid argument count\n";
-		std::cout << "Usage: CopyFile.exe <input file name> <output file name>\n";
-		return 1;
-	}
-
-	// Открываем файл для чтения
-	std::ifstream input;
-	input.open(args->inputFileName);
-	if (!input.is_open())
-	{
-		std::cout << "File " << args->inputFileName << " did not opened for reading\n";
-		return 1;
-	}
-
-	// Открываем файл для чтения
-	std::ofstream output(args->outputFileName);
-	// output.open();
-	if (!output.is_open())
-	{
-		std::cout << "File " << args->outputFileName << " did not opened for writining\n";
-		return 1;
-	}
-
 	// Копируем содержимое файла
 	char ch;
 	while (input.get(ch))
@@ -67,6 +38,37 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
+}
+
+int main(int argc, char* argv[])
+{
+	auto args = ParseArgs(argc, argv);
+	//Проверяем необходимое количество аргументов
+	if (!args)
+	{
+		return 1;
+	}
+
+	// Открываем файл для чтения
+	std::ifstream input;
+	input.open(args->inputFileName);
+
+	if (!input.is_open())
+	{
+		std::cout << "File " << args->inputFileName << " did not opened for reading\n";
+		return 1;
+	}
+
+	// Открываем файл для чтения
+	std::ofstream output;
+	output.open(args->outputFileName);
+	if (!output.is_open())
+	{
+		std::cout << "File " << args->outputFileName << " did not opened for writining\n";
+		return 1;
+	}
+
+	CopyStream(input, output);
 
 	if (input.bad())
 	{
