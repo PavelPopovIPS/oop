@@ -1,4 +1,4 @@
-// study.cpp : This file contains the 'main' function. Program execution begins
+// copyFile.cpp : This file contains the 'main' function. Program execution begins
 // and ends there.
 //
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
 	if (!input.is_open())
 	{
-		std::cout << "File " << args->inputFileName << " did not opened for reading\n";
+		std::cout << "File " << args->inputFileName << " was not opened for reading\n";
 		return 1;
 	}
 
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 	output.open(args->outputFileName);
 	if (!output.is_open())
 	{
-		std::cout << "File " << args->outputFileName << " did not opened for writining\n";
+		std::cout << "File " << args->outputFileName << " was not opened for writining\n";
 		return 1;
 	}
 
