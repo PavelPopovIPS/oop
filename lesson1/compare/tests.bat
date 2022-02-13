@@ -9,8 +9,8 @@ if %MyProgram%=="" (
 	exit /B 1
 )
 
-REM Copy empty file
-%MyProgram% "source.txt" "copySource.txt" || goto err
+REM Compare equal files
+(%MyProgram% "source.txt" "copySource.txt" && fc "source.txt" "copySource.txt") || goto err
 
 REM Тесты прошли успешно
 echo Tests passed successfuly
