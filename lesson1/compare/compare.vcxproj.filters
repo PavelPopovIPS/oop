@@ -19,4 +19,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="source.txt" />
+    <Text Include="copySource.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests.bat">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -62,6 +62,7 @@ int main(int argc, char* argv[])
 	}
 
 	std::cout << args->îriginalFileName << "\n";
-	std::cout << args->modifiedFileName;
+	std::cout << args->modifiedFileName << "\n";
+	std::cout << "Files are equal\n";
 	return 0;
 }
