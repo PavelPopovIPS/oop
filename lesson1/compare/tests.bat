@@ -10,7 +10,8 @@ if %MyProgram%=="" (
 )
 
 REM Files with equal text should be equal
-(%MyProgram% "source.txt" "copySource.txt" && fc "source.txt" "copySource.txt") || goto err
+%MyProgram% "source.txt" "copySource.txt" && fc "source.txt" "copySource.txt"
+if ERRORLEVEL 1 goto err
 
 REM Empty files should be equal
 %MyProgram% "emptyFile1.txt" "emptyFile2.txt" && fc "emptyFile1.txt" "emptyFile2.txt"
