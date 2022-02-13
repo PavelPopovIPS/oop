@@ -23,6 +23,10 @@
     <Text Include="source.txt" />
     <Text Include="copySource.txt" />
     <Text Include="sourceWithoutOneChar.txt" />
+    <Text Include="newText.txt" />
+    <Text Include="emptyFile1.txt" />
+    <Text Include="emptyFile2.txt" />
+    <Text Include="oneChar.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tests.bat">

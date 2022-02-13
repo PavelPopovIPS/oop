@@ -159,6 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="copySource.txt" />
+    <Text Include="emptyFile1.txt" />
+    <Text Include="emptyFile2.txt" />
+    <Text Include="newText.txt" />
+    <Text Include="oneChar.txt" />
     <Text Include="source.txt" />
     <Text Include="sourceWithoutOneChar.txt" />
   </ItemGroup>
