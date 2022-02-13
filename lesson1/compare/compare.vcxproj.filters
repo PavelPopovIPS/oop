@@ -22,6 +22,7 @@
   <ItemGroup>
     <Text Include="source.txt" />
     <Text Include="copySource.txt" />
+    <Text Include="sourceWithoutOneChar.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tests.bat">

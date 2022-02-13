@@ -160,6 +160,7 @@
   <ItemGroup>
     <Text Include="copySource.txt" />
     <Text Include="source.txt" />
+    <Text Include="sourceWithoutOneChar.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tests.bat" />

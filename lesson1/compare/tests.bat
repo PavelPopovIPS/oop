@@ -9,8 +9,20 @@ if %MyProgram%=="" (
 	exit /B 1
 )
 
-REM Compare equal files
+REM Files with equal text should be equal
 (%MyProgram% "source.txt" "copySource.txt" && fc "source.txt" "copySource.txt") || goto err
+
+REM Files with equal text but different length should not be different
+%MyProgram% "source.txt" "sourceWithoutOneChar.txt" && fc "source.txt" "sourceWithoutOneChar.txt"
+if NOT ERRORLEVEL 1 goto err
+
+REM Files whith different text should be different
+%MyProgram% "source.txt" "newText.txt" && fc "source.txt" "newText.txt"
+if NOT ERRORLEVEL 1 goto err
+
+REM Empty files should be equal
+%MyProgram% "emptyFile1.txt" "emptyFile2.txt" && fc "emptyFile1.txt" "emptyFile2.txt"
+if ERRORLEVEL 1 goto err
 
 REM Тесты прошли успешно
 echo Tests passed successfuly
