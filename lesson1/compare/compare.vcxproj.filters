@@ -15,18 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="copyFile.cpp">
+    <ClCompile Include="compare.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="empty.txt" />
-    <Text Include="textWithEmptyLine.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="tests.bat">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
