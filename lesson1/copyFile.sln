@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "copyFile", "study\study.vcxproj", "{A13244D1-04EC-4274-A24B-FA7F76E89196}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "copyFile", "copyFile\copyFile.vcxproj", "{A13244D1-04EC-4274-A24B-FA7F76E89196}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7181295D-0F45-4939-A69C-F70173C444EE}"
 EndProject
