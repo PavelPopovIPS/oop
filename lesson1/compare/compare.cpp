@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Compare streams
-	// App exit with code 1 if files not equal
+	// Exit with code 1 if files not equal
 	if (!isStreamEqual(îriginalFile, modifiedFile))
 	{
 		return 1;
