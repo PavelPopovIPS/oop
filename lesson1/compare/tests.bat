@@ -29,6 +29,14 @@ REM One empty file and file with one character should be different
 %MyProgram% "emptyFile1.txt" "oneChar.txt" && fc "emptyFile1.txt" "oneChar.txt"
 if NOT ERRORLEVEL 1 goto err
 
+REM App should not compare text if got one argument
+%MyProgram% "emptyFile1.txt"
+if NOT ERRORLEVEL 1 goto err
+
+REM App should not compare text without arguments
+%MyProgram%
+if NOT ERRORLEVEL 1 goto err
+
 REM Тесты прошли успешно
 echo Tests passed successfuly
 exit /B 0
