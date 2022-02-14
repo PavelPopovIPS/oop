@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <sstream> //необходим для работы со строками в файле
 #include <string>
 
 struct Args
@@ -33,7 +34,7 @@ bool IsTextExist(std::ifstream& file, std::string& text)
 	bool isTextFound = false;
 
 	// Read file line by line
-	for (line; std::getline(file, line);)
+	for (line; std::getline(file, line); lineCount++)
 	{
 		// Search text in line
 		if (line.find(text) != std::string::npos)
@@ -41,7 +42,6 @@ bool IsTextExist(std::ifstream& file, std::string& text)
 			std::cout << lineCount << "\n";
 			isTextFound = true;
 		}
-		lineCount++;
 	}
 
 	// Check flag that text was found
