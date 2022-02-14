@@ -26,26 +26,61 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
+bool isTextExist(std::ifstream& file, std::string& text)
+{
+	std::string line;
+	int lineCount = 1;
+	bool isTextFound = false;
+
+	// Read file line by line
+	for (line; std::getline(file, line);)
+	{
+		// Search text in line
+		if (line.find(text) != std::string::npos)
+		{
+			std::cout << lineCount << "\n";
+			isTextFound = true;
+		}
+		lineCount++;
+	}
+
+	// Check flag that text was found
+	if (!isTextFound)
+	{
+		std::cout << "Text not found\n";
+		return false;
+	}
+
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	auto args = ParseArgs(argc, argv);
-	//Проверяем необходимое количество аргументов
+	// Check count of args
 	if (!args)
 	{
 		return 1;
 	}
 
-	// Открываем файл для чтения
-	std::ifstream fileName;
-	fileName.open(args->fileName);
+	// Open files for reading
+	std::ifstream file;
+	file.open(args->fileName);
 
-	if (!fileName.is_open())
+	if (!file.is_open())
 	{
 		std::cout << "File " << args->fileName << " was not opened for reading\n";
 		return 1;
 	}
 
-	if (fileName.bad())
+	// Search text
+	// Exit with code 1 if text not found
+	if (!isTextExist(file, args->textToSearch))
+	{
+		return 1;
+	}
+
+	if (file.bad())
 	{
 		std::cout << "Failed to read data from file\n";
 		return 1;
