@@ -26,7 +26,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-bool isTextExist(std::ifstream& file, std::string& text)
+bool IsTextExist(std::ifstream& file, std::string& text)
 {
 	std::string line;
 	int lineCount = 1;
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 
 	// Search text
 	// Exit with code 1 if text not found
-	if (!isTextExist(file, args->textToSearch))
+	if (!IsTextExist(file, args->textToSearch))
 	{
 		return 1;
 	}

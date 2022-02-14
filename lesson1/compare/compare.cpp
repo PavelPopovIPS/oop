@@ -26,7 +26,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-bool isStreamEqual(std::ifstream& îriginalFile, std::ifstream& modifiedFile)
+bool IsStreamsEqual(std::ifstream& îriginalFile, std::ifstream& modifiedFile)
 {
 	char ch1, ch2;
 	int countLines = 1;
@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
 
 	// Compare streams
 	// Exit with code 1 if files not equal
-	if (!isStreamEqual(îriginalFile, modifiedFile))
+	if (!IsStreamsEqual(îriginalFile, modifiedFile))
 	{
 		return 1;
 	}
