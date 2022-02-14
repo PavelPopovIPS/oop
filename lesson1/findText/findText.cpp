@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <string>
 
 struct Args
 {
