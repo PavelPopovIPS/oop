@@ -158,7 +158,9 @@
     <ClCompile Include="findText.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="text.txt" />
+    <Text Include="text-en.txt" />
+    <Text Include="text-ru.txt" />
+    <Text Include="emptyText.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tests.bat" />
