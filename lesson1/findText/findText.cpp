@@ -24,42 +24,52 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	Args args;
 	args.fileName = argv[1];
 	args.textToSearch = argv[2];
+
+	if (args.textToSearch == "")
+	{
+		std::cout << "Text to search should not be empty";
+		return std::nullopt;
+	}
+
 	return args;
 }
 
 //----Разобраться где использовать константные ссылки
+// Попробуй использовать для возврадаемого значаение std::vector<Int>
+// push_back() для вставки
 std::string FindText(std::ifstream& file, std::string& text)
 {
 	int lineCount = 1;
-	std::string lineList;
+	std::string lineList = "";
 	bool isTextFound = false;
 
 	// Read file line by line
-	// ----------Разобраться как getLine становится bool
 	for (std::string line; std::getline(file, line); lineCount++)
 	{
 		// Search text in line
 		if (line.find(text) != std::string::npos)
 		{
-			// 1.Отделить работу программы от вывода
-			lineList.append(lineCount);
+			lineList += std::to_string(lineCount);
 			isTextFound = true;
 		}
 	}
 
 	// Check flag that text was found
+	// --Не стоит мешать логику программы и вывод
 	if (!isTextFound)
 	{
 		std::cout << "Text not found\n";
-		return false;
 	}
 
-	return true;
+	return lineList;
 }
 
 void PrintLineList(std::string& lineList)
 {
-	std::cout << lineList[1] << "\n";
+	for (auto ch : lineList)
+	{
+		std::cout << ch << std::endl;
+	}
 }
 
 int main(int argc, char* argv[])
@@ -83,19 +93,20 @@ int main(int argc, char* argv[])
 	}
 
 	// Search text
-	// Exit with code 1 if text not found
-
-	// 2. Подумать над названием
-	if (!IsTextExist(file, args->textToSearch))
-	{
-		return 1;
-	}
+	std::string result = FindText(file, args->textToSearch);
 
 	if (file.bad())
 	{
 		std::cout << "Failed to read data from file\n";
 		return 1;
 	}
+
+	if (result == "")
+	{
+		return 1;
+	}
+
+	PrintLineList(result);
 
 	return 0;
 }
