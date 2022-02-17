@@ -27,19 +27,22 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-bool IsTextExist(std::ifstream& file, std::string& text)
+//----Разобраться где использовать константные ссылки
+std::string FindText(std::ifstream& file, std::string& text)
 {
-	std::string line;
 	int lineCount = 1;
+	std::string lineList;
 	bool isTextFound = false;
 
 	// Read file line by line
-	for (line; std::getline(file, line); lineCount++)
+	// ----------Разобраться как getLine становится bool
+	for (std::string line; std::getline(file, line); lineCount++)
 	{
 		// Search text in line
 		if (line.find(text) != std::string::npos)
 		{
-			std::cout << lineCount << "\n";
+			// 1.Отделить работу программы от вывода
+			lineList.append(lineCount);
 			isTextFound = true;
 		}
 	}
@@ -54,8 +57,14 @@ bool IsTextExist(std::ifstream& file, std::string& text)
 	return true;
 }
 
+void PrintLineList(std::string& lineList)
+{
+	std::cout << lineList[1] << "\n";
+}
+
 int main(int argc, char* argv[])
 {
+	// ------Есть две штуковины они меняют кодировки вывода в стандартый поторк
 	auto args = ParseArgs(argc, argv);
 	// Check count of args
 	if (!args)
@@ -75,6 +84,8 @@ int main(int argc, char* argv[])
 
 	// Search text
 	// Exit with code 1 if text not found
+
+	// 2. Подумать над названием
 	if (!IsTextExist(file, args->textToSearch))
 	{
 		return 1;

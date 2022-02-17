@@ -34,6 +34,7 @@ REM Text with spaces should be found
 if ERRORLEVEL 1 goto err
 echo Test 5: passed successful
 
+REM -----------Кажется в этом случаее логичнее выдать ошибку
 REM Empty line should be found
 %MyProgram% "text-en.txt" "" > NUL
 if ERRORLEVEL 1 goto err
