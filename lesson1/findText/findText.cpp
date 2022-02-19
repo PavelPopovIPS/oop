@@ -1,11 +1,12 @@
-// findText.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// findText.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <fstream>
 #include <iostream>
 #include <optional>
-#include <sstream> //необходим для работы со строками в файле
+#include <sstream> //РЅРµРѕР±С…РѕРґРёРј РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃС‚СЂРѕРєР°РјРё РІ С„Р°Р№Р»Рµ
 #include <string>
+#include <vector>
 
 struct Args
 {
@@ -34,48 +35,39 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-//----Разобраться где использовать константные ссылки
-// Попробуй использовать для возврадаемого значаение std::vector<Int>
-// push_back() для вставки
-std::string FindText(std::ifstream& file, std::string& text)
+std::vector<int> FindText(std::ifstream& file, std::string& text)
 {
-	int lineCount = 1;
-	std::string lineList = "";
+	std::string line;
+	std::vector<int> lineList = {};
+	int lineNumber = 1;
 	bool isTextFound = false;
 
 	// Read file line by line
-	for (std::string line; std::getline(file, line); lineCount++)
+	while (std::getline(file, line))
 	{
 		// Search text in line
 		if (line.find(text) != std::string::npos)
 		{
-			lineList += std::to_string(lineCount);
+			lineList.push_back(lineNumber);
 			isTextFound = true;
+			lineNumber++;
 		}
 	}
-
-	// Check flag that text was found
-	// --Не стоит мешать логику программы и вывод
-	if (!isTextFound)
-	{
-		std::cout << "Text not found\n";
-	}
-
 	return lineList;
 }
 
-void PrintLineList(std::string& lineList)
+void PrintLineList(std::vector<int>& lineList)
 {
-	for (auto ch : lineList)
+	for (int lineNumber : lineList)
 	{
-		std::cout << ch << std::endl;
+		std::cout << lineNumber << std::endl;
 	}
 }
 
 int main(int argc, char* argv[])
 {
-	// ------Есть две штуковины они меняют кодировки вывода в стандартый поторк
 	auto args = ParseArgs(argc, argv);
+
 	// Check count of args
 	if (!args)
 	{
@@ -85,7 +77,6 @@ int main(int argc, char* argv[])
 	// Open files for reading
 	std::ifstream file;
 	file.open(args->fileName);
-
 	if (!file.is_open())
 	{
 		std::cout << "File " << args->fileName << " was not opened for reading\n";
@@ -93,7 +84,7 @@ int main(int argc, char* argv[])
 	}
 
 	// Search text
-	std::string result = FindText(file, args->textToSearch);
+	std::vector result = FindText(file, args->textToSearch);
 
 	if (file.bad())
 	{
@@ -101,8 +92,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	if (result == "")
+	if (result.size() == 0)
 	{
+		std::cout << "Text not found\n";
 		return 1;
 	}
 

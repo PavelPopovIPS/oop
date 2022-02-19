@@ -163,6 +163,7 @@
     <Text Include="emptyText.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="tests-ru.bat" />
     <None Include="tests.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

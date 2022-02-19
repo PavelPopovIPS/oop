@@ -28,5 +28,8 @@
     <None Include="tests.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="tests-ru.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
