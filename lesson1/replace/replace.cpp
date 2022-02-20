@@ -1,4 +1,4 @@
-// replace.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// replace.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <fstream>
@@ -42,23 +42,23 @@ void ReplaceText(std::ifstream& inputFile, std::ofstream& outputFile, std::strin
 		size_t lenSubline = 0;
 		std::string newLine = "";
 
-		// Собираем новую строку из кусочков строки line с заменой текста
+		// РЎРѕР±РёСЂР°РµРј РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РёР· РєСѓСЃРѕС‡РєРѕРІ СЃС‚СЂРѕРєРё line СЃ Р·Р°РјРµРЅРѕР№ С‚РµРєСЃС‚Р°
 		while (startPos < line.length())
 		{
-			// Поиск позиции искомого текста относительно начала строки
+			// РџРѕРёСЃРє РїРѕР·РёС†РёРё РёСЃРєРѕРјРѕРіРѕ С‚РµРєСЃС‚Р° РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
 			searchTextPos = line.find(searchText, startPos);
 
-			// Вычисляю длину строки, которую буду точно вставлять в новую строку
+			// Р’С‹С‡РёСЃР»СЏСЋ РґР»РёРЅСѓ СЃС‚СЂРѕРєРё, РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓ С‚РѕС‡РЅРѕ РІСЃС‚Р°РІР»СЏС‚СЊ РІ РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ
 			lenSubline = searchTextPos - startPos;
 
-			//И вставляю ее в новую строку ? беззнаковое size_t searchTextPos = 18446744073709551615, а не -1
+			//Р РІСЃС‚Р°РІР»СЏСЋ РµРµ РІ РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ ? Р±РµР·Р·РЅР°РєРѕРІРѕРµ size_t searchTextPos = 18446744073709551615, Р° РЅРµ -1
 			newLine.append(line, startPos, lenSubline);
 
 			if (searchTextPos != std::string::npos)
 			{
 				newLine.append(replaceText);
 
-				// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
+				// РќСѓР¶РЅРѕ РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РїРѕР·РёС†РёСЋ, СЃ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРґРѕР»Р¶РёС‚СЃСЏ РїРѕРёСЃРє РёСЃРєРѕРјРѕРіРѕ С‚РµРєСЃС‚Р° РІ С‚РµРєСѓС‰РµР№ СЃС‚СЂРѕРєРµ
 				startPos = searchTextPos + searchText.length();
 			}
 			else
