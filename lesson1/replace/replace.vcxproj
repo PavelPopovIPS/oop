@@ -164,7 +164,7 @@
     <Text Include="text-mult-lines.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.bat" />
+    <None Include="tests.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

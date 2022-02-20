@@ -26,7 +26,7 @@
     <Text Include="empty.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.bat">
+    <None Include="tests.bat">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
