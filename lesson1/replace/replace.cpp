@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <string>
 
 struct Args
 {
@@ -53,6 +54,12 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "File " << args->outputFile << " was not opened for writing\n";
 		return 1;
+	}
+
+	std::string line;
+	while (std::getline(inputFile, line))
+	{
+		std::cout << line << std::endl;
 	}
 
 	if (inputFile.bad())
