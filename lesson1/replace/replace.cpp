@@ -10,8 +10,8 @@ struct Args
 {
 	std::string inputFile;
 	std::string outputFile;
-	std::string searchString;
-	std::string replaceString;
+	std::string searchText;
+	std::string replaceText;
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -25,8 +25,8 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	Args args;
 	args.inputFile = argv[1];
 	args.outputFile = argv[2];
-	args.searchString = argv[3];
-	args.replaceString = argv[4];
+	args.searchText = argv[3];
+	args.replaceText = argv[4];
 
 	return args;
 }
@@ -56,22 +56,43 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	std::string searchText = args->searchText;
+	std::string replaceText = args->replaceText;
 	std::string line;
 	std::string newLine;
-	while (std::getline(inputFile, line))
+	size_t startLinePos = 0;
+	size_t endLinePos = 0;
+
+	std::getline(inputFile, line);
+	std::cout << line << std::endl;
+
+	while (startLinePos < line.length())
 	{
-		if (line.find("1") != std::string::npos)
+		endLinePos = line.find(searchText, startLinePos);
+		// endLinePos -= startLinePos;
+		std::cout << endLinePos << std::endl;
+
+		// —обираем строку с новой подстрокой ? беззнаковое size_t endLinePos = 18446744073709551615, а не -1
+		newLine.append(line, startLinePos, endLinePos - startLinePos);
+		std::cout << newLine << std::endl;
+
+		if (endLinePos != std::string::npos)
 		{
-			// outputFile << line.find("1") << std::endl;
-			std::cout << line.find("1") << std::endl;
+			newLine.append(replaceText);
+			std::cout << newLine << std::endl;
+
+			// Ќужно пересчитать позиции строки, в которой продолжитс€ поиск
+			startLinePos = endLinePos + searchText.length();
+			std::cout << startLinePos << std::endl;
 		}
 		else
 		{
-			newLine = line;
-			// outputFile << line << std::endl;
-			std::cout << line << std::endl;
+			break;
 		}
 	}
+
+	// outputFile << newLine << std::endl;
+	std::cout << newLine << std::endl;
 
 	if (inputFile.bad())
 	{
