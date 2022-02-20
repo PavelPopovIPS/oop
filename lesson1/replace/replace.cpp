@@ -31,44 +31,45 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-void ReplaceText(std::ifstream& inputFile, std::ofstream& outputFile, std::string& searchText, std::string& replaceText)
+std::string ReplaceText(std::string& line, std::string& searchText, std::string& replaceText)
+{
+	size_t startPos = 0;
+	size_t searchTextPos = 0;
+	size_t lenSubline = 0;
+	std::string newLine = "";
+
+	// Собираем новую строку из кусочков строки line с заменой текста
+	while (searchTextPos < line.length())
+	{
+		// Поиск позиции искомого текста относительно начала строки
+		searchTextPos = line.find(searchText, startPos);
+
+		// Вычисляю длину строки, которую буду точно вставлять в новую строку
+		lenSubline = searchTextPos - startPos;
+
+		//И вставляю ее в новую строку ? беззнаковое size_t searchTextPos = 18446744073709551615, а не -1
+		newLine.append(line, startPos, lenSubline);
+
+		if (searchTextPos != std::string::npos)
+		{
+			newLine.append(replaceText);
+
+			// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
+			startPos = searchTextPos + searchText.length();
+		}
+	}
+
+	return newLine;
+}
+
+void CopyFileWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, std::string& searchText, std::string& replaceText)
 {
 	std::string line;
 
 	while (std::getline(inputFile, line))
 	{
-		size_t startPos = 0;
-		size_t searchTextPos = 0;
-		size_t lenSubline = 0;
-		std::string newLine = "";
-
-		// Собираем новую строку из кусочков строки line с заменой текста
-		while (startPos < line.length())
-		{
-			// Поиск позиции искомого текста относительно начала строки
-			searchTextPos = line.find(searchText, startPos);
-
-			// Вычисляю длину строки, которую буду точно вставлять в новую строку
-			lenSubline = searchTextPos - startPos;
-
-			//И вставляю ее в новую строку ? беззнаковое size_t searchTextPos = 18446744073709551615, а не -1
-			newLine.append(line, startPos, lenSubline);
-
-			if (searchTextPos != std::string::npos)
-			{
-				newLine.append(replaceText);
-
-				// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
-				startPos = searchTextPos + searchText.length();
-			}
-			else
-			{
-				break;
-			}
-		}
-
 		// outputFile << newLine << std::endl;
-		std::cout << newLine << std::endl;
+		std::cout << ReplaceText(line, searchText, replaceText) << std::endl;
 	}
 }
 
@@ -100,7 +101,7 @@ int main(int argc, char* argv[])
 	std::string searchText = args->searchText;
 	std::string replaceText = args->replaceText;
 
-	ReplaceText(inputFile, outputFile, searchText, replaceText);
+	CopyFileWithReplace(inputFile, outputFile, searchText, replaceText);
 
 	if (inputFile.bad())
 	{
