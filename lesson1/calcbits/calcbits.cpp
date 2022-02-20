@@ -7,7 +7,7 @@
 
 struct Args
 {
-	int byte;
+	unsigned byte;
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -22,7 +22,12 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	try
 	{
-		args.byte = std::stoi(argv[1]);
+		if (std::stoi(argv[1]) < 0)
+		{
+			std::cout << "Number should be great then zero\n";
+			return std::nullopt;
+		}
+		args.byte = static_cast<unsigned>(std::stoi(argv[1]));
 	}
 	catch (std::invalid_argument e)
 	{
@@ -30,6 +35,19 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		return std::nullopt;
 	}
 	return args;
+}
+
+int Bitcount(unsigned x)
+{
+	int b;
+	for (b = 0; x != 0; x >>= 1)
+	{
+		if (x & 1)
+		{
+			++b;
+		}
+	}
+	return b;
 }
 
 int main(int argc, char* argv[])
@@ -40,7 +58,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	std::cout << args->byte << std::endl;
+	std::cout << Bitcount(args->byte) << std::endl;
 
 	return 0;
 }
