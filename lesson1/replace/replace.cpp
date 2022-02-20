@@ -1,6 +1,7 @@
 // replace.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <fstream>
 #include <iostream>
 #include <optional>
 
@@ -29,7 +30,42 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-	std::cout << "Hello World!\n";
+	auto args = ParseArgs(argc, argv);
+	if (!args)
+	{
+		return 1;
+	}
+
+	std::ifstream inputFile;
+	inputFile.open(args->inputFile);
+
+	if (!inputFile.is_open())
+	{
+		std::cout << "File " << args->inputFile << " was not opened for reading\n";
+		return 1;
+	}
+
+	std::ofstream outputFile;
+	outputFile.open(args->outputFile);
+	if (!outputFile.is_open())
+	{
+		std::cout << "File " << args->outputFile << " was not opened for writing\n";
+		return 1;
+	}
+
+	if (inputFile.bad())
+	{
+		std::cout << "Failed to read data from file\n";
+		return 1;
+	}
+
+	if (!outputFile.flush())
+	{
+		std::cout << "Failed to write to file from buffer\n";
+		return 1;
+	}
+
+	return 0;
 }
