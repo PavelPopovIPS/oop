@@ -28,6 +28,12 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	args.searchText = argv[3];
 	args.replaceText = argv[4];
 
+	if (args.searchText == "")
+	{
+		std::cout << "Text to search should not be empty";
+		return std::nullopt;
+	}
+
 	return args;
 }
 
@@ -68,8 +74,8 @@ void CopyFileWithReplace(std::ifstream& inputFile, std::ofstream& outputFile, st
 
 	while (std::getline(inputFile, line))
 	{
-		// outputFile << newLine << std::endl;
-		std::cout << ReplaceText(line, searchText, replaceText) << std::endl;
+		outputFile << ReplaceText(line, searchText, replaceText) << std::endl;
+		// std::cout << ReplaceText(line, searchText, replaceText) << std::endl;
 	}
 }
 

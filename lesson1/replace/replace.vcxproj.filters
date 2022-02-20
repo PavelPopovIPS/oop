@@ -20,6 +20,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="text.txt" />
+    <Text Include="text-mult-lines.txt" />
+    <Text Include="text-one-line.txt" />
+    <Text Include="12312312345.txt" />
+    <Text Include="empty.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
