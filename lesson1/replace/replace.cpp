@@ -57,9 +57,20 @@ int main(int argc, char* argv[])
 	}
 
 	std::string line;
+	std::string newLine;
 	while (std::getline(inputFile, line))
 	{
-		std::cout << line << std::endl;
+		if (line.find("1") != std::string::npos)
+		{
+			// outputFile << line.find("1") << std::endl;
+			std::cout << line.find("1") << std::endl;
+		}
+		else
+		{
+			newLine = line;
+			// outputFile << line << std::endl;
+			std::cout << line << std::endl;
+		}
 	}
 
 	if (inputFile.bad())
