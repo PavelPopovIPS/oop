@@ -24,7 +24,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	{
 		if (std::stoi(argv[1]) < 0)
 		{
-			std::cout << "Number should be great then zero\n";
+			std::cout << "Number should be greater then zero\n";
 			return std::nullopt;
 		}
 		args.byte = static_cast<unsigned>(std::stoi(argv[1]));
