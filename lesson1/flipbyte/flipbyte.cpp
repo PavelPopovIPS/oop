@@ -42,10 +42,70 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-void FlipByte(unsigned char& byte)
+unsigned int FlipByte(const unsigned char& byte)
 {
-	std::bitset<8> bitset1(byte);
-	std::cout << bitset1 << std::endl;
+	// byte is 87654321
+
+	unsigned int newByte;
+
+	// Распечатал полученный байт // debug
+	std::bitset<8> bitset1{ byte }; // debug
+	std::cout << bitset1 << std::endl; // debug
+
+	// Разделил бит на половинки и поменял их местами
+	// left is  43210000
+	// right is 00008765
+	unsigned char left = byte << 4;
+	unsigned char right = byte >> 4;
+
+	// Склеил половинки // debug
+	newByte = left | right; // debug
+	// Распечатал склеенные половинки
+	std::bitset<8> bitset6{ newByte }; // debug
+	std::cout << "change 1/2 " << bitset6 << std::endl; // debug
+
+	//Разделил левую половину на четверти и поменял их местами
+	// left1 is 21000000
+	// left2 is 00430000
+	unsigned char left1 = left << 2;
+	unsigned char left2 = left >> 2;
+	left2 &= 48; // 48 - маска в двоичной системе 00110000
+
+	// Поменял местами биты в четвертях
+	// left1 is 12000000
+	// left2 is 00340000
+	left1 = (left1 << 1) | ((left1 >> 1) & 64);
+	left2 = ((left2 << 1) & 32) | ((left2 >> 1) & 16);
+
+	// Склеил левые четвертинки
+	left = left1 | left2; // debug
+	std::bitset<8> bitset4{ left }; // debug
+	std::cout << bitset4 << std::endl; // debug
+
+	//Разделил правую половину на четверти и поменял их местами
+	// right1 is 00006500
+	// right2 is 00000087
+	unsigned char right1 = right << 2;
+	right1 &= 12; // 12 - маска в двоичной системе 00001100
+	unsigned char right2 = right >> 2;
+
+	// Поменял местами биты в четвертях
+	// right1 is 00005600
+	// right2 is 00000078
+	right1 = (right1 << 1) & 8 | ((right1 >> 1) & 4);
+	right2 = ((right2 << 1) & 2) | (right2 >> 1);
+
+	// Склеил правые четвертинки
+	right = right1 | right2; // debug
+	std::bitset<8> bitset5{ right }; // debug
+	std::cout << bitset5 << std::endl; // debug
+
+	// Склеил половинки и распечатал
+	newByte = left | right; // debug
+	std::bitset<8> bitset7{ newByte }; // debug
+	std::cout << "change 1/4 " << bitset7 << std::endl; // debug
+
+	return newByte;
 }
 
 int main(int argc, char* argv[])
@@ -55,8 +115,10 @@ int main(int argc, char* argv[])
 	{
 		return 1;
 	}
-	FlipByte(args->byte);
-	// std::cout << int(args->byte) << std::endl;
+
+	unsigned int newByte = FlipByte(args->byte);
+
+	std::cout << newByte << std::endl;
 
 	return 0;
 }
