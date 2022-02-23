@@ -1,15 +1,14 @@
 ﻿// rotatebyte.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <bitset> // debug
 #include <iostream>
 #include <optional>
 #include <string>
 
 enum class Direction
 {
-	L,
-	R
+	Left,
+	Right
 };
 
 struct Args
@@ -66,11 +65,11 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	std::string direction = static_cast<std::string>(argv[3]);
 	if (direction == "L")
 	{
-		args.direction = Direction::L;
+		args.direction = Direction::Left;
 	}
 	else if (direction == "R")
 	{
-		args.direction = Direction::R;
+		args.direction = Direction::Right;
 	}
 	else
 	{
@@ -93,30 +92,18 @@ unsigned int RotateByte(const unsigned char& byte, unsigned int& numberBits, con
 		numberBits %= 8;
 	}
 
-	// std::cout << numberBits << std::endl; // debug
-
 	switch (direction)
 	{
-	case Direction::L: {
+	case Direction::Left: {
 		left = byte << numberBits;
 		right = byte >> (8 - numberBits);
 		newByte = left | right;
-
-		// std::bitset<8> bitsetl{ l }; // debug
-		// std::bitset<8> bitsetr{ r }; // debug
-		// std::cout << bitsetl << std::endl; // debug
-		// std::cout << bitsetr << std::endl; // debug
 		return newByte;
 	}
-	case Direction::R: {
+	case Direction::Right: {
 		left = byte >> numberBits;
 		right = byte << (8 - numberBits);
 		newByte = left | right;
-
-		// std::bitset<8> bitsetl{ l }; // debug
-		// std::bitset<8> bitsetr{ r }; // debug
-		// std::cout << bitsetl << std::endl; // debug
-		// std::cout << bitsetr << std::endl; // debug
 		return newByte;
 	}
 	}
