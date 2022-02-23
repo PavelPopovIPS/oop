@@ -86,7 +86,7 @@ unsigned int RotateByte(const unsigned char& byte, unsigned int& numberBits, con
 	unsigned char right;
 	unsigned int newByte;
 
-	// Приводим ротацию к 8, 8 тоже самое, что 0
+	// Сonvert numberBits to one range
 	if (numberBits > 8)
 	{
 		numberBits %= 8;
