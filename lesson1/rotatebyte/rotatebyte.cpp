@@ -1,7 +1,7 @@
 ﻿// rotatebyte.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <bitset>
+#include <bitset> // debug
 #include <iostream>
 #include <optional>
 #include <string>
@@ -15,7 +15,7 @@ enum class Direction
 struct Args
 {
 	unsigned char byte;
-	unsigned numberBits;
+	unsigned int numberBits;
 	Direction direction;
 };
 
@@ -54,7 +54,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 			std::cout << "Second argument should be greater then zero or equal\n";
 			return std::nullopt;
 		}
-		args.numberBits = static_cast<unsigned>(std::stoi(argv[2]));
+		args.numberBits = static_cast<unsigned int>(std::stoi(argv[2]));
 	}
 	catch (std::invalid_argument e)
 	{
@@ -81,6 +81,47 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
+unsigned int RotateByte(const unsigned char& byte, unsigned int& numberBits, const Direction& direction)
+{
+	unsigned char left;
+	unsigned char right;
+	unsigned int newByte;
+
+	// Приводим ротацию к 8, 8 тоже самое, что 0
+	if (numberBits > 8)
+	{
+		numberBits %= 8;
+	}
+
+	// std::cout << numberBits << std::endl; // debug
+
+	switch (direction)
+	{
+	case Direction::L: {
+		left = byte << numberBits;
+		right = byte >> (8 - numberBits);
+		newByte = left | right;
+
+		// std::bitset<8> bitsetl{ l }; // debug
+		// std::bitset<8> bitsetr{ r }; // debug
+		// std::cout << bitsetl << std::endl; // debug
+		// std::cout << bitsetr << std::endl; // debug
+		return newByte;
+	}
+	case Direction::R: {
+		left = byte >> numberBits;
+		right = byte << (8 - numberBits);
+		newByte = left | right;
+
+		// std::bitset<8> bitsetl{ l }; // debug
+		// std::bitset<8> bitsetr{ r }; // debug
+		// std::cout << bitsetl << std::endl; // debug
+		// std::cout << bitsetr << std::endl; // debug
+		return newByte;
+	}
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	auto args = ParseArgs(argc, argv);
@@ -89,45 +130,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	unsigned char l;
-	unsigned char r;
-	unsigned i;
+	unsigned int byte = RotateByte(args->byte, args->numberBits, args->direction);
 
-	// Приводим ротацию к 8, 8 тоже самое, что 0
-	if (args->numberBits > 8)
-	{
-		args->numberBits %= 8;
-	}
-
-	std::cout << args->numberBits << std::endl; // debug
-
-	switch (args->direction)
-	{
-	case Direction::L: {
-		l = args->byte << args->numberBits;
-		r = args->byte >> (8 - args->numberBits);
-		i = l | r;
-
-		std::bitset<8> bitsetl{ l }; // debug
-		std::bitset<8> bitsetr{ r }; // debug
-		std::cout << bitsetl << std::endl; // debug
-		std::cout << bitsetr << std::endl; // debug
-		std::cout << i << std::endl;
-		break;
-	}
-	case Direction::R: {
-		l = args->byte >> args->numberBits;
-		r = args->byte << (8 - args->numberBits);
-		i = l | r;
-
-		std::bitset<8> bitsetl{ l }; // debug
-		std::bitset<8> bitsetr{ r }; // debug
-		std::cout << bitsetl << std::endl; // debug
-		std::cout << bitsetr << std::endl; // debug
-		std::cout << i << std::endl;
-		break;
-	}
-	}
+	std::cout << byte << std::endl;
 
 	return 0;
 }
