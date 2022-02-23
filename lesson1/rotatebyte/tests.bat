@@ -9,6 +9,101 @@ if %MyProgram%=="" (
 	exit /B 1
 )
 
+REM –отаци€ битов на 2 пор€дка дл€ числа 17 выполн€етс€ успешно
+%MyProgram% "17" "2" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 1: passed successful
+
+REM –отаци€ битов на 2 пор€дка дл€ числа 0 выполн€етс€ успешно
+%MyProgram% "0" "2" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 2: passed successful
+
+REM –отаци€ битов на 2 пор€дка дл€ числа 255 выполн€етс€ успешно
+%MyProgram% "255" "2" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 3: passed successful
+
+REM ќтрицательное число не допустимо в аргументе byte
+%MyProgram% "-1" "2" "L" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 4: passed successful
+
+REM „исло 256 не допустимо в аргументе byte
+%MyProgram% "256" "2" "L" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 5: passed successful
+
+REM “екстова€ строка не допустима в аргументе byte
+%MyProgram% "abcd" "2" "L" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 6: passed successful
+
+REM —двиг битов на 0 разр€дов влево выполн€етс€ корректно
+%MyProgram% "17" "0" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 7: passed successful
+
+REM —двиг битов на 8 разр€дов влево выполн€етс€ корректно
+%MyProgram% "17" "8" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 8: passed successful
+
+REM —двиг битов на 9 разр€дов влево равносильно 1 сдвигу влево и выполн€етс€ корректно
+%MyProgram% "17" "9" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 9: passed successful
+
+REM Ќе допускаетс€ отрицательное значение в аргументе <number of bits>
+%MyProgram% "17" "-1" "L" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 10: passed successful
+
+REM “екстова€ строка не допустима в аргументе <number of bits>
+%MyProgram% "17" "abcd" "L" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 11: passed successful
+
+REM —двиг битов на 0 разр€дов вправо выполн€етс€ корректно
+%MyProgram% "17" "0" "R" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 12: passed successful
+
+REM —двиг битов на 10 разр€дов вправо равносильно сдвигу вправо на 2 разр€да и выполн€етс€ корректно
+%MyProgram% "17" "10" "L" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 13: passed successful
+
+REM Ќе допускаетс€ использовать маленькую l дл€ направлени€ влево
+%MyProgram% "17" "2" "l" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 14: passed successful
+
+REM Ќе допускаетс€ использовать маленькую r дл€ направлени€ вправо
+%MyProgram% "17" "2" "r" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 15: passed successful
+
+REM Ќе допускаетс€ использовать число дл€ направлени€
+%MyProgram% "17" "2" "5" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 16: passed successful
+
+REM Ќе допускаетс€ использовать строку дл€ направлени€
+%MyProgram% "17" "2" "xyz" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 17: passed successful
+
+REM “ест без одного аргумента не запуститс€
+%MyProgram% "17" "2" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 18: passed successful
+
+REM “ест без всех аргументов не запуститс€
+%MyProgram% > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 19: passed successful
+
 REM “есты прошли успешно
 echo Tests passed successfuly
 exit /B 0
