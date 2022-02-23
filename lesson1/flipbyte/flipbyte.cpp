@@ -21,7 +21,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	Args args;
 
-	// Initialize argument
 	try
 	{
 		int byte = std::stoi(argv[1]);
