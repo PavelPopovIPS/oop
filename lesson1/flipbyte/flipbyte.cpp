@@ -1,14 +1,13 @@
 ﻿// flipbyte.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <bitset>
 #include <iostream>
 #include <optional>
 #include <string>
 
 struct Args
 {
-	unsigned char byte;
+	unsigned int byte;
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -16,7 +15,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	if (argc != 2)
 	{
 		std::cout << "Invalid argument count\n";
-		std::cout << "rotatebyte.exe <byte>\n";
+		std::cout << "For use: rotatebyte.exe <byte>\n";
 		return std::nullopt;
 	}
 
@@ -31,7 +30,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 			std::cout << "Argument should be greater than zero or equal zero and less than 256\n";
 			return std::nullopt;
 		}
-		args.byte = static_cast<unsigned char>(byte);
+		args.byte = static_cast<unsigned int>(byte);
 	}
 	catch (std::invalid_argument e)
 	{
@@ -42,27 +41,15 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-unsigned int FlipByte(const unsigned char& byte)
+unsigned int FlipByte(const unsigned int& byte)
+// byte is 87654321
 {
-	// byte is 87654321
-
-	unsigned int newByte;
-
-	// Распечатал полученный байт // debug
-	std::bitset<8> bitset1{ byte }; // debug
-	std::cout << bitset1 << std::endl; // debug
-
 	// Разделил бит на половинки и поменял их местами
 	// left is  43210000
 	// right is 00008765
-	unsigned char left = byte << 4;
-	unsigned char right = byte >> 4;
-
-	// Склеил половинки // debug
-	newByte = left | right; // debug
-	// Распечатал склеенные половинки
-	std::bitset<8> bitset6{ newByte }; // debug
-	std::cout << "change 1/2 " << bitset6 << std::endl; // debug
+	unsigned int left = byte << 4;
+	left &= 240; // 240 - маска в двоичной системе 11110000
+	unsigned int right = byte >> 4;
 
 	//Разделил левую половину на четверти и поменял их местами
 	// left1 is 21000000
@@ -71,16 +58,14 @@ unsigned int FlipByte(const unsigned char& byte)
 	unsigned char left2 = left >> 2;
 	left2 &= 48; // 48 - маска в двоичной системе 00110000
 
-	// Поменял местами биты в четвертях
+	// Поменял местами биты в четвертях левой половинки
 	// left1 is 12000000
 	// left2 is 00340000
 	left1 = (left1 << 1) | ((left1 >> 1) & 64);
 	left2 = ((left2 << 1) & 32) | ((left2 >> 1) & 16);
 
 	// Склеил левые четвертинки
-	left = left1 | left2; // debug
-	std::bitset<8> bitset4{ left }; // debug
-	std::cout << bitset4 << std::endl; // debug
+	left = left1 | left2;
 
 	//Разделил правую половину на четверти и поменял их местами
 	// right1 is 00006500
@@ -89,23 +74,17 @@ unsigned int FlipByte(const unsigned char& byte)
 	right1 &= 12; // 12 - маска в двоичной системе 00001100
 	unsigned char right2 = right >> 2;
 
-	// Поменял местами биты в четвертях
+	// Поменял местами биты в четвертях правой половинки
 	// right1 is 00005600
 	// right2 is 00000078
-	right1 = (right1 << 1) & 8 | ((right1 >> 1) & 4);
+	right1 = ((right1 << 1) & 8) | ((right1 >> 1) & 4);
 	right2 = ((right2 << 1) & 2) | (right2 >> 1);
 
 	// Склеил правые четвертинки
 	right = right1 | right2; // debug
-	std::bitset<8> bitset5{ right }; // debug
-	std::cout << bitset5 << std::endl; // debug
 
-	// Склеил половинки и распечатал
-	newByte = left | right; // debug
-	std::bitset<8> bitset7{ newByte }; // debug
-	std::cout << "change 1/4 " << bitset7 << std::endl; // debug
-
-	return newByte;
+	// Склеил половинки и вернул байт
+	return left | right;
 }
 
 int main(int argc, char* argv[])
@@ -116,9 +95,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	unsigned int newByte = FlipByte(args->byte);
-
-	std::cout << newByte << std::endl;
+	std::cout << FlipByte(args->byte) << std::endl;
 
 	return 0;
 }
