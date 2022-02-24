@@ -6,6 +6,15 @@
 #include <optional>
 #include <string>
 
+enum class Error
+{
+	InvalidArgumentCount,
+	ArgumentInitialize,
+	ArgumentNotNumber,
+	EmptyFileName,
+	ContainTextMatrix,
+};
+
 struct Args
 {
 	std::string fileMatrixFirst;
@@ -23,8 +32,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
-		std::cout << "Invalid argument count\n";
-		std::cout << "Usage: multmatrix.exe <matrix file1> <matrix file2>\n";
+		throw Error::InvalidArgumentCount;
 		return std::nullopt;
 	}
 	Args args;
@@ -33,13 +41,42 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	if (args.fileMatrixFirst == "" || args.fileMatrixSecond == "")
 	{
-		std::cout << "File name should not be empty";
+		throw Error::EmptyFileName;
 		return std::nullopt;
 	}
 
 	return args;
 }
-std::optional<double> ConvertStringToNumer(std::string text)
+
+void PrintError(Error error)
+{
+	switch (error)
+	{
+	case Error::InvalidArgumentCount: {
+		std::cout << "Invalid argument count\n";
+		std::cout << "For use: rotatebyte.exe <byte>\n";
+		break;
+	}
+	case Error::ArgumentInitialize: {
+		std::cout << "Argument should be greater than zero or equal zero and less than 256\n";
+		break;
+	}
+	case Error::ArgumentNotNumber: {
+		std::cout << "First argument should be number\n";
+		break;
+	}
+	case Error::EmptyFileName: {
+		std::cout << "File name should not be empty";
+		break;
+	}
+	case Error::ContainTextMatrix: {
+		std::cout << "Matrix should not contan text\n";
+		break;
+	}
+	}
+}
+
+double ConvertStringToNumer(std::string text)
 {
 	try
 	{
@@ -47,8 +84,8 @@ std::optional<double> ConvertStringToNumer(std::string text)
 	}
 	catch (std::invalid_argument e)
 	{
-		std::cout << text << " is not number\n";
-		return std::nullopt;
+		throw Error::ContainTextMatrix;
+		return NULL;
 	}
 }
 
@@ -69,19 +106,14 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 
 			if (searchTextPos != std::string::npos)
 			{
-				elem = line.substr(0, searchTextPos);
-				auto num = ConvertStringToNumer(elem);
+				double num = ConvertStringToNumer(line.substr(0, searchTextPos));
 
-				if (!num)
-				{
-					return std::nullopt;
-				}
-				std::cout << std::stod(elem) << " ";
+				std::cout << num << " ";
 				// Нужно удалить обработанный текст из полученной строки
 				line.erase(0, searchTextPos + delimiter.length());
 			}
 		}
-		std::cout << std::stod(line) << std::endl;
+		std::cout << ConvertStringToNumer(line) << std::endl;
 	}
 
 	return matrix;
@@ -89,32 +121,34 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 
 int main(int argc, char* argv[])
 {
-	auto args = ParseArgs(argc, argv);
-
-	// Check count of args
-	if (!args)
+	try
 	{
+		auto args = ParseArgs(argc, argv);
+
+		// Open files for reading
+		std::ifstream fileMatrixFirst;
+		fileMatrixFirst.open(args->fileMatrixFirst);
+		if (!fileMatrixFirst.is_open())
+		{
+			std::cout << "File " << args->fileMatrixFirst << " was not opened for reading\n";
+			return 1;
+		}
+
+		std::ifstream fileMatrixSecond;
+		fileMatrixSecond.open(args->fileMatrixSecond);
+		if (!fileMatrixSecond.is_open())
+		{
+			std::cout << "File " << args->fileMatrixSecond << " was not opened for reading\n";
+			return 1;
+		}
+
+		GetMatrix(fileMatrixFirst);
+	}
+	catch (Error error)
+	{
+		PrintError(error);
 		return 1;
 	}
-
-	// Open files for reading
-	std::ifstream fileMatrixFirst;
-	fileMatrixFirst.open(args->fileMatrixFirst);
-	if (!fileMatrixFirst.is_open())
-	{
-		std::cout << "File " << args->fileMatrixFirst << " was not opened for reading\n";
-		return 1;
-	}
-
-	std::ifstream fileMatrixSecond;
-	fileMatrixSecond.open(args->fileMatrixSecond);
-	if (!fileMatrixSecond.is_open())
-	{
-		std::cout << "File " << args->fileMatrixSecond << " was not opened for reading\n";
-		return 1;
-	}
-
-	GetMatrix(fileMatrixFirst);
 
 	return 0;
 }
