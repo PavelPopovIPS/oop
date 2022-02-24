@@ -39,6 +39,18 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	return args;
 }
+std::optional<double> ConvertStringToNumer(std::string text)
+{
+	try
+	{
+		return std::stod(text);
+	}
+	catch (std::invalid_argument e)
+	{
+		std::cout << text << " is not number\n";
+		return std::nullopt;
+	}
+}
 
 std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 {
@@ -58,12 +70,18 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 			if (searchTextPos != std::string::npos)
 			{
 				elem = line.substr(0, searchTextPos);
-				std::cout << elem << " ";
+				auto num = ConvertStringToNumer(elem);
+
+				if (!num)
+				{
+					return std::nullopt;
+				}
+				std::cout << std::stod(elem) << " ";
 				// Нужно удалить обработанный текст из полученной строки
 				line.erase(0, searchTextPos + delimiter.length());
 			}
 		}
-		std::cout << line << std::endl;
+		std::cout << std::stod(line) << std::endl;
 	}
 
 	return matrix;
