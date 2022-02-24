@@ -5,6 +5,13 @@
 #include <optional>
 #include <string>
 
+enum class Error
+{
+	InvalidArgumentCount,
+	ArgumentInitialize,
+	ArgumentNotNumber,
+};
+
 struct Args
 {
 	unsigned int byte;
@@ -14,8 +21,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
-		std::cout << "Invalid argument count\n";
-		std::cout << "For use: rotatebyte.exe <byte>\n";
+		throw Error::InvalidArgumentCount;
 		return std::nullopt;
 	}
 
@@ -26,18 +32,38 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		int byte = std::stoi(argv[1]);
 		if (byte < 0 || byte > 255)
 		{
-			std::cout << "Argument should be greater than zero or equal zero and less than 256\n";
+			throw Error::ArgumentInitialize;
 			return std::nullopt;
 		}
 		args.byte = static_cast<unsigned int>(byte);
 	}
 	catch (std::invalid_argument e)
 	{
-		std::cout << "First argument should be number\n";
+		throw Error::ArgumentNotNumber;
 		return std::nullopt;
 	}
 
 	return args;
+}
+
+void PrintError(Error error)
+{
+	switch (error)
+	{
+	case Error::InvalidArgumentCount: {
+		std::cout << "Invalid argument count\n";
+		std::cout << "For use: rotatebyte.exe <byte>\n";
+		break;
+	}
+	case Error::ArgumentInitialize: {
+		std::cout << "Argument should be greater than zero or equal zero and less than 256\n";
+		break;
+	}
+	case Error::ArgumentNotNumber: {
+		std::cout << "First argument should be number\n";
+		break;
+	}
+	}
 }
 
 unsigned int FlipByte(const unsigned int& byte)
@@ -88,13 +114,17 @@ unsigned int FlipByte(const unsigned int& byte)
 
 int main(int argc, char* argv[])
 {
-	auto args = ParseArgs(argc, argv);
-	if (!args)
+	try
 	{
+		auto args = ParseArgs(argc, argv);
+
+		std::cout << FlipByte(args->byte) << std::endl;
+	}
+	catch (Error error)
+	{
+		PrintError(error);
 		return 1;
 	}
-
-	std::cout << FlipByte(args->byte) << std::endl;
 
 	return 0;
 }
