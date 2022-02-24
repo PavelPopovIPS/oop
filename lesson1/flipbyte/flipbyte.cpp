@@ -66,7 +66,7 @@ void PrintError(Error error)
 	}
 }
 
-unsigned int FlipByte(const unsigned int& byte)
+unsigned int FlipByte(unsigned int& byte)
 // byte is 87654321
 {
 	// Разделил бит на половинки и поменял их местами
@@ -76,40 +76,30 @@ unsigned int FlipByte(const unsigned int& byte)
 	left &= 240; // 240 - маска в двоичной системе 11110000
 	unsigned int right = byte >> 4;
 
-	//Разделил левую половину на четверти и поменял их местами
-	// left1 is 21000000
-	// left2 is 00430000
-	unsigned char left1 = left << 2;
-	unsigned char left2 = left >> 2;
-	left2 &= 48; // 48 - маска в двоичной системе 00110000
+	// byte is 43218765
+	byte = left | right;
 
-	// Поменял местами биты в четвертях левой половинки
-	// left1 is 12000000
-	// left2 is 00340000
-	left1 = (left1 << 1) | ((left1 >> 1) & 64);
-	left2 = ((left2 << 1) & 32) | ((left2 >> 1) & 16);
+	// left is  21006500
+	// right is 00430087
+	left = byte << 2;
+	left &= 204;
+	right = byte >> 2;
+	right &= 51;
 
-	// Склеил левые четвертинки
-	left = left1 | left2;
+	// byte is 21436587
+	byte = left | right;
 
-	//Разделил правую половину на четверти и поменял их местами
-	// right1 is 00006500
-	// right2 is 00000087
-	unsigned char right1 = right << 2;
-	right1 &= 12; // 12 - маска в двоичной системе 00001100
-	unsigned char right2 = right >> 2;
+	// left is  10305070
+	// right is 02040608
+	left = byte << 1;
+	left &= 170;
+	right = byte >> 1;
+	right &= 85;
 
-	// Поменял местами биты в четвертях правой половинки
-	// right1 is 00005600
-	// right2 is 00000078
-	right1 = ((right1 << 1) & 8) | ((right1 >> 1) & 4);
-	right2 = ((right2 << 1) & 2) | (right2 >> 1);
+	// byte is 12345678
+	byte = left | right;
 
-	// Склеил правые четвертинки
-	right = right1 | right2; // debug
-
-	// Склеил половинки и вернул байт
-	return left | right;
+	return byte;
 }
 
 int main(int argc, char* argv[])
