@@ -36,14 +36,13 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 			return std::nullopt;
 		}
 		args.byte = static_cast<unsigned int>(byte);
+		return args;
 	}
 	catch (std::invalid_argument e)
 	{
 		throw Error::ArgumentNotNumber;
 		return std::nullopt;
 	}
-
-	return args;
 }
 
 void PrintError(Error error)
