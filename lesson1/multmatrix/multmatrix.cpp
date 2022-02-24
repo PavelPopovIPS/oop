@@ -1,14 +1,22 @@
-// multmatrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// multmatrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <string>
 
 struct Args
 {
 	std::string fileMatrixFirst;
 	std::string fileMatrixSecond;
+};
+
+struct Matrix
+{
+	double firstLine[3];
+	double secondLine[3];
+	double thirdLine[3];
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -30,6 +38,35 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	}
 
 	return args;
+}
+
+std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
+{
+	Matrix matrix;
+	std::string line;
+	std::string delimiter = "\t";
+
+	while (std::getline(fileMatrix, line))
+	{
+		size_t searchTextPos = 0;
+		std::string elem;
+		while (searchTextPos < line.length())
+		{
+			// Поиск позиции искомого текста относительно начала строки
+			searchTextPos = line.find(delimiter);
+
+			if (searchTextPos != std::string::npos)
+			{
+				elem = line.substr(0, searchTextPos);
+				std::cout << elem << " ";
+				// Нужно удалить обработанный текст из полученной строки
+				line.erase(0, searchTextPos + delimiter.length());
+			}
+		}
+		std::cout << line << std::endl;
+	}
+
+	return matrix;
 }
 
 int main(int argc, char* argv[])
@@ -58,4 +95,8 @@ int main(int argc, char* argv[])
 		std::cout << "File " << args->fileMatrixSecond << " was not opened for reading\n";
 		return 1;
 	}
+
+	GetMatrix(fileMatrixFirst);
+
+	return 0;
 }
