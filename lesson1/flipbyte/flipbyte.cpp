@@ -82,9 +82,9 @@ unsigned int FlipByte(unsigned int& byte)
 	// left is  21006500
 	// right is 00430087
 	left = byte << 2;
-	left &= 204;
+	left &= 204; // 11001100
 	right = byte >> 2;
-	right &= 51;
+	right &= 51; // 00110011
 
 	// byte is 21436587
 	byte = left | right;
@@ -92,9 +92,9 @@ unsigned int FlipByte(unsigned int& byte)
 	// left is  10305070
 	// right is 02040608
 	left = byte << 1;
-	left &= 170;
+	left &= 170; // 10101010
 	right = byte >> 1;
-	right &= 85;
+	right &= 85; // 01010101
 
 	// byte is 12345678
 	byte = left | right;
