@@ -187,31 +187,31 @@ void PrintMatrix(const Matrix& matrix)
 		}
 		std::cout << std::endl;
 	}
-	std::cout << std::endl; // Debug
 }
 
-void MultMatrix(const Matrix& matrixA, const Matrix& matrixB)
+Matrix MultMatrix(const Matrix& matrixA, const Matrix& matrixB)
 {
 	Matrix matrixNew;
+
 	// вычесление каждой строки
 	for (int k = 0; k < 3; k++)
 	{
 		for (int j = 0; j < 3; j++)
 		// вычесление каждого элемента строки
 		{
-			double d = 0;
+			double elem = 0;
 
 			for (int i = 0; i < 3; i++)
-			// вычесление элементов
+			// вычесление элемента новой матрицы
 			{
-				d += matrixA.pos[k][i] * matrixB.pos[i][j];
+				elem += matrixA.pos[k][i] * matrixB.pos[i][j];
 			}
-			std::cout << d << "\t"; // Debug
+
+			matrixNew.pos[k][j] = elem;
 		}
-		std::cout << std::endl;
 	}
 
-	// return matrixA;
+	return matrixNew;
 }
 
 int main(int argc, char* argv[])
@@ -246,9 +246,7 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		PrintMatrix(matrixFirst);
-		PrintMatrix(matrixSecond);
-		MultMatrix(matrixFirst, matrixSecond);
+		PrintMatrix(MultMatrix(matrixFirst, matrixSecond));
 	}
 	catch (Error error)
 	{
