@@ -2,6 +2,7 @@
 //
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <optional>
 #include <string>
@@ -183,7 +184,8 @@ void PrintMatrix(const Matrix& matrix)
 	{
 		for (double num : matrix.pos[i])
 		{
-			std::cout << num << "\t";
+			// Манипуляторы контролируют точность чисел при выводе из потока
+			std::cout << std::fixed << std::setprecision(3) << num << "\t";
 		}
 		std::cout << std::endl;
 	}

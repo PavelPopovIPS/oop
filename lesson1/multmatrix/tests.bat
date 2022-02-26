@@ -63,6 +63,11 @@ REM Пустой файл переданный во втором аргументе не обрабатывается
 if NOT ERRORLEVEL 1 goto err
 echo Test 10: passed successful
 
+REM При передаче двух матриц высчитывается новая
+%MyProgram% "matrix1.txt" "matrix2.txt" > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 11: passed successful
+
 REM Тесты прошли успешно
 echo Tests passed successfuly
 exit /B 0
