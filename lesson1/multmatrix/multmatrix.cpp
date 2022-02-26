@@ -15,6 +15,8 @@ enum class Error
 	EmptyFileName,
 	MatrixContainText,
 	FileNotOpen,
+	MatrixColumnsCount,
+	MatrixRowCount,
 };
 
 struct Args
@@ -79,6 +81,18 @@ void PrintError(Error error)
 		std::cout << "File was not opened for reading\n";
 		break;
 	}
+	case Error::MatrixColumnsCount: {
+		std::cout << "Matrix should contain 3 columns\n";
+		break;
+	}
+	case Error::MatrixRowCount: {
+		std::cout << "Matrix should contain 3 rows\n";
+		break;
+	}
+	default: {
+		std::cout << "Some error was occurred\n";
+		break;
+	}
 	}
 }
 
@@ -116,7 +130,9 @@ std::vector<double> ParseMatrixRow(const std::string& line)
 
 		// Конвертирую строку в double
 		double n = ConvertStringToNumer(s);
-		std::cout << n << " ";
+
+		// Добавляю полученное значение в массив
+		numbers.push_back(n);
 
 		// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
 		startPos = searchTextPos + delimiter.length();
@@ -129,10 +145,41 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 {
 	Matrix matrix;
 	std::string line;
+	std::vector<double> numbers;
+	size_t rowCount = 0;
 
 	while (std::getline(fileMatrix, line))
 	{
-		ParseMatrixRow(line);
+		rowCount++;
+
+		// Если в матрице больше 3х строк
+		if (rowCount > 3)
+		{
+			throw Error::MatrixRowCount;
+			return std::nullopt;
+		}
+
+		numbers = ParseMatrixRow(line);
+
+		// Если в матрице не соответствует условию по количеству столбцов
+		if (numbers.size() != 3)
+		{
+			throw Error::MatrixColumnsCount;
+			return std::nullopt;
+		}
+
+		for (double number : numbers)
+		{
+			std::cout << number << ' ';
+		}
+		std::cout << std::endl;
+	}
+
+	// Если в матрице меньше 3х строк
+	if (rowCount < 3)
+	{
+		throw Error::MatrixRowCount;
+		return std::nullopt;
 	}
 
 	return matrix;
