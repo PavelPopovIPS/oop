@@ -15,6 +15,7 @@ enum class Error
 	FileNotOpen,
 	MatrixColumnsCount,
 	MatrixRowCount,
+	FailedToReadData,
 };
 
 struct Args
@@ -75,6 +76,10 @@ void PrintError(Error error)
 	}
 	case Error::MatrixRowCount: {
 		std::cout << "Matrix should contain 3 rows\n";
+		break;
+	}
+	case Error::FailedToReadData: {
+		std::cout << "Failed to read data from file\n";
 		break;
 	}
 	default: {
@@ -176,9 +181,9 @@ void PrintMatrix(const Matrix& matrix)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (double num : matrix.pos[i])
 		{
-			std::cout << matrix.pos[i][j] << " ";
+			std::cout << num << " ";
 		}
 		std::cout << std::endl;
 	}
@@ -208,7 +213,15 @@ int main(int argc, char* argv[])
 		}
 
 		auto matrixFirst = *GetMatrix(fileMatrixFirst);
+		auto matrixSecond = *GetMatrix(fileMatrixSecond);
 
+		if (fileMatrixFirst.bad() || fileMatrixSecond.bad())
+		{
+			throw Error::FailedToReadData;
+			return 1;
+		}
+
+		PrintMatrix(matrixFirst);
 		PrintMatrix(matrixFirst);
 	}
 	catch (Error error)
