@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optional>
 #include <string>
+#include <vector>
 
 enum class Error
 {
@@ -12,7 +13,8 @@ enum class Error
 	ArgumentInitialize,
 	ArgumentNotNumber,
 	EmptyFileName,
-	ContainTextMatrix,
+	MatrixContainText,
+	FileNotOpen,
 };
 
 struct Args
@@ -69,8 +71,12 @@ void PrintError(Error error)
 		std::cout << "File name should not be empty";
 		break;
 	}
-	case Error::ContainTextMatrix: {
-		std::cout << "Matrix should not contan text\n";
+	case Error::MatrixContainText: {
+		std::cout << "Matrix should not contain text\n";
+		break;
+	}
+	case Error::FileNotOpen: {
+		std::cout << "File was not opened for reading\n";
 		break;
 	}
 	}
@@ -84,36 +90,49 @@ double ConvertStringToNumer(std::string text)
 	}
 	catch (std::invalid_argument e)
 	{
-		throw Error::ContainTextMatrix;
+		throw Error::MatrixContainText;
 		return NULL;
 	}
+}
+
+std::vector<double> ParseMatrixRow(const std::string& line)
+{
+	std::string delimiter = "\t";
+	size_t startPos = 0;
+	size_t searchTextPos = 0;
+	size_t lenSubline = 0;
+	std::vector<double> numbers = {};
+
+	while (searchTextPos < line.length())
+	{
+		// Поиск позиции разделителя относительно начала строки
+		searchTextPos = line.find(delimiter, startPos);
+
+		// Вычисляю длину строки, которую буду конвертировать в double
+		lenSubline = searchTextPos - startPos;
+
+		// Получение строки, которую буду конвертировать в double
+		std::string s = line.substr(startPos, lenSubline);
+
+		// Конвертирую строку в double
+		double n = ConvertStringToNumer(s);
+		std::cout << n << " ";
+
+		// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
+		startPos = searchTextPos + delimiter.length();
+	}
+
+	return numbers;
 }
 
 std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 {
 	Matrix matrix;
 	std::string line;
-	std::string delimiter = "\t";
 
 	while (std::getline(fileMatrix, line))
 	{
-		size_t searchTextPos = 0;
-		std::string elem;
-		while (searchTextPos < line.length())
-		{
-			// Поиск позиции искомого текста относительно начала строки
-			searchTextPos = line.find(delimiter);
-
-			if (searchTextPos != std::string::npos)
-			{
-				double num = ConvertStringToNumer(line.substr(0, searchTextPos));
-
-				std::cout << num << " ";
-				// Нужно удалить обработанный текст из полученной строки
-				line.erase(0, searchTextPos + delimiter.length());
-			}
-		}
-		std::cout << ConvertStringToNumer(line) << std::endl;
+		ParseMatrixRow(line);
 	}
 
 	return matrix;
@@ -130,7 +149,7 @@ int main(int argc, char* argv[])
 		fileMatrixFirst.open(args->fileMatrixFirst);
 		if (!fileMatrixFirst.is_open())
 		{
-			std::cout << "File " << args->fileMatrixFirst << " was not opened for reading\n";
+			throw Error::FileNotOpen;
 			return 1;
 		}
 
@@ -138,7 +157,7 @@ int main(int argc, char* argv[])
 		fileMatrixSecond.open(args->fileMatrixSecond);
 		if (!fileMatrixSecond.is_open())
 		{
-			std::cout << "File " << args->fileMatrixSecond << " was not opened for reading\n";
+			throw Error::FileNotOpen;
 			return 1;
 		}
 
