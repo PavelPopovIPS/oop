@@ -10,8 +10,6 @@
 enum class Error
 {
 	InvalidArgumentCount,
-	ArgumentInitialize,
-	ArgumentNotNumber,
 	EmptyFileName,
 	MatrixContainText,
 	FileNotOpen,
@@ -27,9 +25,7 @@ struct Args
 
 struct Matrix
 {
-	double firstLine[3];
-	double secondLine[3];
-	double thirdLine[3];
+	double pos[3][3];
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -58,15 +54,7 @@ void PrintError(Error error)
 	{
 	case Error::InvalidArgumentCount: {
 		std::cout << "Invalid argument count\n";
-		std::cout << "For use: rotatebyte.exe <byte>\n";
-		break;
-	}
-	case Error::ArgumentInitialize: {
-		std::cout << "Argument should be greater than zero or equal zero and less than 256\n";
-		break;
-	}
-	case Error::ArgumentNotNumber: {
-		std::cout << "First argument should be number\n";
+		std::cout << "For use: multmatrix.exe <matrix file1> <matrix file2>\n";
 		break;
 	}
 	case Error::EmptyFileName: {
@@ -74,7 +62,7 @@ void PrintError(Error error)
 		break;
 	}
 	case Error::MatrixContainText: {
-		std::cout << "Matrix should not contain text\n";
+		std::cout << "Matrix should contain only numbers\n";
 		break;
 	}
 	case Error::FileNotOpen: {
@@ -96,7 +84,7 @@ void PrintError(Error error)
 	}
 }
 
-double ConvertStringToNumer(std::string text)
+double ConvertStringToNumer(const std::string& text)
 {
 	try
 	{
@@ -168,11 +156,10 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 			return std::nullopt;
 		}
 
-		for (double number : numbers)
+		for (int i = 0; i < 3; i++)
 		{
-			std::cout << number << ' ';
+			matrix.pos[rowCount - 1][i] = numbers[i];
 		}
-		std::cout << std::endl;
 	}
 
 	// Если в матрице меньше 3х строк
@@ -183,6 +170,18 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 	}
 
 	return matrix;
+}
+
+void PrintMatrix(const Matrix& matrix)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			std::cout << matrix.pos[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 int main(int argc, char* argv[])
@@ -208,7 +207,9 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 
-		GetMatrix(fileMatrixFirst);
+		auto matrixFirst = *GetMatrix(fileMatrixFirst);
+
+		PrintMatrix(matrixFirst);
 	}
 	catch (Error error)
 	{
