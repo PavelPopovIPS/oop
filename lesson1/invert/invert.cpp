@@ -1,4 +1,4 @@
-// multmatrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// multmatrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <fstream>
@@ -21,27 +21,30 @@ enum class Error
 
 struct Args
 {
-	std::string fileMatrixFirst;
-	std::string fileMatrixSecond;
+	std::string fileMatrix;
 };
 
-struct Matrix
+struct Matrix3x3
 {
 	double pos[3][3];
 };
 
+struct Matrix2x2
+{
+	double pos[2][2];
+};
+
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
-	if (argc != 3)
+	if (argc != 2)
 	{
 		throw Error::InvalidArgumentCount;
 		return std::nullopt;
 	}
 	Args args;
-	args.fileMatrixFirst = argv[1];
-	args.fileMatrixSecond = argv[2];
+	args.fileMatrix = argv[1];
 
-	if (args.fileMatrixFirst == "" || args.fileMatrixSecond == "")
+	if (args.fileMatrix == "")
 	{
 		throw Error::EmptyFileName;
 		return std::nullopt;
@@ -56,7 +59,7 @@ void PrintError(Error error)
 	{
 	case Error::InvalidArgumentCount: {
 		std::cout << "Invalid argument count\n";
-		std::cout << "For use: multmatrix.exe <matrix file1> <matrix file2>\n";
+		std::cout << "For use: multmatrix.exe <matrix file>\n";
 		break;
 	}
 	case Error::EmptyFileName: {
@@ -113,31 +116,31 @@ std::vector<double> ParseMatrixRow(const std::string& line)
 
 	while (searchTextPos < line.length())
 	{
-		// Поиск позиции разделителя относительно начала строки
+		// РџРѕРёСЃРє РїРѕР·РёС†РёРё СЂР°Р·РґРµР»РёС‚РµР»СЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
 		searchTextPos = line.find(delimiter, startPos);
 
-		// Вычисляю длину строки, которую буду конвертировать в double
+		// Р’С‹С‡РёСЃР»СЏСЋ РґР»РёРЅСѓ СЃС‚СЂРѕРєРё, РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓ РєРѕРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ РІ double
 		lenSubline = searchTextPos - startPos;
 
-		// Получение строки, которую буду конвертировать в double
+		// РџРѕР»СѓС‡РµРЅРёРµ СЃС‚СЂРѕРєРё, РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓ РєРѕРЅРІРµСЂС‚РёСЂРѕРІР°С‚СЊ РІ double
 		std::string s = line.substr(startPos, lenSubline);
 
-		// Конвертирую строку в double
+		// РљРѕРЅРІРµСЂС‚РёСЂСѓСЋ СЃС‚СЂРѕРєСѓ РІ double
 		double n = ConvertStringToNumer(s);
 
-		// Добавляю полученное значение в массив
+		// Р”РѕР±Р°РІР»СЏСЋ РїРѕР»СѓС‡РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ РјР°СЃСЃРёРІ
 		numbers.push_back(n);
 
-		// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
+		// РќСѓР¶РЅРѕ РїРµСЂРµСЃС‡РёС‚Р°С‚СЊ РїРѕР·РёС†РёСЋ, СЃ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРґРѕР»Р¶РёС‚СЃСЏ РїРѕРёСЃРє РёСЃРєРѕРјРѕРіРѕ С‚РµРєСЃС‚Р° РІ С‚РµРєСѓС‰РµР№ СЃС‚СЂРѕРєРµ
 		startPos = searchTextPos + delimiter.length();
 	}
 
 	return numbers;
 }
 
-std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
+std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 {
-	Matrix matrix;
+	Matrix3x3 matrix;
 	std::string line;
 	std::vector<double> numbers;
 	size_t rowCount = 0;
@@ -146,7 +149,7 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 	{
 		rowCount++;
 
-		// Если в матрице больше 3х строк
+		// Р•СЃР»Рё РІ РјР°С‚СЂРёС†Рµ Р±РѕР»СЊС€Рµ 3С… СЃС‚СЂРѕРє
 		if (rowCount > 3)
 		{
 			throw Error::MatrixRowCount;
@@ -155,7 +158,7 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 
 		numbers = ParseMatrixRow(line);
 
-		// Если в матрице не соответствует условию по количеству столбцов
+		// Р•СЃР»Рё РІ РјР°С‚СЂРёС†Рµ РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ СѓСЃР»РѕРІРёСЋ РїРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ СЃС‚РѕР»Р±С†РѕРІ
 		if (numbers.size() != 3)
 		{
 			throw Error::MatrixColumnsCount;
@@ -168,7 +171,7 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 		}
 	}
 
-	// Если в матрице меньше 3х строк
+	// Р•СЃР»Рё РІ РјР°С‚СЂРёС†Рµ РјРµРЅСЊС€Рµ 3С… СЃС‚СЂРѕРє
 	if (rowCount < 3)
 	{
 		throw Error::MatrixRowCount;
@@ -178,25 +181,25 @@ std::optional<Matrix> GetMatrix(std::ifstream& fileMatrix)
 	return matrix;
 }
 
-void PrintMatrix(const Matrix& matrix)
+void PrintMatrix(const Matrix3x3& matrix)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		for (double num : matrix.pos[i])
 		{
-			// Манипуляторы контролируют точность чисел при выводе из потока
+			// РњР°РЅРёРїСѓР»СЏС‚РѕСЂС‹ РєРѕРЅС‚СЂРѕР»РёСЂСѓСЋС‚ С‚РѕС‡РЅРѕСЃС‚СЊ С‡РёСЃРµР» РїСЂРё РІС‹РІРѕРґРµ РёР· РїРѕС‚РѕРєР°
 			std::cout << std::fixed << std::setprecision(3) << num << "\t";
 		}
 		std::cout << std::endl;
 	}
 }
 
-Matrix InvertMatrix(const Matrix& matrixA, const Matrix& matrixB)
-{
-	Matrix matrixNew;
-
-	return matrixNew;
-}
+// Matrix3x3 InvertMatrix(const Matrix3x3& matrixA)
+//{
+//	Matrix3x3 matrixNew;
+//
+//	return matrixNew;
+// }
 
 int main(int argc, char* argv[])
 {
@@ -205,32 +208,23 @@ int main(int argc, char* argv[])
 		auto args = ParseArgs(argc, argv);
 
 		// Open files for reading
-		std::ifstream fileMatrixFirst;
-		fileMatrixFirst.open(args->fileMatrixFirst);
-		if (!fileMatrixFirst.is_open())
+		std::ifstream fileMatrix;
+		fileMatrix.open(args->fileMatrix);
+		if (!fileMatrix.is_open())
 		{
 			throw Error::FileNotOpen;
 			return 1;
 		}
 
-		std::ifstream fileMatrixSecond;
-		fileMatrixSecond.open(args->fileMatrixSecond);
-		if (!fileMatrixSecond.is_open())
-		{
-			throw Error::FileNotOpen;
-			return 1;
-		}
+		auto matrix = *GetMatrix(fileMatrix);
 
-		auto matrixFirst = *GetMatrix(fileMatrixFirst);
-		auto matrixSecond = *GetMatrix(fileMatrixSecond);
+		PrintMatrix(matrix);
 
-		if (fileMatrixFirst.bad() || fileMatrixSecond.bad())
+		if (fileMatrix.bad())
 		{
 			throw Error::FailedToReadData;
 			return 1;
 		}
-
-		PrintMatrix(MultMatrix(matrixFirst, matrixSecond));
 	}
 	catch (Error error)
 	{
