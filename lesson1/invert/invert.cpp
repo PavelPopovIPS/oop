@@ -194,16 +194,82 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
+double GetMatrixDeterminant(const Matrix3x3& matrix)
+{
+	double determinant = 0;
+	determinant += matrix.pos[0][0] * matrix.pos[1][1] * matrix.pos[2][2]; // 1
+	determinant += matrix.pos[2][0] * matrix.pos[0][1] * matrix.pos[1][2]; // 2
+	determinant += matrix.pos[1][0] * matrix.pos[2][1] * matrix.pos[0][2]; // 3
+	determinant -= matrix.pos[2][0] * matrix.pos[1][1] * matrix.pos[0][2]; // 4
+	determinant -= matrix.pos[0][0] * matrix.pos[2][1] * matrix.pos[1][2]; // 5
+	determinant -= matrix.pos[1][0] * matrix.pos[0][1] * matrix.pos[2][2]; // 6
+
+	return determinant;
+}
+
+Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
+{
+	Matrix3x3 minorMatrix;
+
+	minorMatrix.pos[0][0] = matrix.pos[1][1] * matrix.pos[2][2] - matrix.pos[2][1] * matrix.pos[1][2];
+	minorMatrix.pos[0][1] = matrix.pos[1][0] * matrix.pos[2][2] - matrix.pos[2][0] * matrix.pos[1][2];
+	minorMatrix.pos[0][2] = matrix.pos[1][0] * matrix.pos[2][1] - matrix.pos[2][0] * matrix.pos[1][1];
+
+	minorMatrix.pos[1][0] = matrix.pos[0][1] * matrix.pos[2][2] - matrix.pos[2][1] * matrix.pos[0][2];
+	minorMatrix.pos[1][1] = matrix.pos[0][0] * matrix.pos[2][2] - matrix.pos[2][0] * matrix.pos[0][2];
+	minorMatrix.pos[1][2] = matrix.pos[0][0] * matrix.pos[2][1] - matrix.pos[2][0] * matrix.pos[0][1];
+
+	minorMatrix.pos[2][0] = matrix.pos[0][1] * matrix.pos[1][2] - matrix.pos[1][1] * matrix.pos[0][2];
+	minorMatrix.pos[2][1] = matrix.pos[0][0] * matrix.pos[1][2] - matrix.pos[1][0] * matrix.pos[0][2];
+	minorMatrix.pos[2][2] = matrix.pos[0][0] * matrix.pos[1][1] - matrix.pos[1][0] * matrix.pos[0][1];
+
+	return minorMatrix;
+}
+
+Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
+{
+	Matrix3x3 algebraicAdditionsMatrix;
+	// Копируем матрицу
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			algebraicAdditionsMatrix.pos[i][j] = matrix.pos[i][j];
+		}
+	}
+
+	// Меняем знаки у определенных элементов
+	algebraicAdditionsMatrix.pos[1][0] *= -1;
+	algebraicAdditionsMatrix.pos[0][1] *= -1;
+	algebraicAdditionsMatrix.pos[1][2] *= -1;
+	algebraicAdditionsMatrix.pos[2][1] *= -1;
+
+	return algebraicAdditionsMatrix;
+}
+
 Matrix3x3 InvertMatrix(const Matrix3x3& matrix)
 {
-	Matrix3x3 invertMatrix;
+	PrintMatrix(matrix); // debug
+	std::cout << std::endl; // debug
 
 	// 1. Находим определитель матрицы
+	double matrixDeterminant = GetMatrixDeterminant(matrix);
+	std::cout << matrixDeterminant << std::endl; // debug
+	std::cout << std::endl; // debug
 
 	// 2. Находим матрицу миноров
+	Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
+	// PrintMatrix(minorMatrix);
+	// std::cout << std::endl; // debug
+
 	// 3. Находим матрицу алгебраических дополнений
+	Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
+	PrintMatrix(algebraicAdditionsMatrix);
+
 	// 4. Находим транспонированную матрицу алгебраических дополнений
 	// 5. Вычисление
+	// Matrix3x3 invertMatrix;
+
 	return matrix;
 }
 
@@ -224,7 +290,8 @@ int main(int argc, char* argv[])
 
 		auto matrix = *GetMatrix(fileMatrix);
 
-		PrintMatrix(matrix);
+		// PrintMatrix(matrix);
+		InvertMatrix(matrix);
 
 		if (fileMatrix.bad())
 		{
