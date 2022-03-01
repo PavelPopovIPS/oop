@@ -194,20 +194,6 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
-Matrix3x3 CopyMatrix(const Matrix3x3& matrix)
-{
-	Matrix3x3 newMatrix;
-
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			newMatrix.pos[i][j] = matrix.pos[i][j];
-		}
-	}
-	return newMatrix;
-}
-
 void swapElements(double& a, double& b)
 {
 	double tmp = 0;
@@ -251,8 +237,7 @@ Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
 
 Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
 {
-	// Копируем матрицу
-	Matrix3x3 algebraicAdditionsMatrix = CopyMatrix(matrix);
+	Matrix3x3 algebraicAdditionsMatrix = matrix;
 
 	// Меняем знаки у определенных элементов
 	algebraicAdditionsMatrix.pos[1][0] *= -1;
@@ -265,7 +250,7 @@ Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
 
 Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 {
-	Matrix3x3 transposedMatrix = CopyMatrix(matrix);
+	Matrix3x3 transposedMatrix = matrix;
 
 	swapElements(transposedMatrix.pos[1][0], transposedMatrix.pos[0][1]);
 	swapElements(transposedMatrix.pos[2][0], transposedMatrix.pos[0][2]);
@@ -274,33 +259,19 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 	return transposedMatrix;
 }
 
-Matrix3x3 InvertMatrix(const Matrix3x3& matrix)
+Matrix3x3 GetInvertMatrix(const double& determinant, const Matrix3x3& matrix)
 {
-	PrintMatrix(matrix); // debug
-	std::cout << std::endl; // debug
+	Matrix3x3 invertMatrix = matrix;
 
-	// 1. Находим определитель матрицы
-	double matrixDeterminant = GetMatrixDeterminant(matrix);
-	std::cout << matrixDeterminant << std::endl; // debug
-	std::cout << std::endl; // debug
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			invertMatrix.pos[i][j] /= determinant;
+		}
+	}
 
-	// 2. Находим матрицу миноров
-	Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
-
-	// 3. Находим матрицу алгебраических дополнений
-	Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
-	PrintMatrix(algebraicAdditionsMatrix); // debug
-	std::cout << std::endl; // debug
-
-	// 4. Находим транспонированную матрицу алгебраических дополнений
-	Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
-	PrintMatrix(transposedMatrix); // debug
-	std::cout << std::endl; // debug
-
-	// 5. Вычисление
-	// Matrix3x3 invertMatrix;
-
-	return matrix;
+	return invertMatrix;
 }
 
 int main(int argc, char* argv[])
@@ -320,8 +291,28 @@ int main(int argc, char* argv[])
 
 		auto matrix = *GetMatrix(fileMatrix);
 
-		// PrintMatrix(matrix);
-		InvertMatrix(matrix);
+		// 1. Находим определитель матрицы
+		double matrixDeterminant = GetMatrixDeterminant(matrix);
+
+		//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
+		if (matrixDeterminant == 0)
+		{
+			return 1;
+		}
+
+		// 2. Находим матрицу миноров
+		Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
+
+		// 3. Находим матрицу алгебраических дополнений
+		Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
+
+		// 4. Находим транспонированную матрицу алгебраических дополнений
+		Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
+
+		// 5. Вычисление обратной матрицы
+		Matrix3x3 invertMatrix = GetInvertMatrix(matrixDeterminant, transposedMatrix);
+
+		PrintMatrix(invertMatrix);
 
 		if (fileMatrix.bad())
 		{
