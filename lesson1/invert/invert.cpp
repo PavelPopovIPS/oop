@@ -29,11 +29,6 @@ struct Matrix3x3
 	double pos[3][3];
 };
 
-struct Matrix2x2
-{
-	double pos[2][2];
-};
-
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)
