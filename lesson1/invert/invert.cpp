@@ -194,12 +194,18 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
-// Matrix3x3 InvertMatrix(const Matrix3x3& matrixA)
-//{
-//	Matrix3x3 matrixNew;
-//
-//	return matrixNew;
-// }
+Matrix3x3 InvertMatrix(const Matrix3x3& matrix)
+{
+	Matrix3x3 invertMatrix;
+
+	// 1. Находим определитель матрицы
+
+	// 2. Находим матрицу миноров
+	// 3. Находим матрицу алгебраических дополнений
+	// 4. Находим транспонированную матрицу алгебраических дополнений
+	// 5. Вычисление
+	return matrix;
+}
 
 int main(int argc, char* argv[])
 {
