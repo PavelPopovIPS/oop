@@ -194,6 +194,29 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
+Matrix3x3 CopyMatrix(const Matrix3x3& matrix)
+{
+	Matrix3x3 newMatrix;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			newMatrix.pos[i][j] = matrix.pos[i][j];
+		}
+	}
+	return newMatrix;
+}
+
+void swapElements(double& a, double& b)
+{
+	double tmp = 0;
+
+	tmp = a;
+	a = b;
+	b = tmp;
+}
+
 double GetMatrixDeterminant(const Matrix3x3& matrix)
 {
 	double determinant = 0;
@@ -228,15 +251,8 @@ Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
 
 Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
 {
-	Matrix3x3 algebraicAdditionsMatrix;
 	// Копируем матрицу
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			algebraicAdditionsMatrix.pos[i][j] = matrix.pos[i][j];
-		}
-	}
+	Matrix3x3 algebraicAdditionsMatrix = CopyMatrix(matrix);
 
 	// Меняем знаки у определенных элементов
 	algebraicAdditionsMatrix.pos[1][0] *= -1;
@@ -245,6 +261,17 @@ Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
 	algebraicAdditionsMatrix.pos[2][1] *= -1;
 
 	return algebraicAdditionsMatrix;
+}
+
+Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
+{
+	Matrix3x3 transposedMatrix = CopyMatrix(matrix);
+
+	swapElements(transposedMatrix.pos[1][0], transposedMatrix.pos[0][1]);
+	swapElements(transposedMatrix.pos[2][0], transposedMatrix.pos[0][2]);
+	swapElements(transposedMatrix.pos[2][1], transposedMatrix.pos[1][2]);
+
+	return transposedMatrix;
 }
 
 Matrix3x3 InvertMatrix(const Matrix3x3& matrix)
@@ -259,14 +286,17 @@ Matrix3x3 InvertMatrix(const Matrix3x3& matrix)
 
 	// 2. Находим матрицу миноров
 	Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
-	// PrintMatrix(minorMatrix);
-	// std::cout << std::endl; // debug
 
 	// 3. Находим матрицу алгебраических дополнений
 	Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
-	PrintMatrix(algebraicAdditionsMatrix);
+	PrintMatrix(algebraicAdditionsMatrix); // debug
+	std::cout << std::endl; // debug
 
 	// 4. Находим транспонированную матрицу алгебраических дополнений
+	Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
+	PrintMatrix(transposedMatrix); // debug
+	std::cout << std::endl; // debug
+
 	// 5. Вычисление
 	// Matrix3x3 invertMatrix;
 
