@@ -54,6 +54,17 @@ REM ѕустой файл переданный в первом аргументе не обрабатываетс€
 if NOT ERRORLEVEL 1 goto err
 echo Test 9: passed successful
 
+REM ≈сли определитель матрицы равен 0, то дл€ нее нет обратной матрицы
+%MyProgram% "matrix-determinant-zero.txt" > NUL 
+if NOT ERRORLEVEL 1 goto err
+echo Test 10: passed successful
+
+REM ¬ычисление обратной матрицы и сравнение с эталоном
+%MyProgram% "matrix-sample.txt" > "%TEMP%\output.txt"
+fc "%TEMP%\output.txt" "matrix-sample-invert-double.txt"  > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 11: passed successful
+
 
 
 REM “есты прошли успешно

@@ -17,6 +17,7 @@ enum class Error
 	MatrixColumnsCount,
 	MatrixRowCount,
 	FailedToReadData,
+	MatrixDeterminantZero,
 };
 
 struct Args
@@ -79,6 +80,10 @@ void PrintError(Error error)
 	}
 	case Error::FailedToReadData: {
 		std::cout << "Failed to read data from file\n";
+		break;
+	}
+	case Error::MatrixDeterminantZero: {
+		std::cout << "Matrix determinant equal Zero. There is no invert matrix\n";
 		break;
 	}
 	default: {
@@ -292,6 +297,7 @@ int main(int argc, char* argv[])
 		//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
 		if (matrixDeterminant == 0)
 		{
+			throw Error::MatrixDeterminantZero;
 			return 1;
 		}
 
