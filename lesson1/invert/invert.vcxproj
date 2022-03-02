@@ -161,6 +161,7 @@
     <Text Include="matrix-2colum.txt" />
     <Text Include="matrix-2row.txt" />
     <Text Include="matrix-4row.txt" />
+    <Text Include="matrix-determinant-zero.txt" />
     <Text Include="matrix-empty-2x2.txt" />
     <Text Include="matrix-empty.txt" />
     <Text Include="matrix-text.txt" />

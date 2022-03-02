@@ -65,8 +65,6 @@ fc "%TEMP%\output.txt" "matrix-sample-invert-double.txt"  > NUL
 if ERRORLEVEL 1 goto err
 echo Test 11: passed successful
 
-
-
 REM Тесты прошли успешно
 echo Tests passed successfuly
 exit /B 0
