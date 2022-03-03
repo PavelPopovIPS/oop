@@ -15,10 +15,10 @@ enum class Action
 
 struct Args
 {
-	Action action;
+	Action action = Action::Crypt;
 	std::string inputFileName;
 	std::string outputFileName;
-	int8_t key;
+	int8_t key = 0;
 };
 
 enum class Error
@@ -151,8 +151,13 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
 	char ch;
 	while (input.get(ch))
 	{
-		// std::bitset<8> bitset1{ 'ch' };
-		std::cout << ch << std::endl;
+		auto a = static_cast<unsigned short>(ch);
+		std::cout << a << std::endl;
+
+		std::bitset<8> bitset1{ a };
+		std::cout << bitset1 << std::endl;
+
+		std::cout << static_cast<char>(a) << std::endl;
 
 		if (!output.put(ch))
 		{
