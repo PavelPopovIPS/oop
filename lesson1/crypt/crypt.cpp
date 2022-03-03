@@ -4,11 +4,12 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <string>
 
 enum class Action
 {
 	Crypt,
-	Decrypt,
+	Decrypt
 };
 
 struct Args
@@ -25,6 +26,8 @@ enum class Error
 	EmptyFileName,
 	FileNotOpen,
 	ActionNotCorrect,
+	KeyNotEqualBite,
+	KeyNotNumber,
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -37,11 +40,11 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	Args args;
 
-	if (argv[2] == "crypt")
+	if (argv[1] == "crypt")
 	{
 		args.action = Action::Crypt;
 	}
-	else if ((argv[2] == "decrypt"))
+	else if ((argv[1] == "decrypt"))
 	{
 		args.action = Action::Decrypt;
 	}
@@ -56,6 +59,30 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	if (args.inputFileName == "")
 	{
 		throw Error::EmptyFileName;
+		return std::nullopt;
+	}
+
+	args.outputFileName = argv[3];
+
+	if (args.outputFileName == "")
+	{
+		throw Error::EmptyFileName;
+		return std::nullopt;
+	}
+
+	try
+	{
+		int key = std::stoi(argv[4]);
+		if (key < 0 || key > 255)
+		{
+			throw Error::KeyNotEqualBite;
+			return std::nullopt;
+		}
+		args.key = static_cast<int8_t>(key);
+	}
+	catch (std::invalid_argument e)
+	{
+		throw Error::KeyNotNumber;
 		return std::nullopt;
 	}
 
@@ -81,6 +108,14 @@ void PrintError(Error error)
 	}
 	case Error::ActionNotCorrect: {
 		std::cout << "Action is not correct. Use cript and decript\n";
+		break;
+	}
+	case Error::KeyNotEqualBite: {
+		std::cout << "Key should be number between 0 and 255\n";
+		break;
+	}
+	case Error::KeyNotNumber: {
+		std::cout << "You should use number for key\n";
 		break;
 	}
 	default: {
