@@ -7,8 +7,8 @@
 
 enum class Action
 {
-	crypt,
-	decrypt,
+	Crypt,
+	Decrypt,
 };
 
 struct Args
@@ -24,6 +24,7 @@ enum class Error
 	InvalidArgumentCount,
 	EmptyFileName,
 	FileNotOpen,
+	ActionNotCorrect,
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -35,6 +36,21 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	}
 
 	Args args;
+
+	if (argv[2] == "crypt")
+	{
+		args.action = Action::Crypt;
+	}
+	else if ((argv[2] == "decrypt"))
+	{
+		args.action = Action::Decrypt;
+	}
+	else
+	{
+		throw Error::ActionNotCorrect;
+		return std::nullopt;
+	}
+
 	args.inputFileName = argv[2];
 
 	if (args.inputFileName == "")
@@ -61,6 +77,10 @@ void PrintError(Error error)
 	}
 	case Error::FileNotOpen: {
 		std::cout << "File was not opened for reading\n";
+		break;
+	}
+	case Error::ActionNotCorrect: {
+		std::cout << "Action is not correct. Use cript and decript\n";
 		break;
 	}
 	default: {
