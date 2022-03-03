@@ -24,10 +24,13 @@ enum class Error
 {
 	InvalidArgumentCount,
 	EmptyFileName,
-	FileNotOpen,
+	FileNotOpenForRead,
+	FileNotOpenForWrite,
 	ActionNotCorrect,
 	KeyNotEqualBite,
 	KeyNotNumber,
+	FailedToReadData,
+	FailedToWriteData,
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -107,7 +110,11 @@ void PrintError(Error error)
 		std::cout << "File name should not be empty";
 		break;
 	}
-	case Error::FileNotOpen: {
+	case Error::FileNotOpenForRead: {
+		std::cout << "File was not opened for reading\n";
+		break;
+	}
+	case Error::FileNotOpenForWrite: {
 		std::cout << "File was not opened for reading\n";
 		break;
 	}
@@ -123,10 +130,30 @@ void PrintError(Error error)
 		std::cout << "You should use number for key\n";
 		break;
 	}
+	case Error::FailedToReadData: {
+		std::cout << "Failed to read data from file\n";
+		break;
+	}
+	case Error::FailedToWriteData: {
+		std::cout << "Failed to write to file\n";
+		break;
+	}
 	default: {
 		std::cout << "Some error was occurred\n";
 		break;
 	}
+	}
+}
+
+void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
+{
+	char ch;
+	while (input.get(ch))
+	{
+		if (!output.put(ch))
+		{
+			break;
+		}
 	}
 }
 
@@ -141,7 +168,38 @@ int main(int argc, char* argv[])
 
 		if (!inputFile.is_open())
 		{
-			throw Error::FileNotOpen;
+			throw Error::FileNotOpenForRead;
+			return 1;
+		}
+
+		std::ofstream outputFile;
+		outputFile.open(args->outputFileName);
+		if (!outputFile.is_open())
+		{
+			throw Error::FileNotOpenForWrite;
+			return 1;
+		}
+
+		if (args->action == Action::Crypt)
+		{
+			std::cout << "Crypt was wroten" << std::endl; // debug
+			CopyStreamWithCrypt(inputFile, outputFile);
+		}
+
+		if (args->action == Action::Decrypt)
+		{
+			std::cout << "Decrypt was wroten" << std::endl; // debug
+		}
+
+		if (inputFile.bad())
+		{
+			throw Error::FailedToReadData;
+			return 1;
+		}
+
+		if (!outputFile.flush())
+		{
+			throw Error::FailedToWriteData;
 			return 1;
 		}
 	}
