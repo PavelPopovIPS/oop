@@ -1,6 +1,6 @@
 ﻿// multmatrix.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#include <array>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -22,13 +22,21 @@ enum class Error
 
 struct Args
 {
-	std::string fileMatrix;
+	std::string fileMatrix; // matrixFile
 };
 
 struct Matrix3x3
 {
-	double pos[3][3];
+	double pos[3][3]; // items
 };
+
+using Matrix3x3_ = std::array<std::array<double, 3>, 3>;
+
+// возвращает матрицу либо nullopt, если матрица вырожденная
+std::optional<Matrix3x3_> Invert(const Matrix3x3_& sourceMatrix)
+{
+	return std::nullopt;
+}
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
@@ -183,9 +191,9 @@ std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 
 void PrintMatrix(const Matrix3x3& matrix)
 {
-	for (int i = 0; i < 3; i++)
+	for (auto& row : matrix.pos /* int i = 0; i < 3; i++*/)
 	{
-		for (double num : matrix.pos[i])
+		for (double num : /* matrix.pos[i]*/ row)
 		{
 			// Манипуляторы контролируют точность чисел при выводе из потока
 			std::cout << std::fixed << std::setprecision(3) << num << "\t";
@@ -194,6 +202,7 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
+// Назвать Swap либо использовать std::swap()
 void SwapElements(double& a, double& b)
 {
 	double tmp = 0;
@@ -259,6 +268,10 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 	return transposedMatrix;
 }
 
+// Matrix3x3 GetScaledMatrix(matrix, coeff);
+// double det;
+// Matrix3xx invertedMatrix = GetScaledMatrix(m, 1.0 / det);
+// double передавать по значению
 Matrix3x3 GetInvertMatrix(const double& determinant, const Matrix3x3& matrix)
 {
 	Matrix3x3 invertMatrix = matrix;

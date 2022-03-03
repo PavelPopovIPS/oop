@@ -1,6 +1,7 @@
 // crypt.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <bitset>
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -150,6 +151,9 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
 	char ch;
 	while (input.get(ch))
 	{
+		// std::bitset<8> bitset1{ 'ch' };
+		std::cout << ch << std::endl;
+
 		if (!output.put(ch))
 		{
 			break;
@@ -164,7 +168,7 @@ int main(int argc, char* argv[])
 		auto args = ParseArgs(argc, argv);
 
 		std::ifstream inputFile;
-		inputFile.open(args->inputFileName);
+		inputFile.open(args->inputFileName, std::ios::binary);
 
 		if (!inputFile.is_open())
 		{
