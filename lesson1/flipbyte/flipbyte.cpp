@@ -68,6 +68,8 @@ void PrintError(Error error)
 unsigned int FlipByte(unsigned int& byte)
 // byte is 87654321
 {
+	//Замечание: Все решение можно сделать в 4 действия одновременно для левой и правй половинок
+
 	// Разделил бит на половинки и поменял их местами
 	// left is  43210000
 	// right is 00008765
