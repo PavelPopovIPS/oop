@@ -194,7 +194,7 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
-void swapElements(double& a, double& b)
+void SwapElements(double& a, double& b)
 {
 	double tmp = 0;
 
@@ -252,9 +252,9 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 {
 	Matrix3x3 transposedMatrix = matrix;
 
-	swapElements(transposedMatrix.pos[1][0], transposedMatrix.pos[0][1]);
-	swapElements(transposedMatrix.pos[2][0], transposedMatrix.pos[0][2]);
-	swapElements(transposedMatrix.pos[2][1], transposedMatrix.pos[1][2]);
+	SwapElements(transposedMatrix.pos[1][0], transposedMatrix.pos[0][1]);
+	SwapElements(transposedMatrix.pos[2][0], transposedMatrix.pos[0][2]);
+	SwapElements(transposedMatrix.pos[2][1], transposedMatrix.pos[1][2]);
 
 	return transposedMatrix;
 }
