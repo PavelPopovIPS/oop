@@ -9,7 +9,7 @@
 enum class Action
 {
 	Crypt,
-	Decrypt
+	Decrypt,
 };
 
 struct Args
@@ -40,11 +40,16 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	Args args;
 
-	if (argv[1] == "crypt")
+	// args.action = Action::Crypt;
+	// args.key = 0;
+
+	std::string action = argv[1];
+
+	if (action == "crypt")
 	{
 		args.action = Action::Crypt;
 	}
-	else if ((argv[1] == "decrypt"))
+	else if (action == "decrypt")
 	{
 		args.action = Action::Decrypt;
 	}
@@ -107,7 +112,7 @@ void PrintError(Error error)
 		break;
 	}
 	case Error::ActionNotCorrect: {
-		std::cout << "Action is not correct. Use cript and decript\n";
+		std::cout << "Action is not correct. Use crypt and decript\n";
 		break;
 	}
 	case Error::KeyNotEqualBite: {
