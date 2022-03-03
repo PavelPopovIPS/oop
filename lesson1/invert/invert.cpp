@@ -146,6 +146,7 @@ std::vector<double> ParseMatrixRow(const std::string& line)
 	return numbers;
 }
 
+// пусть принимает istream&
 std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 {
 	Matrix3x3 matrix;
@@ -155,13 +156,34 @@ std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 
 	while (std::getline(fileMatrix, line))
 	{
+		/*
+		std::istringstream strm(line);
+		if (strm >> matrix[rowIndex][0] >> matrix[rowIndex][1] >> matrix[rowIndex][1])
+		{
+			// успех
+		}
+		else
+		{
+			// ошибка
+		}
+		*/
 		rowCount++;
 
 		// Если в матрице больше 3х строк
 		if (rowCount > 3)
 		{
+			/*
+			try
+			{
+				throw std::runtime_error("Error !!!!");
+			}
+			catch (const std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+			*/
 			throw Error::MatrixRowCount;
-			return std::nullopt;
+			return std::nullopt; // после throw инструкция не выполняется
 		}
 
 		numbers = ParseMatrixRow(line);
@@ -244,7 +266,8 @@ Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
 	return minorMatrix;
 }
 
-Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix)
+// Вроде так называется CofactorMatrix либо AdjugateMatrix
+Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix /*minorMatrix*/)
 {
 	Matrix3x3 algebraicAdditionsMatrix = matrix;
 
@@ -293,6 +316,7 @@ int main(int argc, char* argv[])
 	{
 		auto args = ParseArgs(argc, argv);
 
+		// Сделай функцию, которая бы читала бы матрицу из файла, с указанным именем
 		// Open files for reading
 		std::ifstream fileMatrix;
 		fileMatrix.open(args->fileMatrix);
