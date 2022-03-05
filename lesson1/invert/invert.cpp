@@ -140,8 +140,16 @@ std::vector<double> ParseMatrixRow(const std::string& line)
 	return numbers;
 }
 
-std::optional<Matrix3x3> GetMatrix(std::istream& fileMatrix)
+std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 {
+	std::ifstream fileMatrix;
+	fileMatrix.open(fileMatrixName);
+
+	if (!fileMatrix.is_open())
+	{
+		throw Error::FileNotOpen;
+	}
+
 	Matrix3x3 matrix;
 	std::string line;
 	std::vector<double> numbers;
@@ -176,7 +184,6 @@ std::optional<Matrix3x3> GetMatrix(std::istream& fileMatrix)
 			}
 			*/
 			throw Error::MatrixRowCount;
-			return std::nullopt; // после throw инструкция не выполняется
 		}
 
 		numbers = ParseMatrixRow(line);
@@ -191,6 +198,11 @@ std::optional<Matrix3x3> GetMatrix(std::istream& fileMatrix)
 		for (int i = 0; i < 3; i++)
 		{
 			matrix[rowCount - 1][i] = numbers[i];
+		}
+
+		if (fileMatrix.bad())
+		{
+			throw Error::FailedToReadData;
 		}
 	}
 
@@ -215,16 +227,6 @@ void PrintMatrix(const Matrix3x3& matrix)
 		}
 		std::cout << std::endl;
 	}
-}
-
-// Назвать Swap либо использовать std::swap()
-void SwapElements(double& a, double& b)
-{
-	double tmp = 0;
-
-	tmp = a;
-	a = b;
-	b = tmp;
 }
 
 double GetMatrixDeterminant(const Matrix3x3& matrix)
@@ -277,9 +279,9 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 {
 	Matrix3x3 transposedMatrix = matrix;
 
-	SwapElements(transposedMatrix[1][0], transposedMatrix[0][1]);
-	SwapElements(transposedMatrix[2][0], transposedMatrix[0][2]);
-	SwapElements(transposedMatrix[2][1], transposedMatrix[1][2]);
+	std::swap(transposedMatrix[1][0], transposedMatrix[0][1]);
+	std::swap(transposedMatrix[2][0], transposedMatrix[0][2]);
+	std::swap(transposedMatrix[2][1], transposedMatrix[1][2]);
 
 	return transposedMatrix;
 }
@@ -317,15 +319,8 @@ int main(int argc, char* argv[])
 
 		// Сделай функцию, которая бы читала бы матрицу из файла, с указанным именем
 		// Open files for reading
-		std::ifstream fileMatrix;
-		fileMatrix.open(args->fileMatrix);
-		if (!fileMatrix.is_open())
-		{
-			throw Error::FileNotOpen;
-			return 1;
-		}
 
-		auto matrix = *GetMatrix(fileMatrix);
+		auto matrix = *ReadMatrixFromFile(args->fileMatrix);
 
 		// 1. Находим определитель матрицы
 		double matrixDeterminant = GetMatrixDeterminant(matrix);
@@ -350,12 +345,6 @@ int main(int argc, char* argv[])
 		Matrix3x3 invertMatrix = GetInvertMatrix(matrixDeterminant, transposedMatrix);
 
 		PrintMatrix(invertMatrix);
-
-		if (fileMatrix.bad())
-		{
-			throw Error::FailedToReadData;
-			return 1;
-		}
 	}
 	catch (Error error)
 	{
