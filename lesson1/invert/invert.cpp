@@ -25,18 +25,12 @@ struct Args
 	std::string fileMatrix; // matrixFile
 };
 
-struct Matrix3x3
-{
-	double pos[3][3]; // items
-};
+// struct Matrix3x3
+//{
+//	double pos[3][3]; // items
+// };
 
-using Matrix3x3_ = std::array<std::array<double, 3>, 3>;
-
-// возвращает матрицу либо nullopt, если матрица вырожденная
-std::optional<Matrix3x3_> Invert(const Matrix3x3_& sourceMatrix)
-{
-	return std::nullopt;
-}
+using Matrix3x3 = std::array<std::array<double, 3>, 3>;
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
@@ -197,7 +191,7 @@ std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 
 		for (int i = 0; i < 3; i++)
 		{
-			matrix.pos[rowCount - 1][i] = numbers[i];
+			matrix[rowCount - 1][i] = numbers[i];
 		}
 	}
 
@@ -213,9 +207,9 @@ std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
 
 void PrintMatrix(const Matrix3x3& matrix)
 {
-	for (auto& row : matrix.pos /* int i = 0; i < 3; i++*/)
+	for (auto& row : matrix /* int i = 0; i < 3; i++*/)
 	{
-		for (double num : /* matrix.pos[i]*/ row)
+		for (double num : /* matrix[i]*/ row)
 		{
 			// Манипуляторы контролируют точность чисел при выводе из потока
 			std::cout << std::fixed << std::setprecision(3) << num << "\t";
@@ -237,12 +231,12 @@ void SwapElements(double& a, double& b)
 double GetMatrixDeterminant(const Matrix3x3& matrix)
 {
 	double determinant = 0;
-	determinant += matrix.pos[0][0] * matrix.pos[1][1] * matrix.pos[2][2]; // 1
-	determinant += matrix.pos[2][0] * matrix.pos[0][1] * matrix.pos[1][2]; // 2
-	determinant += matrix.pos[1][0] * matrix.pos[2][1] * matrix.pos[0][2]; // 3
-	determinant -= matrix.pos[2][0] * matrix.pos[1][1] * matrix.pos[0][2]; // 4
-	determinant -= matrix.pos[0][0] * matrix.pos[2][1] * matrix.pos[1][2]; // 5
-	determinant -= matrix.pos[1][0] * matrix.pos[0][1] * matrix.pos[2][2]; // 6
+	determinant += matrix[0][0] * matrix[1][1] * matrix[2][2]; // 1
+	determinant += matrix[2][0] * matrix[0][1] * matrix[1][2]; // 2
+	determinant += matrix[1][0] * matrix[2][1] * matrix[0][2]; // 3
+	determinant -= matrix[2][0] * matrix[1][1] * matrix[0][2]; // 4
+	determinant -= matrix[0][0] * matrix[2][1] * matrix[1][2]; // 5
+	determinant -= matrix[1][0] * matrix[0][1] * matrix[2][2]; // 6
 
 	return determinant;
 }
@@ -251,17 +245,17 @@ Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
 {
 	Matrix3x3 minorMatrix;
 
-	minorMatrix.pos[0][0] = matrix.pos[1][1] * matrix.pos[2][2] - matrix.pos[2][1] * matrix.pos[1][2];
-	minorMatrix.pos[0][1] = matrix.pos[1][0] * matrix.pos[2][2] - matrix.pos[2][0] * matrix.pos[1][2];
-	minorMatrix.pos[0][2] = matrix.pos[1][0] * matrix.pos[2][1] - matrix.pos[2][0] * matrix.pos[1][1];
+	minorMatrix[0][0] = matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2];
+	minorMatrix[0][1] = matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2];
+	minorMatrix[0][2] = matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1];
 
-	minorMatrix.pos[1][0] = matrix.pos[0][1] * matrix.pos[2][2] - matrix.pos[2][1] * matrix.pos[0][2];
-	minorMatrix.pos[1][1] = matrix.pos[0][0] * matrix.pos[2][2] - matrix.pos[2][0] * matrix.pos[0][2];
-	minorMatrix.pos[1][2] = matrix.pos[0][0] * matrix.pos[2][1] - matrix.pos[2][0] * matrix.pos[0][1];
+	minorMatrix[1][0] = matrix[0][1] * matrix[2][2] - matrix[2][1] * matrix[0][2];
+	minorMatrix[1][1] = matrix[0][0] * matrix[2][2] - matrix[2][0] * matrix[0][2];
+	minorMatrix[1][2] = matrix[0][0] * matrix[2][1] - matrix[2][0] * matrix[0][1];
 
-	minorMatrix.pos[2][0] = matrix.pos[0][1] * matrix.pos[1][2] - matrix.pos[1][1] * matrix.pos[0][2];
-	minorMatrix.pos[2][1] = matrix.pos[0][0] * matrix.pos[1][2] - matrix.pos[1][0] * matrix.pos[0][2];
-	minorMatrix.pos[2][2] = matrix.pos[0][0] * matrix.pos[1][1] - matrix.pos[1][0] * matrix.pos[0][1];
+	minorMatrix[2][0] = matrix[0][1] * matrix[1][2] - matrix[1][1] * matrix[0][2];
+	minorMatrix[2][1] = matrix[0][0] * matrix[1][2] - matrix[1][0] * matrix[0][2];
+	minorMatrix[2][2] = matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];
 
 	return minorMatrix;
 }
@@ -272,10 +266,10 @@ Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix /*minorMatrix*/)
 	Matrix3x3 algebraicAdditionsMatrix = matrix;
 
 	// Меняем знаки у определенных элементов
-	algebraicAdditionsMatrix.pos[1][0] *= -1;
-	algebraicAdditionsMatrix.pos[0][1] *= -1;
-	algebraicAdditionsMatrix.pos[1][2] *= -1;
-	algebraicAdditionsMatrix.pos[2][1] *= -1;
+	algebraicAdditionsMatrix[1][0] *= -1;
+	algebraicAdditionsMatrix[0][1] *= -1;
+	algebraicAdditionsMatrix[1][2] *= -1;
+	algebraicAdditionsMatrix[2][1] *= -1;
 
 	return algebraicAdditionsMatrix;
 }
@@ -284,9 +278,9 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 {
 	Matrix3x3 transposedMatrix = matrix;
 
-	SwapElements(transposedMatrix.pos[1][0], transposedMatrix.pos[0][1]);
-	SwapElements(transposedMatrix.pos[2][0], transposedMatrix.pos[0][2]);
-	SwapElements(transposedMatrix.pos[2][1], transposedMatrix.pos[1][2]);
+	SwapElements(transposedMatrix[1][0], transposedMatrix[0][1]);
+	SwapElements(transposedMatrix[2][0], transposedMatrix[0][2]);
+	SwapElements(transposedMatrix[2][1], transposedMatrix[1][2]);
 
 	return transposedMatrix;
 }
@@ -303,11 +297,17 @@ Matrix3x3 GetInvertMatrix(const double& determinant, const Matrix3x3& matrix)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			invertMatrix.pos[i][j] /= determinant;
+			invertMatrix[i][j] /= determinant;
 		}
 	}
 
 	return invertMatrix;
+}
+
+// возвращает матрицу либо nullopt, если матрица вырожденная
+std::optional<Matrix3x3> Invert(const Matrix3x3& sourceMatrix)
+{
+	return std::nullopt;
 }
 
 int main(int argc, char* argv[])
