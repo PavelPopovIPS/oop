@@ -232,9 +232,28 @@ Matrix3x3 GetInvertMatrix(const double determinant, const Matrix3x3& matrix)
 }
 
 // возвращает матрицу либо nullopt, если матрица вырожденная
-std::optional<Matrix3x3> Invert(const Matrix3x3& sourceMatrix)
+std::optional<Matrix3x3> InvertMatrix(const Matrix3x3& sourceMatrix)
 {
-	return std::nullopt;
+	// 1. Находим определитель матрицы
+	double matrixDeterminant = GetMatrixDeterminant(matrix);
+
+	//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
+	if (matrixDeterminant == 0)
+	{
+		throw Error::MatrixDeterminantZero;
+	}
+
+	// 2. Находим матрицу миноров
+	Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
+
+	// 3. Находим матрицу алгебраических дополнений
+	Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
+
+	// 4. Находим транспонированную матрицу алгебраических дополнений
+	Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
+
+	// 5. Вычисление обратной матрицы
+	Matrix3x3 invertMatrix = GetInvertMatrix(matrixDeterminant, transposedMatrix);
 }
 
 int main(int argc, char* argv[])
@@ -242,31 +261,8 @@ int main(int argc, char* argv[])
 	try
 	{
 		auto args = ParseArgs(argc, argv);
-
 		auto matrix = *ReadMatrixFromFile(args->fileMatrixName);
-
-		// 1. Находим определитель матрицы
-		double matrixDeterminant = GetMatrixDeterminant(matrix);
-
-		//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
-		if (matrixDeterminant == 0)
-		{
-			throw Error::MatrixDeterminantZero;
-			return 1;
-		}
-
-		// 2. Находим матрицу миноров
-		Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
-
-		// 3. Находим матрицу алгебраических дополнений
-		Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
-
-		// 4. Находим транспонированную матрицу алгебраических дополнений
-		Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
-
-		// 5. Вычисление обратной матрицы
-		Matrix3x3 invertMatrix = GetInvertMatrix(matrixDeterminant, transposedMatrix);
-
+		auto invertMatrix = *InvertMatrix(matrix);
 		PrintMatrix(invertMatrix);
 	}
 	catch (Error error)
