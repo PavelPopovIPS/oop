@@ -13,9 +13,8 @@ enum class Error
 {
 	InvalidArgumentCount,
 	EmptyFileName,
-	MatrixContainText,
 	FileNotOpen,
-	MatrixColumnsCount,
+	MatrixColumnsCountOrTextContain,
 	MatrixRowCount,
 	FailedToReadData,
 	MatrixDeterminantZero,
@@ -58,16 +57,12 @@ void PrintError(Error error)
 		std::cout << "File name should not be empty";
 		break;
 	}
-	case Error::MatrixContainText: {
-		std::cout << "Matrix should contain only numbers\n";
-		break;
-	}
 	case Error::FileNotOpen: {
 		std::cout << "File was not opened for reading\n";
 		break;
 	}
-	case Error::MatrixColumnsCount: {
-		std::cout << "Matrix should contain 3 columns\n";
+	case Error::MatrixColumnsCountOrTextContain: {
+		std::cout << "Matrix do not have 3 columns or contain text\n";
 		break;
 	}
 	case Error::MatrixRowCount: {
@@ -87,51 +82,6 @@ void PrintError(Error error)
 		break;
 	}
 	}
-}
-
-double ConvertStringToNumer(const std::string& text)
-{
-	try
-	{
-		return std::stod(text);
-	}
-	catch (std::invalid_argument e)
-	{
-		throw Error::MatrixContainText;
-		return NULL;
-	}
-}
-
-std::vector<double> ParseMatrixRow(const std::string& line)
-{
-	std::string delimiter = "\t";
-	size_t startPos = 0;
-	size_t searchTextPos = 0;
-	size_t lenSubline = 0;
-	std::vector<double> numbers = {};
-
-	while (searchTextPos < line.length())
-	{
-		// Поиск позиции разделителя относительно начала строки
-		searchTextPos = line.find(delimiter, startPos);
-
-		// Вычисляю длину строки, которую буду конвертировать в double
-		lenSubline = searchTextPos - startPos;
-
-		// Получение строки, которую буду конвертировать в double
-		std::string s = line.substr(startPos, lenSubline);
-
-		// Конвертирую строку в double
-		double n = ConvertStringToNumer(s);
-
-		// Добавляю полученное значение в массив
-		numbers.push_back(n);
-
-		// Нужно пересчитать позицию, с которой продолжится поиск искомого текста в текущей строке
-		startPos = searchTextPos + delimiter.length();
-	}
-
-	return numbers;
 }
 
 std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
@@ -170,27 +120,12 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 		if (strm >> matrix[rowCount][0] >> matrix[rowCount][1] >> matrix[rowCount][2])
 		{
-			// успех
+			rowCount++;
 		}
 		else
 		{
-			// Если в матрице не соответствует условию по количеству столбцов
-			/*if (numbers.size() != 3)
-			{*/
-			throw Error::MatrixColumnsCount;
-			/*}*/
+			throw Error::MatrixColumnsCountOrTextContain;
 		}
-
-		rowCount++;
-
-		// Если в матрице больше 3х строк
-
-		// numbers = ParseMatrixRow(line);
-
-		// for (int i = 0; i < 3; i++)
-		//{
-		//	matrix[rowCount - 1][i] = numbers[i];
-		// }
 	}
 
 	// Если в матрице меньше 3х строк
