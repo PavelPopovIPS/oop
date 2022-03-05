@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -22,7 +23,7 @@ enum class Error
 
 struct Args
 {
-	std::string fileMatrix;
+	std::string fileMatrixName;
 };
 
 using Matrix3x3 = std::array<std::array<double, 3>, 3>;
@@ -34,9 +35,9 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		throw Error::InvalidArgumentCount;
 	}
 	Args args;
-	args.fileMatrix = argv[1];
+	args.fileMatrixName = argv[1];
 
-	if (args.fileMatrix == "")
+	if (args.fileMatrixName == "")
 	{
 		throw Error::EmptyFileName;
 	}
@@ -150,21 +151,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 	while (std::getline(fileMatrix, line))
 	{
-		/*
-		std::istringstream strm(line);
-		if (strm >> matrix[rowIndex][0] >> matrix[rowIndex][1] >> matrix[rowIndex][1])
-		{
-			// успех
-		}
-		else
-		{
-			// ошибка
-		}
-		*/
-		rowCount++;
-
-		// Если в матрице больше 3х строк
-		if (rowCount > 3)
+		if (rowCount > 2)
 		{
 			/*
 			try
@@ -179,29 +166,42 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 			throw Error::MatrixRowCount;
 		}
 
-		numbers = ParseMatrixRow(line);
+		std::istringstream strm(line);
 
-		// Если в матрице не соответствует условию по количеству столбцов
-		if (numbers.size() != 3)
+		if (strm >> matrix[rowCount][0] >> matrix[rowCount][1] >> matrix[rowCount][2])
 		{
+			// успех
+		}
+		else
+		{
+			// Если в матрице не соответствует условию по количеству столбцов
+			/*if (numbers.size() != 3)
+			{*/
 			throw Error::MatrixColumnsCount;
+			/*}*/
 		}
 
-		for (int i = 0; i < 3; i++)
-		{
-			matrix[rowCount - 1][i] = numbers[i];
-		}
+		rowCount++;
 
-		if (fileMatrix.bad())
-		{
-			throw Error::FailedToReadData;
-		}
+		// Если в матрице больше 3х строк
+
+		// numbers = ParseMatrixRow(line);
+
+		// for (int i = 0; i < 3; i++)
+		//{
+		//	matrix[rowCount - 1][i] = numbers[i];
+		// }
 	}
 
 	// Если в матрице меньше 3х строк
 	if (rowCount < 3)
 	{
 		throw Error::MatrixRowCount;
+	}
+
+	if (fileMatrix.bad())
+	{
+		throw Error::FailedToReadData;
 	}
 
 	return matrix;
@@ -308,10 +308,7 @@ int main(int argc, char* argv[])
 	{
 		auto args = ParseArgs(argc, argv);
 
-		// Сделай функцию, которая бы читала бы матрицу из файла, с указанным именем
-		// Open files for reading
-
-		auto matrix = *ReadMatrixFromFile(args->fileMatrix);
+		auto matrix = *ReadMatrixFromFile(args->fileMatrixName);
 
 		// 1. Находим определитель матрицы
 		double matrixDeterminant = GetMatrixDeterminant(matrix);

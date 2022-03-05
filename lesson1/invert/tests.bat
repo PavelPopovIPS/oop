@@ -34,7 +34,7 @@ REM Матрица должна содержать не менее 3 строк
 if NOT ERRORLEVEL 1 goto err
 echo Test 5: passed successful
 
-REM Матрица должна содержать 3 столбца
+REM Матрица должна содержать не менее 3х столбцов
 %MyProgram% "matrix-2colum.txt" > NUL 
 if NOT ERRORLEVEL 1 goto err
 echo Test 6: passed successful
