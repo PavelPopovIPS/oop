@@ -22,13 +22,8 @@ enum class Error
 
 struct Args
 {
-	std::string fileMatrix; // matrixFile
+	std::string fileMatrix;
 };
-
-// struct Matrix3x3
-//{
-//	double pos[3][3]; // items
-// };
 
 using Matrix3x3 = std::array<std::array<double, 3>, 3>;
 
@@ -37,7 +32,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	if (argc != 2)
 	{
 		throw Error::InvalidArgumentCount;
-		return std::nullopt;
 	}
 	Args args;
 	args.fileMatrix = argv[1];
@@ -45,7 +39,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	if (args.fileMatrix == "")
 	{
 		throw Error::EmptyFileName;
-		return std::nullopt;
 	}
 
 	return args;
@@ -192,7 +185,6 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		if (numbers.size() != 3)
 		{
 			throw Error::MatrixColumnsCount;
-			return std::nullopt;
 		}
 
 		for (int i = 0; i < 3; i++)
@@ -210,7 +202,6 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 	if (rowCount < 3)
 	{
 		throw Error::MatrixRowCount;
-		return std::nullopt;
 	}
 
 	return matrix;
@@ -218,9 +209,9 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 void PrintMatrix(const Matrix3x3& matrix)
 {
-	for (auto& row : matrix /* int i = 0; i < 3; i++*/)
+	for (auto& row : matrix)
 	{
-		for (double num : /* matrix[i]*/ row)
+		for (double num : row)
 		{
 			// Манипуляторы контролируют точность чисел при выводе из потока
 			std::cout << std::fixed << std::setprecision(3) << num << "\t";
@@ -288,9 +279,9 @@ Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
 
 // Matrix3x3 GetScaledMatrix(matrix, coeff);
 // double det;
-// Matrix3xx invertedMatrix = GetScaledMatrix(m, 1.0 / det);
+// Matrix3x3 invertedMatrix = GetScaledMatrix(matrix, 1.0 / det);
 // double передавать по значению
-Matrix3x3 GetInvertMatrix(const double& determinant, const Matrix3x3& matrix)
+Matrix3x3 GetInvertMatrix(const double determinant, const Matrix3x3& matrix)
 {
 	Matrix3x3 invertMatrix = matrix;
 
