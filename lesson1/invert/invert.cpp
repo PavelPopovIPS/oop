@@ -140,8 +140,7 @@ std::vector<double> ParseMatrixRow(const std::string& line)
 	return numbers;
 }
 
-// пусть принимает istream&
-std::optional<Matrix3x3> GetMatrix(std::ifstream& fileMatrix)
+std::optional<Matrix3x3> GetMatrix(std::istream& fileMatrix)
 {
 	Matrix3x3 matrix;
 	std::string line;
