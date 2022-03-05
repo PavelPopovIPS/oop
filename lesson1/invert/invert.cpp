@@ -94,7 +94,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		throw Error::FileNotOpen;
 	}
 
-	Matrix3x3 matrix;
+	Matrix3x3 sourceMatrix;
 	std::string line;
 	std::vector<double> numbers;
 	size_t rowCount = 0;
@@ -118,7 +118,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 		std::istringstream strm(line);
 
-		if (strm >> matrix[rowCount][0] >> matrix[rowCount][1] >> matrix[rowCount][2])
+		if (strm >> sourceMatrix[rowCount][0] >> sourceMatrix[rowCount][1] >> sourceMatrix[rowCount][2])
 		{
 			rowCount++;
 		}
@@ -139,7 +139,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		throw Error::FailedToReadData;
 	}
 
-	return matrix;
+	return sourceMatrix;
 }
 
 void PrintMatrix(const Matrix3x3& matrix)
@@ -155,42 +155,41 @@ void PrintMatrix(const Matrix3x3& matrix)
 	}
 }
 
-double GetMatrixDeterminant(const Matrix3x3& matrix)
+double CalcDeterminant(const Matrix3x3& sourceMatrix)
 {
 	double determinant = 0;
-	determinant += matrix[0][0] * matrix[1][1] * matrix[2][2]; // 1
-	determinant += matrix[2][0] * matrix[0][1] * matrix[1][2]; // 2
-	determinant += matrix[1][0] * matrix[2][1] * matrix[0][2]; // 3
-	determinant -= matrix[2][0] * matrix[1][1] * matrix[0][2]; // 4
-	determinant -= matrix[0][0] * matrix[2][1] * matrix[1][2]; // 5
-	determinant -= matrix[1][0] * matrix[0][1] * matrix[2][2]; // 6
+	determinant += sourceMatrix[0][0] * sourceMatrix[1][1] * sourceMatrix[2][2]; // 1
+	determinant += sourceMatrix[2][0] * sourceMatrix[0][1] * sourceMatrix[1][2]; // 2
+	determinant += sourceMatrix[1][0] * sourceMatrix[2][1] * sourceMatrix[0][2]; // 3
+	determinant -= sourceMatrix[2][0] * sourceMatrix[1][1] * sourceMatrix[0][2]; // 4
+	determinant -= sourceMatrix[0][0] * sourceMatrix[2][1] * sourceMatrix[1][2]; // 5
+	determinant -= sourceMatrix[1][0] * sourceMatrix[0][1] * sourceMatrix[2][2]; // 6
 
 	return determinant;
 }
 
-Matrix3x3 GetMinorMatrix(const Matrix3x3& matrix)
+Matrix3x3 CalcMinorMatrix(const Matrix3x3& sourceMatrix)
 {
 	Matrix3x3 minorMatrix;
 
-	minorMatrix[0][0] = matrix[1][1] * matrix[2][2] - matrix[2][1] * matrix[1][2];
-	minorMatrix[0][1] = matrix[1][0] * matrix[2][2] - matrix[2][0] * matrix[1][2];
-	minorMatrix[0][2] = matrix[1][0] * matrix[2][1] - matrix[2][0] * matrix[1][1];
+	minorMatrix[0][0] = sourceMatrix[1][1] * sourceMatrix[2][2] - sourceMatrix[2][1] * sourceMatrix[1][2];
+	minorMatrix[0][1] = sourceMatrix[1][0] * sourceMatrix[2][2] - sourceMatrix[2][0] * sourceMatrix[1][2];
+	minorMatrix[0][2] = sourceMatrix[1][0] * sourceMatrix[2][1] - sourceMatrix[2][0] * sourceMatrix[1][1];
 
-	minorMatrix[1][0] = matrix[0][1] * matrix[2][2] - matrix[2][1] * matrix[0][2];
-	minorMatrix[1][1] = matrix[0][0] * matrix[2][2] - matrix[2][0] * matrix[0][2];
-	minorMatrix[1][2] = matrix[0][0] * matrix[2][1] - matrix[2][0] * matrix[0][1];
+	minorMatrix[1][0] = sourceMatrix[0][1] * sourceMatrix[2][2] - sourceMatrix[2][1] * sourceMatrix[0][2];
+	minorMatrix[1][1] = sourceMatrix[0][0] * sourceMatrix[2][2] - sourceMatrix[2][0] * sourceMatrix[0][2];
+	minorMatrix[1][2] = sourceMatrix[0][0] * sourceMatrix[2][1] - sourceMatrix[2][0] * sourceMatrix[0][1];
 
-	minorMatrix[2][0] = matrix[0][1] * matrix[1][2] - matrix[1][1] * matrix[0][2];
-	minorMatrix[2][1] = matrix[0][0] * matrix[1][2] - matrix[1][0] * matrix[0][2];
-	minorMatrix[2][2] = matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];
+	minorMatrix[2][0] = sourceMatrix[0][1] * sourceMatrix[1][2] - sourceMatrix[1][1] * sourceMatrix[0][2];
+	minorMatrix[2][1] = sourceMatrix[0][0] * sourceMatrix[1][2] - sourceMatrix[1][0] * sourceMatrix[0][2];
+	minorMatrix[2][2] = sourceMatrix[0][0] * sourceMatrix[1][1] - sourceMatrix[1][0] * sourceMatrix[0][1];
 
 	return minorMatrix;
 }
 
-// Вроде так называется CofactorMatrix либо AdjugateMatrix
-Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix /*minorMatrix*/)
+Matrix3x3 CalcCoFactorMatrix(const Matrix3x3& minorMatrix)
 {
-	Matrix3x3 algebraicAdditionsMatrix = matrix;
+	Matrix3x3 algebraicAdditionsMatrix = minorMatrix;
 
 	// Меняем знаки у определенных элементов
 	algebraicAdditionsMatrix[1][0] *= -1;
@@ -201,9 +200,9 @@ Matrix3x3 GetAlgebraicAdditionsMatrix(const Matrix3x3& matrix /*minorMatrix*/)
 	return algebraicAdditionsMatrix;
 }
 
-Matrix3x3 GetTransposedMatrix(const Matrix3x3& matrix)
+Matrix3x3 CalcTransposedMatrix(const Matrix3x3& coFactorMatrix)
 {
-	Matrix3x3 transposedMatrix = matrix;
+	Matrix3x3 transposedMatrix = coFactorMatrix;
 
 	std::swap(transposedMatrix[1][0], transposedMatrix[0][1]);
 	std::swap(transposedMatrix[2][0], transposedMatrix[0][2]);
@@ -231,29 +230,30 @@ Matrix3x3 GetInvertMatrix(const double determinant, const Matrix3x3& matrix)
 	return invertMatrix;
 }
 
-// возвращает матрицу либо nullopt, если матрица вырожденная
 std::optional<Matrix3x3> InvertMatrix(const Matrix3x3& sourceMatrix)
 {
 	// 1. Находим определитель матрицы
-	double matrixDeterminant = GetMatrixDeterminant(matrix);
+	double determinant = CalcDeterminant(sourceMatrix);
 
 	//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
-	if (matrixDeterminant == 0)
+	if (determinant == 0)
 	{
 		throw Error::MatrixDeterminantZero;
 	}
 
 	// 2. Находим матрицу миноров
-	Matrix3x3 minorMatrix = GetMinorMatrix(matrix);
+	Matrix3x3 minorMatrix = CalcMinorMatrix(sourceMatrix);
 
 	// 3. Находим матрицу алгебраических дополнений
-	Matrix3x3 algebraicAdditionsMatrix = GetAlgebraicAdditionsMatrix(minorMatrix);
+	Matrix3x3 coFactorMatrix = CalcCoFactorMatrix(minorMatrix);
 
 	// 4. Находим транспонированную матрицу алгебраических дополнений
-	Matrix3x3 transposedMatrix = GetTransposedMatrix(algebraicAdditionsMatrix);
+	Matrix3x3 transposedMatrix = CalcTransposedMatrix(coFactorMatrix);
 
 	// 5. Вычисление обратной матрицы
-	Matrix3x3 invertMatrix = GetInvertMatrix(matrixDeterminant, transposedMatrix);
+	Matrix3x3 invertMatrix = GetInvertMatrix(determinant, transposedMatrix);
+
+	return invertMatrix;
 }
 
 int main(int argc, char* argv[])
@@ -261,8 +261,8 @@ int main(int argc, char* argv[])
 	try
 	{
 		auto args = ParseArgs(argc, argv);
-		auto matrix = *ReadMatrixFromFile(args->fileMatrixName);
-		auto invertMatrix = *InvertMatrix(matrix);
+		auto sourceMatrix = *ReadMatrixFromFile(args->fileMatrixName);
+		auto invertMatrix = *InvertMatrix(sourceMatrix);
 		PrintMatrix(invertMatrix);
 	}
 	catch (Error error)
