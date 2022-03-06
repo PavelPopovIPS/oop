@@ -101,6 +101,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 	while (std::getline(fileMatrix, line))
 	{
+		// Если в матрице больше 3х строк
 		if (rowCount > 2)
 		{
 			/*
@@ -142,19 +143,6 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 	return sourceMatrix;
 }
 
-void PrintMatrix(const Matrix3x3& matrix)
-{
-	for (auto& row : matrix)
-	{
-		for (double num : row)
-		{
-			// Манипуляторы контролируют точность чисел при выводе из потока
-			std::cout << std::fixed << std::setprecision(3) << num << "\t";
-		}
-		std::cout << std::endl;
-	}
-}
-
 double CalcDeterminant(const Matrix3x3& sourceMatrix)
 {
 	double determinant = 0;
@@ -189,15 +177,15 @@ Matrix3x3 CalcMinorMatrix(const Matrix3x3& sourceMatrix)
 
 Matrix3x3 CalcCoFactorMatrix(const Matrix3x3& minorMatrix)
 {
-	Matrix3x3 algebraicAdditionsMatrix = minorMatrix;
+	Matrix3x3 сoFactorMatrix = minorMatrix;
 
 	// Меняем знаки у определенных элементов
-	algebraicAdditionsMatrix[1][0] *= -1;
-	algebraicAdditionsMatrix[0][1] *= -1;
-	algebraicAdditionsMatrix[1][2] *= -1;
-	algebraicAdditionsMatrix[2][1] *= -1;
+	сoFactorMatrix[1][0] *= -1;
+	сoFactorMatrix[0][1] *= -1;
+	сoFactorMatrix[1][2] *= -1;
+	сoFactorMatrix[2][1] *= -1;
 
-	return algebraicAdditionsMatrix;
+	return сoFactorMatrix;
 }
 
 Matrix3x3 CalcTransposedMatrix(const Matrix3x3& coFactorMatrix)
@@ -211,19 +199,14 @@ Matrix3x3 CalcTransposedMatrix(const Matrix3x3& coFactorMatrix)
 	return transposedMatrix;
 }
 
-// Matrix3x3 GetScaledMatrix(matrix, coeff);
-// double det;
-// Matrix3x3 invertedMatrix = GetScaledMatrix(matrix, 1.0 / det);
-// double передавать по значению
-Matrix3x3 GetInvertMatrix(const double determinant, const Matrix3x3& matrix)
+Matrix3x3 CalcScaledMatrix(const Matrix3x3& transposedMatrix, const double determinant)
 {
-	Matrix3x3 invertMatrix = matrix;
-
+	Matrix3x3 invertMatrix = transposedMatrix;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			invertMatrix[i][j] /= determinant;
+			invertMatrix[i][j] *= determinant;
 		}
 	}
 
@@ -251,9 +234,22 @@ std::optional<Matrix3x3> InvertMatrix(const Matrix3x3& sourceMatrix)
 	Matrix3x3 transposedMatrix = CalcTransposedMatrix(coFactorMatrix);
 
 	// 5. Вычисление обратной матрицы
-	Matrix3x3 invertMatrix = GetInvertMatrix(determinant, transposedMatrix);
+	Matrix3x3 invertMatrix = CalcScaledMatrix(transposedMatrix, 1.0 / determinant);
 
 	return invertMatrix;
+}
+
+void PrintMatrix(const Matrix3x3& matrix)
+{
+	for (auto& row : matrix)
+	{
+		for (double num : row)
+		{
+			// Манипуляторы контролируют точность чисел при выводе из потока
+			std::cout << std::fixed << std::setprecision(3) << num << "\t";
+		}
+		std::cout << std::endl;
+	}
 }
 
 int main(int argc, char* argv[])

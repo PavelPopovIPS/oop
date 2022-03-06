@@ -65,6 +65,12 @@ fc "%TEMP%\output.txt" "matrix-sample-invert-double.txt"  > NUL
 if ERRORLEVEL 1 goto err
 echo Test 11: passed successful
 
+REM Вычисление обратной матрицы с коэффициентами с плавающей точкой и сравнение с эталоном
+%MyProgram% "matrix1.txt" > "%TEMP%\output.txt"
+fc "%TEMP%\output.txt" "matrix1-invert.txt"  > NUL 
+if ERRORLEVEL 1 goto err
+echo Test 12: passed successful
+
 REM Тесты прошли успешно
 echo Tests passed successfuly
 exit /B 0
