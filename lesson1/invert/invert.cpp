@@ -9,17 +9,6 @@
 #include <string>
 #include <vector>
 
-enum class Error
-{
-	InvalidArgumentCount,
-	EmptyFileName,
-	FileNotOpen,
-	MatrixColumnsCountOrTextContain,
-	MatrixRowCount,
-	FailedToReadData,
-	MatrixDeterminantZero,
-};
-
 struct Args
 {
 	std::string fileMatrixName;
@@ -31,57 +20,17 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
-		throw Error::InvalidArgumentCount;
+		throw std::runtime_error("Invalid argument count\nFor use: multmatrix.exe <matrix file>\n");
 	}
 	Args args;
 	args.fileMatrixName = argv[1];
 
 	if (args.fileMatrixName == "")
 	{
-		throw Error::EmptyFileName;
+		throw std::runtime_error("File name should not be empty\n");
 	}
 
 	return args;
-}
-
-void PrintError(Error error)
-{
-	switch (error)
-	{
-	case Error::InvalidArgumentCount: {
-		std::cout << "Invalid argument count\n";
-		std::cout << "For use: multmatrix.exe <matrix file>\n";
-		break;
-	}
-	case Error::EmptyFileName: {
-		std::cout << "File name should not be empty";
-		break;
-	}
-	case Error::FileNotOpen: {
-		std::cout << "File was not opened for reading\n";
-		break;
-	}
-	case Error::MatrixColumnsCountOrTextContain: {
-		std::cout << "Matrix do not have 3 columns or contain text\n";
-		break;
-	}
-	case Error::MatrixRowCount: {
-		std::cout << "Matrix should contain 3 rows\n";
-		break;
-	}
-	case Error::FailedToReadData: {
-		std::cout << "Failed to read data from file\n";
-		break;
-	}
-	case Error::MatrixDeterminantZero: {
-		std::cout << "Matrix determinant equal Zero. There is no invert matrix\n";
-		break;
-	}
-	default: {
-		std::cout << "Some error was occurred\n";
-		break;
-	}
-	}
 }
 
 std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
@@ -91,12 +40,11 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 
 	if (!fileMatrix.is_open())
 	{
-		throw Error::FileNotOpen;
+		throw std::runtime_error("File was not opened for reading\n");
 	}
 
 	Matrix3x3 sourceMatrix;
 	std::string line;
-	std::vector<double> numbers;
 	size_t rowCount = 0;
 
 	while (std::getline(fileMatrix, line))
@@ -104,17 +52,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		// Если в матрице больше 3х строк
 		if (rowCount > 2)
 		{
-			/*
-			try
-			{
-				throw std::runtime_error("Error !!!!");
-			}
-			catch (const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-			*/
-			throw Error::MatrixRowCount;
+			throw std::runtime_error("Matrix should contain 3 rows. You use more then 3");
 		}
 
 		std::istringstream strm(line);
@@ -125,19 +63,19 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		}
 		else
 		{
-			throw Error::MatrixColumnsCountOrTextContain;
+			throw std::runtime_error("Matrix do not have 3 columns or contain text\n");
 		}
 	}
 
 	// Если в матрице меньше 3х строк
 	if (rowCount < 3)
 	{
-		throw Error::MatrixRowCount;
+		throw std::runtime_error("Matrix should contain 3 rows. You use less then 3");
 	}
 
 	if (fileMatrix.bad())
 	{
-		throw Error::FailedToReadData;
+		throw std::runtime_error("Failed to read data from file\n");
 	}
 
 	return sourceMatrix;
@@ -221,7 +159,7 @@ std::optional<Matrix3x3> InvertMatrix(const Matrix3x3& sourceMatrix)
 	//Если определитель матрицы равен НУЛЮ – обратной матрицы не существует.
 	if (determinant == 0)
 	{
-		throw Error::MatrixDeterminantZero;
+		throw std::runtime_error("Matrix determinant equal Zero. There is no invert matrix\n");
 	}
 
 	// 2. Находим матрицу миноров
@@ -261,9 +199,9 @@ int main(int argc, char* argv[])
 		auto invertMatrix = *InvertMatrix(sourceMatrix);
 		PrintMatrix(invertMatrix);
 	}
-	catch (Error error)
+	catch (const std::exception& e)
 	{
-		PrintError(error);
+		std::cout << e.what() << std::endl;
 		return 1;
 	}
 
