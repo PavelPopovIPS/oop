@@ -18,7 +18,7 @@ struct Args
 	Action action = Action::Crypt;
 	std::string inputFileName;
 	std::string outputFileName;
-	int8_t key = 0;
+	uint8_t key = 0;
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -66,7 +66,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		{
 			throw std::runtime_error("Key should be number between 0 and 255\n");
 		}
-		args.key = static_cast<int8_t>(key);
+		args.key = static_cast<uint8_t>(key);
 	}
 	catch (std::invalid_argument e)
 	{
@@ -101,31 +101,32 @@ std::ofstream OpenFileForWriting(const std::string& outputFileName)
 	return outputFile;
 }
 
-void CopyStreamWithCrypt(std::istream& input, std::ostream& output, int8_t key)
+uint8_t XorByte(const uint8_t byte, int8_t key)
 {
-	unsigned short a;
+	unsigned short xorByte = byte ^ key;
+	return xorByte;
+}
+
+void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
+{
 	char ch;
+	uint8_t byte;
+	uint8_t xorByte;
+
 	while (input.get(ch))
 	{
+		// Записываю код символа
+		byte = static_cast<uint8_t>(ch);
 
-		a = static_cast<unsigned short>(ch);
-		std::cout << a << std::endl;
+		// Побитовое исключение с учетом ключа
+		xorByte = XorByte(byte, key);
 
-		std::bitset<8> bitset1{ a };
-		std::cout << bitset1 << std::endl;
+		// Перемешиваю биты в байте для кодирования
 
-		a ^= key;
+		// Возвращаю символ
+		ch = static_cast<char>(xorByte);
 
-		std::bitset<8> bitset2{ a };
-		std::cout << bitset2 << std::endl;
-
-		a ^= key;
-
-		std::bitset<8> bitset3{ a };
-		std::cout << bitset3 << std::endl;
-
-		std::cout << static_cast<char>(a) << std::endl;
-
+		// Записываю символ в файл
 		if (!output.put(ch))
 		{
 			break;
