@@ -79,6 +79,27 @@ REM Ключ для шифрования не может быть текстом
 if NOT ERRORLEVEL 1 goto err
 echo Test 14: passed successful
 
+REM Расшифрованный файл должен быть идентичный исходному
+%MyProgram% "crypt" "text.txt" "%TEMP%\output-crypt.txt" "3" > NUL
+%MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "3" > NUL
+fc "text.txt" "%TEMP%\output-decrypt.txt" > NUL
+if ERRORLEVEL 1 goto err
+echo Test 15: passed successful
+
+REM Расшифрованный файл с другим ключом должен отличаться от исходного
+%MyProgram% "crypt" "text.txt" "%TEMP%\output-crypt.txt" "3" > NUL
+%MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "5" > NUL
+fc "text.txt" "%TEMP%\output-decrypt.txt" > NUL
+if NOT ERRORLEVEL 1 goto err
+echo Test 16: passed successful
+
+REM Шифрование и расшифровака пустого файла
+%MyProgram% "crypt" "empty-file.txt" "%TEMP%\output-crypt.txt" "100" > NUL
+%MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "100" > NUL
+fc "empty-file.txt" "%TEMP%\output-decrypt.txt" > NUL
+if ERRORLEVEL 1 goto err
+echo Test 17: passed successful
+
 
 REM Тесты прошли успешно
 echo Tests passed successfuly
