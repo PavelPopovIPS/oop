@@ -1,110 +1,110 @@
-п»ї@echo off
+@echo off
 
-REM РџРµСЂРІС‹Р№ Р°СЂРіСѓРјРµРЅС‚ РїСЂРё Р·Р°РїСѓСЃРєРµ bat С„Р°Р№Р»Р°, ~ СѓРґР°Р»СЏРµС‚ СЃРєРѕР±РєРё.
+REM Первый аргумент при запуске bat файла, ~ удаляет скобки.
 SET MyProgram="%~1"
 
-REM Р•СЃР»Рё Р°СЂРіСѓРјРµРЅС‚ РЅРµ РїРµСЂРµРґР°Р»Рё, РІС‹РІРµРґРµС‚СЃСЏ РѕС€РёР±РєР°
+REM Если аргумент не передали, выведется ошибка
 if %MyProgram%=="" (
 	echo Please specify path to program
 	exit /B 1
 )
 
-REM Р’ РїСЂРёР»РѕР¶РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРµСЂРµРґР°РЅРѕ РЅРµ РјРµРЅРµРµ 4 Р°СЂРіСѓРјРµРЅС‚РѕРІ
+REM В приложение должно быть передано не менее 4 аргументов
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 1: passed successful
 
-REM Р’ РїСЂРёР»РѕР¶РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїРµСЂРµРґР°РЅРѕ РЅРµ Р±РѕР»РµРµ 5 Р°СЂРіСѓРјРµРЅС‚РѕРІ
+REM В приложение должно быть передано не более 5 аргументов
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "2" "" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 2: passed successful
 
-REM РџСЂРёР»РѕР¶РµРЅРёРµ Р±РµР· Р°СЂРіСѓРјРµРЅС‚РѕРІ РЅРµ Р·Р°РїСѓСЃС‚РёС‚СЃСЏ
+REM Приложение без аргументов не запустится
 %MyProgram% > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 3: passed successful
 
-REM РЁРёС„СЂРѕРІР°РЅРёРµ Р·Р°РґР°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµРј crypt
+REM Шифрование задается значением crypt
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "2" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 4: passed successful
 
-REM Р”РµС€РёС„СЂРѕРІР°РЅРёРµ Р·Р°РґР°РµС‚СЃСЏ Р·РЅР°С‡РµРЅРёРµРј decrypt
+REM Дешифрование задается значением decrypt
 %MyProgram% "decrypt" "text.txt" "%TEMP%\output.txt" "2" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 5: passed successful
 
-REM Р›СЋР±РѕРµ РґСЂСѓРіРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ action РЅРµ РґРѕРїСѓСЃС‚РёРјРѕ
+REM Любое другое значение в action не допустимо
 %MyProgram% "cr" "text.txt" "%TEMP%\output.txt" "2" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 6: passed successful
 
-REM РќРµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ С„Р°Р№Р» РґР»СЏ С‡С‚РµРЅРёСЏ РЅРµ РѕС‚РєСЂРѕРµС‚СЃСЏ
+REM Не существующий файл для чтения не откроется
 %MyProgram% "crypt" "tex" "%TEMP%\output.txt" "2" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 7: passed successful
 
-REM РџСѓСЃС‚РѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ С‡С‚РµРЅРёСЏ РЅРµ РґРѕРїСѓСЃС‚РёРјРѕ
+REM Пустое имя файла для чтения не допустимо
 %MyProgram% "crypt" "" "%TEMP%\output.txt" "2" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 8: passed successful
 
-REM РџСѓСЃС‚РѕРµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ Р·Р°РїРёСЃРё РЅРµ РґРѕРїСѓСЃС‚РёРјРѕ
+REM Пустое имя файла для записи не допустимо
 %MyProgram% "crypt" "text.txt" "" "2" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 9: passed successful
 
-REM РљР»СЋС‡ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 0
+REM Ключ не может быть меньше 0
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "-1" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 10: passed successful
 
-REM РљР»СЋС‡ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 255
+REM Ключ не может быть больше 255
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "256" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 11: passed successful
 
-REM РљР»СЋС‡ РґР»СЏ С€РёС„СЂРѕРІР°РЅРёСЏ СЂР°РІРµРЅ 0
+REM Ключ для шифрования равен 0
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "0" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 12: passed successful
 
-REM РљР»СЋС‡ РґР»СЏ С€РёС„СЂРѕРІР°РЅРёСЏ СЂР°РІРµРЅ 255
+REM Ключ для шифрования равен 255
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "255" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 13: passed successful
 
-REM РљР»СЋС‡ РґР»СЏ С€РёС„СЂРѕРІР°РЅРёСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ С‚РµРєСЃС‚РѕРј
+REM Ключ для шифрования не может быть текстом
 %MyProgram% "crypt" "text.txt" "%TEMP%\output.txt" "abc" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 14: passed successful
 
-REM Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅС‹Р№ С„Р°Р№Р» РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РёРґРµРЅС‚РёС‡РЅС‹Р№ РёСЃС…РѕРґРЅРѕРјСѓ
+REM Расшифрованный файл должен быть идентичный исходному
 %MyProgram% "crypt" "text.txt" "%TEMP%\output-crypt.txt" "3" > NUL
 %MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "3" > NUL
 fc "text.txt" "%TEMP%\output-decrypt.txt" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 15: passed successful
 
-REM Р Р°СЃС€РёС„СЂРѕРІР°РЅРЅС‹Р№ С„Р°Р№Р» СЃ РґСЂСѓРіРёРј РєР»СЋС‡РѕРј РґРѕР»Р¶РµРЅ РѕС‚Р»РёС‡Р°С‚СЊСЃСЏ РѕС‚ РёСЃС…РѕРґРЅРѕРіРѕ
+REM Расшифрованный файл с другим ключом должен отличаться от исходного
 %MyProgram% "crypt" "text.txt" "%TEMP%\output-crypt.txt" "3" > NUL
 %MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "5" > NUL
 fc "text.txt" "%TEMP%\output-decrypt.txt" > NUL
 if NOT ERRORLEVEL 1 goto err
 echo Test 16: passed successful
 
-REM РЁРёС„СЂРѕРІР°РЅРёРµ Рё СЂР°СЃС€РёС„СЂРѕРІР°РєР° РїСѓСЃС‚РѕРіРѕ С„Р°Р№Р»Р°
+REM Шифрование и расшифровака пустого файла
 %MyProgram% "crypt" "empty-file.txt" "%TEMP%\output-crypt.txt" "100" > NUL
 %MyProgram% "decrypt" "%TEMP%\output-crypt.txt" "%TEMP%\output-decrypt.txt" "100" > NUL
 fc "empty-file.txt" "%TEMP%\output-decrypt.txt" > NUL
 if ERRORLEVEL 1 goto err
 echo Test 17: passed successful
 
-REM РўРµСЃС‚С‹ РїСЂРѕС€Р»Рё СѓСЃРїРµС€РЅРѕ
+REM Тесты прошли успешно
 echo Tests passed successfuly
 exit /B 0
 
-REM Р’С‹РІРµРґРµРј РѕС€РёР±РєСѓ РµСЃР»Рё С‚РµСЃС‚С‹ РЅРµ РїСЂРѕС€Р»Рё
+REM Выведем ошибку если тесты не прошли
 :err
 echo Test failed
 exit /B 1
