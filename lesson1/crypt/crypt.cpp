@@ -139,7 +139,6 @@ void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream&
 {
 	char ch;
 	uint8_t byte;
-	uint8_t decryptByte;
 
 	while (inputFile.get(ch))
 	{
@@ -158,21 +157,20 @@ void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream&
 		}
 		}
 
-		// Записываю символ в файл
 		if (!outputFile.put(ch))
 		{
 			break;
 		}
+	}
 
-		if (inputFile.bad())
-		{
-			throw std::runtime_error("Failed to read data from file\n");
-		}
+	if (inputFile.bad())
+	{
+		throw std::runtime_error("Failed to read data from file\n");
+	}
 
-		if (!outputFile.flush())
-		{
-			throw std::runtime_error("Failed to write to file\n");
-		}
+	if (!outputFile.flush())
+	{
+		throw std::runtime_error("Failed to write to file\n");
 	}
 }
 
