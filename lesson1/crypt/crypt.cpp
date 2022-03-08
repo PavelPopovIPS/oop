@@ -109,21 +109,8 @@ uint8_t XorByte(const uint8_t byte, int8_t key)
 
 uint8_t MixBitsForCrypt(const uint8_t xorByte)
 {
-	uint8_t x = 192;
-	// 0 и 1
-	// uint8_t cryptByte = (x & 1) << 2 | (x & 2) << 2;
+	uint8_t cryptByte = (xorByte & 1) << 2 | (xorByte & 2) << 2 | (xorByte & 4) << 2 | (xorByte & 8) << 3 | (xorByte & 16) << 3 | (xorByte & 32) >> 5 | (xorByte & 64) >> 5 | (xorByte & 128) >> 2;
 
-	// 2 и 3
-	// uint8_t cryptByte = (x & 4) << 2 | (x & 8) << 3;
-
-	// 4 и 5
-	// uint8_t cryptByte = (x & 16) << 3 | (x & 32) >> 5;
-
-	// 6 и 7
-	uint8_t cryptByte = (x & 64) >> 5 | (x & 128) >> 2;
-
-	std::bitset<8> bitset1{ cryptByte }; // debug
-	std::cout << bitset1 << std::endl; // debug
 	return cryptByte;
 }
 
@@ -146,7 +133,7 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
 		cryptByte = MixBitsForCrypt(xorByte);
 
 		// Возвращаю символ
-		ch = static_cast<char>(xorByte);
+		ch = static_cast<char>(cryptByte);
 
 		// Записываю символ в файл
 		if (!output.put(ch))
