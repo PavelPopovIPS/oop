@@ -32,7 +32,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	std::string action = argv[1];
 
-	// Сделать через switch case
 	if (action == "crypt")
 	{
 		args.action = Action::Crypt;
@@ -77,18 +76,46 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
+std::ifstream OpenFileForReading(const std::string& inputFileName)
+{
+	std::ifstream inputFile;
+	inputFile.open(inputFileName, std::ios::binary);
+
+	if (!inputFile.is_open())
+	{
+		throw std::runtime_error("File was not opened for reading\n");
+	}
+
+	return inputFile;
+}
+
+std::ofstream OpenFileForWriting(const std::string& outputFileName)
+{
+	std::ofstream outputFile;
+	outputFile.open(outputFileName, std::ios::binary);
+	if (!outputFile.is_open())
+	{
+		throw std::runtime_error("File was not opened for writing\n");
+	}
+
+	return outputFile;
+}
+
 void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
 {
 	char ch;
 	while (input.get(ch))
 	{
-		auto a = static_cast<unsigned short>(ch);
-		std::cout << a << std::endl;
+		if (ch != '\n')
+		{
+			unsigned short a = static_cast<unsigned short>(ch);
+			std::cout << a << std::endl;
 
-		std::bitset<8> bitset1{ a };
-		std::cout << bitset1 << std::endl;
+			std::bitset<8> bitset1{ a };
+			std::cout << bitset1 << std::endl;
 
-		std::cout << static_cast<char>(a) << std::endl;
+			std::cout << static_cast<char>(a) << std::endl;
+		}
 
 		if (!output.put(ch))
 		{
@@ -103,30 +130,19 @@ int main(int argc, char* argv[])
 	{
 		auto args = ParseArgs(argc, argv);
 
-		std::ifstream inputFile;
-		inputFile.open(args->inputFileName, std::ios::binary);
+		std::ifstream inputFile = OpenFileForReading(args->inputFileName);
+		std::ofstream outputFile = OpenFileForWriting(args->outputFileName);
 
-		if (!inputFile.is_open())
+		switch (args->action)
 		{
-			throw std::runtime_error("File was not opened for reading\n");
-		}
-
-		std::ofstream outputFile;
-		outputFile.open(args->outputFileName);
-		if (!outputFile.is_open())
-		{
-			throw std::runtime_error("File was not opened for writing\n");
-		}
-
-		if (args->action == Action::Crypt)
-		{
-			std::cout << "Crypt was wroten" << std::endl; // debug
+		case Action::Crypt: {
 			CopyStreamWithCrypt(inputFile, outputFile);
+			break;
 		}
-
-		if (args->action == Action::Decrypt)
-		{
+		case Action::Decrypt: {
 			std::cout << "Decrypt was wroten" << std::endl; // debug
+			break;
+		}
 		}
 
 		if (inputFile.bad())
