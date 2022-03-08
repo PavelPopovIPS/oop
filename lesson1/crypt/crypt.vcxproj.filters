@@ -26,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt" />
+    <Text Include="empty-file.txt" />
   </ItemGroup>
 </Project>

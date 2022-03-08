@@ -1,7 +1,6 @@
 ﻿// crypt.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <bitset>
 #include <fstream>
 #include <iostream>
 #include <optional>
