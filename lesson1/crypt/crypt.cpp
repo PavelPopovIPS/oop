@@ -103,8 +103,28 @@ std::ofstream OpenFileForWriting(const std::string& outputFileName)
 
 uint8_t XorByte(const uint8_t byte, int8_t key)
 {
-	unsigned short xorByte = byte ^ key;
+	uint8_t xorByte = byte ^ key;
 	return xorByte;
+}
+
+uint8_t MixBitsForCrypt(const uint8_t xorByte)
+{
+	uint8_t x = 192;
+	// 0 и 1
+	// uint8_t cryptByte = (x & 1) << 2 | (x & 2) << 2;
+
+	// 2 и 3
+	// uint8_t cryptByte = (x & 4) << 2 | (x & 8) << 3;
+
+	// 4 и 5
+	// uint8_t cryptByte = (x & 16) << 3 | (x & 32) >> 5;
+
+	// 6 и 7
+	uint8_t cryptByte = (x & 64) >> 5 | (x & 128) >> 2;
+
+	std::bitset<8> bitset1{ cryptByte }; // debug
+	std::cout << bitset1 << std::endl; // debug
+	return cryptByte;
 }
 
 void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
@@ -112,6 +132,7 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
 	char ch;
 	uint8_t byte;
 	uint8_t xorByte;
+	uint8_t cryptByte;
 
 	while (input.get(ch))
 	{
@@ -122,6 +143,7 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
 		xorByte = XorByte(byte, key);
 
 		// Перемешиваю биты в байте для кодирования
+		cryptByte = MixBitsForCrypt(xorByte);
 
 		// Возвращаю символ
 		ch = static_cast<char>(xorByte);
