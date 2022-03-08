@@ -101,21 +101,30 @@ std::ofstream OpenFileForWriting(const std::string& outputFileName)
 	return outputFile;
 }
 
-void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
+void CopyStreamWithCrypt(std::istream& input, std::ostream& output, int8_t key)
 {
+	unsigned short a;
 	char ch;
 	while (input.get(ch))
 	{
-		if (ch != '\n')
-		{
-			unsigned short a = static_cast<unsigned short>(ch);
-			std::cout << a << std::endl;
 
-			std::bitset<8> bitset1{ a };
-			std::cout << bitset1 << std::endl;
+		a = static_cast<unsigned short>(ch);
+		std::cout << a << std::endl;
 
-			std::cout << static_cast<char>(a) << std::endl;
-		}
+		std::bitset<8> bitset1{ a };
+		std::cout << bitset1 << std::endl;
+
+		a ^= key;
+
+		std::bitset<8> bitset2{ a };
+		std::cout << bitset2 << std::endl;
+
+		a ^= key;
+
+		std::bitset<8> bitset3{ a };
+		std::cout << bitset3 << std::endl;
+
+		std::cout << static_cast<char>(a) << std::endl;
 
 		if (!output.put(ch))
 		{
@@ -136,7 +145,7 @@ int main(int argc, char* argv[])
 		switch (args->action)
 		{
 		case Action::Crypt: {
-			CopyStreamWithCrypt(inputFile, outputFile);
+			CopyStreamWithCrypt(inputFile, outputFile, args->key);
 			break;
 		}
 		case Action::Decrypt: {
