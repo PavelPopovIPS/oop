@@ -121,12 +121,24 @@ uint8_t MixBitsForDecrypt(const uint8_t xorByte)
 	return decryptByte;
 }
 
+char CryptByte(const uint8_t byte, int8_t key)
+{
+	uint8_t xorByte = XorByte(byte, key);
+	uint8_t cryptByte = MixBitsForCrypt(xorByte);
+	return static_cast<char>(cryptByte);
+}
+
+char DecryptByte(const uint8_t byte, int8_t key)
+{
+	uint8_t decryptByte = MixBitsForDecrypt(byte);
+	uint8_t xorByte = XorByte(decryptByte, key);
+	return static_cast<char>(xorByte);
+}
+
 void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream& outputFile, uint8_t key)
 {
 	char ch;
 	uint8_t byte;
-	uint8_t xorByte;
-	uint8_t cryptByte;
 	uint8_t decryptByte;
 
 	while (inputFile.get(ch))
@@ -134,20 +146,14 @@ void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream&
 		// Записываю код символа
 		byte = static_cast<uint8_t>(ch);
 
-		// Перемешиваю биты в байте в зависимости от action
 		switch (action)
 		{
 		case Action::Crypt: {
-			// Побитовое исключение с учетом ключа
-			xorByte = XorByte(byte, key);
-			cryptByte = MixBitsForCrypt(xorByte);
-			ch = static_cast<char>(cryptByte);
+			ch = CryptByte(byte, key);
 			break;
 		}
 		case Action::Decrypt: {
-			decryptByte = MixBitsForDecrypt(byte);
-			xorByte = XorByte(decryptByte, key);
-			ch = static_cast<char>(xorByte);
+			ch = DecryptByte(byte, key);
 			break;
 		}
 		}
@@ -180,6 +186,15 @@ int main(int argc, char* argv[])
 		std::ofstream outputFile = OpenFileForWriting(args->outputFileName);
 
 		CopyStreamWithAction(args->action, inputFile, outputFile, args->key);
+
+		if (args->action == Action::Crypt)
+		{
+			std::cout << "File was crypted successful" << std::endl;
+		}
+		else
+		{
+			std::cout << "File was decrypted successful" << std::endl;
+		}
 	}
 	catch (const std::exception& e)
 	{
