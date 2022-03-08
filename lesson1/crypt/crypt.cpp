@@ -21,34 +21,19 @@ struct Args
 	int8_t key = 0;
 };
 
-enum class Error
-{
-	InvalidArgumentCount,
-	EmptyFileName,
-	FileNotOpenForRead,
-	FileNotOpenForWrite,
-	ActionNotCorrect,
-	KeyNotEqualBite,
-	KeyNotNumber,
-	FailedToReadData,
-	FailedToWriteData,
-};
-
 std::optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 5)
 	{
-		throw Error::InvalidArgumentCount;
+		throw std::runtime_error("Invalid argument count\nFor use: crypt.exe <crypt | decrypt> <input file> <output file> <key>\n");
 		return std::nullopt;
 	}
 
 	Args args;
 
-	// args.action = Action::Crypt;
-	// args.key = 0;
-
 	std::string action = argv[1];
 
+	// Сделать через switch case
 	if (action == "crypt")
 	{
 		args.action = Action::Crypt;
@@ -59,7 +44,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	}
 	else
 	{
-		throw Error::ActionNotCorrect;
+		throw std::runtime_error("Action is not correct. Use crypt and decript\n");
 		return std::nullopt;
 	}
 
@@ -67,7 +52,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	if (args.inputFileName == "")
 	{
-		throw Error::EmptyFileName;
+		throw std::runtime_error("Input file name can not be empty");
 		return std::nullopt;
 	}
 
@@ -75,7 +60,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	if (args.outputFileName == "")
 	{
-		throw Error::EmptyFileName;
+		throw std::runtime_error("Output file name can not be empty");
 		return std::nullopt;
 	}
 
@@ -84,66 +69,18 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 		int key = std::stoi(argv[4]);
 		if (key < 0 || key > 255)
 		{
-			throw Error::KeyNotEqualBite;
+			throw std::runtime_error("Key should be number between 0 and 255\n");
 			return std::nullopt;
 		}
 		args.key = static_cast<int8_t>(key);
 	}
 	catch (std::invalid_argument e)
 	{
-		throw Error::KeyNotNumber;
+		throw std::runtime_error("You should use number for key\n");
 		return std::nullopt;
 	}
 
 	return args;
-}
-
-void PrintError(Error error)
-{
-	switch (error)
-	{
-	case Error::InvalidArgumentCount: {
-		std::cout << "Invalid argument count\n";
-		std::cout << "For use: crypt.exe <crypt | decrypt> <input file> <output file> <key> \n";
-		break;
-	}
-	case Error::EmptyFileName: {
-		std::cout << "File name should not be empty";
-		break;
-	}
-	case Error::FileNotOpenForRead: {
-		std::cout << "File was not opened for reading\n";
-		break;
-	}
-	case Error::FileNotOpenForWrite: {
-		std::cout << "File was not opened for reading\n";
-		break;
-	}
-	case Error::ActionNotCorrect: {
-		std::cout << "Action is not correct. Use crypt and decript\n";
-		break;
-	}
-	case Error::KeyNotEqualBite: {
-		std::cout << "Key should be number between 0 and 255\n";
-		break;
-	}
-	case Error::KeyNotNumber: {
-		std::cout << "You should use number for key\n";
-		break;
-	}
-	case Error::FailedToReadData: {
-		std::cout << "Failed to read data from file\n";
-		break;
-	}
-	case Error::FailedToWriteData: {
-		std::cout << "Failed to write to file\n";
-		break;
-	}
-	default: {
-		std::cout << "Some error was occurred\n";
-		break;
-	}
-	}
 }
 
 void CopyStreamWithCrypt(std::istream& input, std::ostream& output)
@@ -177,7 +114,7 @@ int main(int argc, char* argv[])
 
 		if (!inputFile.is_open())
 		{
-			throw Error::FileNotOpenForRead;
+			throw std::runtime_error("File was not opened for reading\n");
 			return 1;
 		}
 
@@ -185,7 +122,7 @@ int main(int argc, char* argv[])
 		outputFile.open(args->outputFileName);
 		if (!outputFile.is_open())
 		{
-			throw Error::FileNotOpenForWrite;
+			throw std::runtime_error("File was not opened for writing\n");
 			return 1;
 		}
 
@@ -202,19 +139,19 @@ int main(int argc, char* argv[])
 
 		if (inputFile.bad())
 		{
-			throw Error::FailedToReadData;
+			throw std::runtime_error("Failed to read data from file\n");
 			return 1;
 		}
 
 		if (!outputFile.flush())
 		{
-			throw Error::FailedToWriteData;
+			throw std::runtime_error("Failed to write to file\n");
 			return 1;
 		}
 	}
-	catch (Error error)
+	catch (const std::exception& e)
 	{
-		PrintError(error);
+		std::cout << e.what() << std::endl;
 		return 1;
 	}
 
