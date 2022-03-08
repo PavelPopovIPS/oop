@@ -114,35 +114,43 @@ uint8_t MixBitsForCrypt(const uint8_t xorByte)
 	return cryptByte;
 }
 
+uint8_t MixBitsForDecrypt(const uint8_t xorByte)
+{
+	uint8_t decryptByte = (xorByte & 1) << 5 | (xorByte & 2) << 5 | (xorByte & 4) >> 2 | (xorByte & 8) >> 2 | (xorByte & 16) >> 2 | (xorByte & 32) << 2 | (xorByte & 64) >> 3 | (xorByte & 128) >> 3;
+
+	return decryptByte;
+}
+
 void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream& outputFile, uint8_t key)
 {
 	char ch;
 	uint8_t byte;
 	uint8_t xorByte;
 	uint8_t cryptByte;
+	uint8_t decryptByte;
 
 	while (inputFile.get(ch))
 	{
 		// Записываю код символа
 		byte = static_cast<uint8_t>(ch);
 
-		// Побитовое исключение с учетом ключа
-		xorByte = XorByte(byte, key);
-
 		// Перемешиваю биты в байте в зависимости от action
 		switch (action)
 		{
 		case Action::Crypt: {
+			// Побитовое исключение с учетом ключа
+			xorByte = XorByte(byte, key);
 			cryptByte = MixBitsForCrypt(xorByte);
 			ch = static_cast<char>(cryptByte);
 			break;
 		}
 		case Action::Decrypt: {
-			std::cout << "Decrypt was wroten" << std::endl; // debug
+			decryptByte = MixBitsForDecrypt(byte);
+			xorByte = XorByte(decryptByte, key);
+			ch = static_cast<char>(xorByte);
 			break;
 		}
 		}
-		// Возвращаю символ
 
 		// Записываю символ в файл
 		if (!outputFile.put(ch))
