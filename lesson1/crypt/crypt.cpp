@@ -114,14 +114,14 @@ uint8_t MixBitsForCrypt(const uint8_t xorByte)
 	return cryptByte;
 }
 
-void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
+void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream& outputFile, uint8_t key)
 {
 	char ch;
 	uint8_t byte;
 	uint8_t xorByte;
 	uint8_t cryptByte;
 
-	while (input.get(ch))
+	while (inputFile.get(ch))
 	{
 		// Записываю код символа
 		byte = static_cast<uint8_t>(ch);
@@ -129,16 +129,35 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
 		// Побитовое исключение с учетом ключа
 		xorByte = XorByte(byte, key);
 
-		// Перемешиваю биты в байте для кодирования
-		cryptByte = MixBitsForCrypt(xorByte);
-
+		// Перемешиваю биты в байте в зависимости от action
+		switch (action)
+		{
+		case Action::Crypt: {
+			cryptByte = MixBitsForCrypt(xorByte);
+			ch = static_cast<char>(cryptByte);
+			break;
+		}
+		case Action::Decrypt: {
+			std::cout << "Decrypt was wroten" << std::endl; // debug
+			break;
+		}
+		}
 		// Возвращаю символ
-		ch = static_cast<char>(cryptByte);
 
 		// Записываю символ в файл
-		if (!output.put(ch))
+		if (!outputFile.put(ch))
 		{
 			break;
+		}
+
+		if (inputFile.bad())
+		{
+			throw std::runtime_error("Failed to read data from file\n");
+		}
+
+		if (!outputFile.flush())
+		{
+			throw std::runtime_error("Failed to write to file\n");
 		}
 	}
 }
@@ -152,27 +171,7 @@ int main(int argc, char* argv[])
 		std::ifstream inputFile = OpenFileForReading(args->inputFileName);
 		std::ofstream outputFile = OpenFileForWriting(args->outputFileName);
 
-		switch (args->action)
-		{
-		case Action::Crypt: {
-			CopyStreamWithCrypt(inputFile, outputFile, args->key);
-			break;
-		}
-		case Action::Decrypt: {
-			std::cout << "Decrypt was wroten" << std::endl; // debug
-			break;
-		}
-		}
-
-		if (inputFile.bad())
-		{
-			throw std::runtime_error("Failed to read data from file\n");
-		}
-
-		if (!outputFile.flush())
-		{
-			throw std::runtime_error("Failed to write to file\n");
-		}
+		CopyStreamWithAction(args->action, inputFile, outputFile, args->key);
 	}
 	catch (const std::exception& e)
 	{
