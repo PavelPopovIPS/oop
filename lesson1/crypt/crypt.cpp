@@ -1,4 +1,4 @@
-// crypt.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// crypt.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <bitset>
@@ -115,18 +115,18 @@ void CopyStreamWithCrypt(std::istream& input, std::ostream& output, uint8_t key)
 
 	while (input.get(ch))
 	{
-		// Записываю код символа
+		// Р—Р°РїРёСЃС‹РІР°СЋ РєРѕРґ СЃРёРјРІРѕР»Р°
 		byte = static_cast<uint8_t>(ch);
 
-		// Побитовое исключение с учетом ключа
+		// РџРѕР±РёС‚РѕРІРѕРµ РёСЃРєР»СЋС‡РµРЅРёРµ СЃ СѓС‡РµС‚РѕРј РєР»СЋС‡Р°
 		xorByte = XorByte(byte, key);
 
-		// Перемешиваю биты в байте для кодирования
+		// РџРµСЂРµРјРµС€РёРІР°СЋ Р±РёС‚С‹ РІ Р±Р°Р№С‚Рµ РґР»СЏ РєРѕРґРёСЂРѕРІР°РЅРёСЏ
 
-		// Возвращаю символ
+		// Р’РѕР·РІСЂР°С‰Р°СЋ СЃРёРјРІРѕР»
 		ch = static_cast<char>(xorByte);
 
-		// Записываю символ в файл
+		// Р—Р°РїРёСЃС‹РІР°СЋ СЃРёРјРІРѕР» РІ С„Р°Р№Р»
 		if (!output.put(ch))
 		{
 			break;
