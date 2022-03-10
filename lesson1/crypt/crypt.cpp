@@ -71,6 +71,10 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	{
 		throw std::runtime_error("You should use number for key\n");
 	}
+	catch (std::out_of_range e)
+	{
+		throw std::runtime_error("Number is toooo big\n");
+	}
 
 	return args;
 }
@@ -182,8 +186,10 @@ int main(int argc, char* argv[])
 		std::ifstream inputFile = OpenFileForReading(args->inputFileName);
 		std::ofstream outputFile = OpenFileForWriting(args->outputFileName);
 
+		//Написать функцию которая вернет функцию шифрования и дешифрования и ее передавать в копи стрим
 		CopyStreamWithAction(args->action, inputFile, outputFile, args->key);
 
+		// вынести в функцию и использовать switch
 		if (args->action == Action::Crypt)
 		{
 			std::cout << "File was crypted successful" << std::endl;
