@@ -56,7 +56,7 @@ Matrix3x3 ReadMatrixFromFile(std::string fileMatrixName)
 		}
 
 		std::istringstream strm(line);
-		// почитать и понять как работает
+
 		if (strm >> sourceMatrix[rowCount][0] >> sourceMatrix[rowCount][1] >> sourceMatrix[rowCount][2])
 		{
 			rowCount++;
