@@ -2,9 +2,12 @@
 //
 
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <optional>
 #include <string>
+
+typedef std::function<char(const uint8_t byte, int8_t key)> ActionFunction;
 
 enum class Action
 {
@@ -20,7 +23,7 @@ struct Args
 	uint8_t key = 0;
 };
 
-std::optional<Args> ParseArgs(int argc, char* argv[])
+Args ParseArgs(int argc, char* argv[])
 {
 	if (argc != 5)
 	{
@@ -138,7 +141,20 @@ char DecryptByte(const uint8_t byte, int8_t key)
 	return static_cast<char>(xorByte);
 }
 
-void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream& outputFile, uint8_t key)
+ActionFunction ChooseAction(Action action)
+{
+	switch (action)
+	{
+	case Action::Crypt: {
+		return CryptByte;
+	}
+	case Action::Decrypt: {
+		return DecryptByte;
+	}
+	}
+}
+
+void CopyStreamWithAction(ActionFunction const& actionFn, std::istream& inputFile, std::ostream& outputFile, uint8_t key)
 {
 	char ch;
 	uint8_t byte;
@@ -148,17 +164,7 @@ void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream&
 		// Записываю код символа
 		byte = static_cast<uint8_t>(ch);
 
-		switch (action)
-		{
-		case Action::Crypt: {
-			ch = CryptByte(byte, key);
-			break;
-		}
-		case Action::Decrypt: {
-			ch = DecryptByte(byte, key);
-			break;
-		}
-		}
+		ch = actionFn(byte, key);
 
 		if (!outputFile.put(ch))
 		{
@@ -176,28 +182,35 @@ void CopyStreamWithAction(Action& action, std::istream& inputFile, std::ostream&
 		throw std::runtime_error("Failed to write to file\n");
 	}
 }
+void PrintSuccessStatus(const Action& action)
+{
+	switch (action)
+	{
+	case Action::Crypt: {
+		std::cout << "File was crypted successful" << std::endl;
+		break;
+	}
+	case Action::Decrypt: {
+		std::cout << "File was decrypted successful" << std::endl;
+		break;
+	}
+	}
+}
 
 int main(int argc, char* argv[])
 {
 	try
 	{
-		auto args = ParseArgs(argc, argv);
+		Args args = ParseArgs(argc, argv);
 
-		std::ifstream inputFile = OpenFileForReading(args->inputFileName);
-		std::ofstream outputFile = OpenFileForWriting(args->outputFileName);
+		std::ifstream inputFile = OpenFileForReading(args.inputFileName);
+		std::ofstream outputFile = OpenFileForWriting(args.outputFileName);
 
-		//Написать функцию которая вернет функцию шифрования и дешифрования и ее передавать в копи стрим
-		CopyStreamWithAction(args->action, inputFile, outputFile, args->key);
+		ActionFunction actionFn = ChooseAction(args.action);
 
-		// вынести в функцию и использовать switch
-		if (args->action == Action::Crypt)
-		{
-			std::cout << "File was crypted successful" << std::endl;
-		}
-		else
-		{
-			std::cout << "File was decrypted successful" << std::endl;
-		}
+		CopyStreamWithAction(actionFn, inputFile, outputFile, args.key);
+
+		PrintSuccessStatus(args.action);
 	}
 	catch (const std::exception& e)
 	{
