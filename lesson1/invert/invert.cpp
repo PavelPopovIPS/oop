@@ -16,7 +16,7 @@ struct Args
 
 using Matrix3x3 = std::array<std::array<double, 3>, 3>;
 
-std::optional<Args> ParseArgs(int argc, char* argv[])
+Args ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
@@ -33,7 +33,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
+Matrix3x3 ReadMatrixFromFile(std::string fileMatrixName)
 {
 	std::ifstream fileMatrix;
 	fileMatrix.open(fileMatrixName);
@@ -56,7 +56,7 @@ std::optional<Matrix3x3> ReadMatrixFromFile(std::string fileMatrixName)
 		}
 
 		std::istringstream strm(line);
-
+		// почитать и понять как работает
 		if (strm >> sourceMatrix[rowCount][0] >> sourceMatrix[rowCount][1] >> sourceMatrix[rowCount][2])
 		{
 			rowCount++;
@@ -113,45 +113,42 @@ Matrix3x3 CalcMinorMatrix(const Matrix3x3& sourceMatrix)
 	return minorMatrix;
 }
 
-Matrix3x3 CalcCoFactorMatrix(const Matrix3x3& minorMatrix)
+Matrix3x3 CalcCoFactorMatrix(Matrix3x3 minorMatrix)
 {
-	Matrix3x3 сoFactorMatrix = minorMatrix;
-
 	// Меняем знаки у определенных элементов
-	сoFactorMatrix[1][0] *= -1;
-	сoFactorMatrix[0][1] *= -1;
-	сoFactorMatrix[1][2] *= -1;
-	сoFactorMatrix[2][1] *= -1;
+	minorMatrix[1][0] *= -1;
+	minorMatrix[0][1] *= -1;
+	minorMatrix[1][2] *= -1;
+	minorMatrix[2][1] *= -1;
 
-	return сoFactorMatrix;
+	return minorMatrix;
 }
 
-Matrix3x3 CalcTransposedMatrix(const Matrix3x3& coFactorMatrix)
+Matrix3x3 CalcTransposedMatrix(Matrix3x3 coFactorMatrix)
 {
-	Matrix3x3 transposedMatrix = coFactorMatrix;
+	std::swap(coFactorMatrix[1][0], coFactorMatrix[0][1]);
+	std::swap(coFactorMatrix[2][0], coFactorMatrix[0][2]);
+	std::swap(coFactorMatrix[2][1], coFactorMatrix[1][2]);
 
-	std::swap(transposedMatrix[1][0], transposedMatrix[0][1]);
-	std::swap(transposedMatrix[2][0], transposedMatrix[0][2]);
-	std::swap(transposedMatrix[2][1], transposedMatrix[1][2]);
-
-	return transposedMatrix;
+	return coFactorMatrix;
 }
 
-Matrix3x3 CalcScaledMatrix(const Matrix3x3& transposedMatrix, const double determinant)
+// почитать как происходит деление double
+Matrix3x3 CalcScaledMatrix(const Matrix3x3& transposedMatrix, const double inverseDeterminant)
 {
 	Matrix3x3 invertMatrix = transposedMatrix;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			invertMatrix[i][j] *= determinant;
+			invertMatrix[i][j] *= inverseDeterminant;
 		}
 	}
 
 	return invertMatrix;
 }
 
-std::optional<Matrix3x3> InvertMatrix(const Matrix3x3& sourceMatrix)
+Matrix3x3 InvertMatrix(const Matrix3x3& sourceMatrix)
 {
 	// 1. Находим определитель матрицы
 	double determinant = CalcDeterminant(sourceMatrix);
@@ -194,9 +191,9 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		auto args = ParseArgs(argc, argv);
-		auto sourceMatrix = *ReadMatrixFromFile(args->fileMatrixName);
-		auto invertMatrix = *InvertMatrix(sourceMatrix);
+		Args args = ParseArgs(argc, argv);
+		Matrix3x3 sourceMatrix = ReadMatrixFromFile(args.fileMatrixName);
+		Matrix3x3 invertMatrix = InvertMatrix(sourceMatrix);
 		PrintMatrix(invertMatrix);
 	}
 	catch (const std::exception& e)
