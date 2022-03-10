@@ -182,6 +182,7 @@ void CopyStreamWithAction(ActionFunction const& actionFn, std::istream& inputFil
 		throw std::runtime_error("Failed to write to file\n");
 	}
 }
+
 void PrintSuccessStatus(const Action& action)
 {
 	switch (action)
