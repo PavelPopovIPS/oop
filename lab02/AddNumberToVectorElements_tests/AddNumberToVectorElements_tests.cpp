@@ -5,7 +5,21 @@
 #include "../../catch2/catch.hpp"
 #include "../vector_v1/Functions.h"
 #include <iostream>
+#include <string>
 #include <vector>
+
+SCENARIO("Пользователь ввел пустую строку в консоли. В консоль выведется сообщение")
+{
+	try
+	{
+		ReadInput();
+	}
+	catch (const std::exception& e)
+	{
+		std::string str = e.what();
+		REQUIRE(str == "You did not enter numbers");
+	}
+}
 
 SCENARIO("Должен вернуться корректный вектор с нужными данными")
 {
