@@ -10,16 +10,16 @@ std::string ReadInput()
 	std::string inputStr;
 	std::getline(std::cin, inputStr);
 
-	if (inputStr.length() == 0)
-	{
-		throw std::runtime_error("You did not enter numbers");
-	}
-
 	return inputStr;
 }
 
 std::vector<double> ParseStringToVector(const std::string& inputStr)
 {
+	if (inputStr.length() == 0)
+	{
+		throw std::runtime_error("You did not enter numbers");
+	}
+
 	std::vector<double> vectr;
 	std::istringstream strm(inputStr);
 	for (std::string elem; std::getline(strm, elem, ' ');)
