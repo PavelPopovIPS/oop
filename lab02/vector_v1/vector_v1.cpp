@@ -11,6 +11,11 @@ std::string ReadInput()
 	std::string inputStr;
 	std::getline(std::cin, inputStr);
 
+	if (inputStr.length() == 0)
+	{
+		throw std::runtime_error("You did not enter numbers");
+	}
+
 	return inputStr;
 }
 
@@ -24,26 +29,17 @@ std::vector<double> ParseStringToVector(const std::string& inputStr)
 		{
 			vectr.push_back(std::stod(elem));
 		}
-		catch (std::invalid_argument& e)
+		catch (std::invalid_argument e) // Если принимать по ссылке, появляется варнинг
 		{
 			throw std::runtime_error("You should use number\n");
 		}
-		catch (std::out_of_range& e)
+		catch (std::out_of_range e)
 		{
 			throw std::runtime_error("Number is toooo big\n");
 		}
 	}
 
 	return vectr;
-}
-
-void PrintVector(const std::vector<double>& vectr)
-{
-	for (double elem : vectr)
-	{
-		std::cout << elem << " ";
-	}
-	std::cout << std::endl;
 }
 
 double CalcPositiveElementsAverage(const std::vector<double>& vectr)
@@ -59,18 +55,30 @@ double CalcPositiveElementsAverage(const std::vector<double>& vectr)
 		}
 	}
 
-	if (count)
-	{
-		return sum / count;
-	}
-	else
+	if (count == 0)
 	{
 		throw std::runtime_error("There are no positive elements\n");
 	}
+
+	return sum / count;
 }
 
-// std::vector<double> ScaleVectorElements(std::vector<double>& vectr, double)
-//{}
+void AddNumberToVectorElements(std::vector<double>& vectr, double positiveElementsAverage)
+{
+	for (int i = 0; i < vectr.size(); i++)
+	{
+		vectr[i] += positiveElementsAverage;
+	}
+}
+
+void PrintVector(const std::vector<double>& vectr)
+{
+	for (double elem : vectr)
+	{
+		std::cout << elem << " ";
+	}
+	std::cout << std::endl;
+}
 
 int main()
 {
@@ -79,8 +87,8 @@ int main()
 		std::string inputStr = ReadInput();
 		std::vector<double> vectr = ParseStringToVector(inputStr);
 		double positiveElementsAverage = CalcPositiveElementsAverage(vectr);
-		std::cout << positiveElementsAverage << std::endl;
-		// PrintVector(vectr);
+		AddNumberToVectorElements(vectr, positiveElementsAverage);
+		PrintVector(vectr);
 	}
 	catch (const std::exception& e)
 	{
