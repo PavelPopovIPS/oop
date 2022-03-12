@@ -1,6 +1,7 @@
 ﻿// vector_v1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -63,16 +64,19 @@ double CalcPositiveElementsAverage(const std::vector<double>& vectr)
 	return sum / count;
 }
 
-void AddNumberToVectorElements(std::vector<double>& vectr, double positiveElementsAverage)
+void AddNumberToVectorElements(std::vector<double>& vectr, double number)
 {
 	for (int i = 0; i < vectr.size(); i++)
 	{
-		vectr[i] += positiveElementsAverage;
+		vectr[i] += number;
 	}
 }
 
-void PrintVector(const std::vector<double>& vectr)
+void PrintVector(std::vector<double>& vectr)
 {
+	// Сортировка элементов массива с помощью алгоритма sort и итераторов вектора
+	std::sort(vectr.begin(), vectr.end());
+
 	for (double elem : vectr)
 	{
 		std::cout << elem << " ";
