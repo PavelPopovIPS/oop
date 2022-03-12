@@ -41,9 +41,36 @@ void PrintVector(const std::vector<double>& vectr)
 {
 	for (double elem : vectr)
 	{
-		std::cout << elem << std::endl;
+		std::cout << elem << " ";
+	}
+	std::cout << std::endl;
+}
+
+double CalcPositiveElementsAverage(const std::vector<double>& vectr)
+{
+	double sum = 0.0;
+	int count = 0;
+	for (double elem : vectr)
+	{
+		if (elem > 0.0)
+		{
+			sum += elem;
+			count++;
+		}
+	}
+
+	if (count)
+	{
+		return sum / count;
+	}
+	else
+	{
+		throw std::runtime_error("There are no positive elements\n");
 	}
 }
+
+// std::vector<double> ScaleVectorElements(std::vector<double>& vectr, double)
+//{}
 
 int main()
 {
@@ -51,7 +78,9 @@ int main()
 	{
 		std::string inputStr = ReadInput();
 		std::vector<double> vectr = ParseStringToVector(inputStr);
-		PrintVector(vectr);
+		double positiveElementsAverage = CalcPositiveElementsAverage(vectr);
+		std::cout << positiveElementsAverage << std::endl;
+		// PrintVector(vectr);
 	}
 	catch (const std::exception& e)
 	{
