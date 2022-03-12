@@ -1,6 +1,7 @@
 ﻿// vector_v1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "AddNumberToVectorElements.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
