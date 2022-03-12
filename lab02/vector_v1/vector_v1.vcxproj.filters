@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="vector_v1.cpp">
+    <ClCompile Include="AddNumberToVectorElements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
