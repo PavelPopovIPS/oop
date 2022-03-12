@@ -18,9 +18,12 @@
     <ClCompile Include="AddNumberToVectorElements_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\vector_v1\Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vector_v1\AddNumberToVectorElements.h">
+    <ClInclude Include="..\vector_v1\Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

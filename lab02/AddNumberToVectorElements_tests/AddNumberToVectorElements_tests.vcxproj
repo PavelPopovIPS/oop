@@ -151,10 +151,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\vector_v1\Functions.cpp" />
     <ClCompile Include="AddNumberToVectorElements_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vector_v1\AddNumberToVectorElements.h" />
+    <ClInclude Include="..\vector_v1\Functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
