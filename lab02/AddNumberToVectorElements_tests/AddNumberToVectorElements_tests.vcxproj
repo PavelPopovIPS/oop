@@ -24,6 +24,7 @@
     <ProjectGuid>{da71553c-fd24-40fe-b6dd-a1b55e6a1443}</ProjectGuid>
     <RootNamespace>AddNumberToVectorElementstests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Vector_tests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,11 +152,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\vector_v1\Functions.cpp" />
-    <ClCompile Include="AddNumberToVectorElements_tests.cpp" />
+    <ClCompile Include="..\vector_v1\VectorHandler.cpp" />
+    <ClCompile Include="Vector_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vector_v1\Functions.h" />
+    <ClInclude Include="..\vector_v1\VectorHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

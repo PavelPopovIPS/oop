@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddNumberToVectorElements_tests.cpp">
+    <ClCompile Include="Vector_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\vector_v1\Functions.cpp">
+    <ClCompile Include="..\vector_v1\VectorHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\vector_v1\Functions.h">
+    <ClInclude Include="..\vector_v1\VectorHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "Functions.h"
+#include "VectorHandler.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -17,7 +17,7 @@ std::vector<double> ParseStringToVector(const std::string& inputStr)
 {
 	if (inputStr.length() == 0)
 	{
-		throw std::runtime_error("You did not enter numbers");
+		throw std::runtime_error("You did not enter numbers\n");
 	}
 
 	std::vector<double> vectr;

@@ -1,10 +1,8 @@
 ﻿// vector_v1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "Functions.h"
-#include <algorithm>
+#include "VectorHandler.h"
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
