@@ -4,7 +4,12 @@
 #include <string>
 
 const std::string SPECIFIC_SYMBLES = "<>\"\'&";
+
 const std::string LEFT_ARROW_CODE = "&lt;";
+const std::string RIGHT_ARROW_CODE = "&gt;";
+const std::string QUOTES_CODE = "&quot;";
+const std::string APOSTROPHE_CODE = "&apos;";
+const std::string AMPERSAND_CODE = "&amp;";
 
 void ReplaceText(std::string& str, size_t& found, const std::string& escapeCode)
 {
@@ -12,6 +17,7 @@ void ReplaceText(std::string& str, size_t& found, const std::string& escapeCode)
 	str.insert(found, escapeCode);
 	found = str.find_first_of(SPECIFIC_SYMBLES, found + escapeCode.length());
 }
+
 std::string HtmlEncode(const std::string& text)
 {
 	std::string str = text;
@@ -22,41 +28,30 @@ std::string HtmlEncode(const std::string& text)
 		if (str[found] == '<')
 		{
 			ReplaceText(str, found, LEFT_ARROW_CODE);
-			// str.erase(found, 1);
-			// str.insert(found, "&lt;");
-			// found = str.find_first_of(SPECIFIC_SYMBLES, found + 4);
 			continue;
 		}
 
 		if (str[found] == '>')
 		{
-			str.erase(found, 1);
-			str.insert(found, "&gt;");
-			found = str.find_first_of(SPECIFIC_SYMBLES, found + 4);
+			ReplaceText(str, found, RIGHT_ARROW_CODE);
 			continue;
 		}
 
 		if (str[found] == '\"')
 		{
-			str.erase(found, 1);
-			str.insert(found, "&quot;");
-			found = str.find_first_of(SPECIFIC_SYMBLES, found + 6);
+			ReplaceText(str, found, QUOTES_CODE);
 			continue;
 		}
 
 		if (str[found] == '\'')
 		{
-			str.erase(found, 1);
-			str.insert(found, "&apos;");
-			found = str.find_first_of(SPECIFIC_SYMBLES, found + 6);
+			ReplaceText(str, found, APOSTROPHE_CODE);
 			continue;
 		}
 
 		if (str[found] == '&')
 		{
-			str.erase(found, 1);
-			str.insert(found, "&amp;");
-			found = str.find_first_of(SPECIFIC_SYMBLES, found + 5);
+			ReplaceText(str, found, AMPERSAND_CODE);
 			continue;
 		}
 	}
