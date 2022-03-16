@@ -16,8 +16,8 @@ SCENARIO("Тестирование HtmlEncode")
 		{
 			REQUIRE(HtmlEncode(emptyStr) == "");
 		}
-	}	
-	
+	}
+
 	WHEN("передается строка с допустимыми символами")
 	{
 		std::string str = "abc123";
@@ -26,7 +26,7 @@ SCENARIO("Тестирование HtmlEncode")
 		{
 			REQUIRE(HtmlEncode(str) == "abc123");
 		}
-	}	
+	}
 
 	WHEN("передается один символ Стрелка влево(<)")
 	{
