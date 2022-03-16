@@ -24,7 +24,7 @@
     <ProjectGuid>{37beb5a0-4020-42d0-8744-0e45e10500ee}</ProjectGuid>
     <RootNamespace>string</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>HtmlEncode</ProjectName>
+    <ProjectName>encode</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
