@@ -19,17 +19,9 @@ void PrintText(std::string& text)
 
 int main()
 {
-	try
-	{
-		std::string text = ReadInput();
-		std::string encodeText = HtmlEncode(text);
-		PrintText(encodeText);
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		return 1;
-	}
+	std::string text = ReadInput();
+	std::string encodeText = HtmlEncode(text);
+	PrintText(encodeText);
 
 	return 0;
 }
