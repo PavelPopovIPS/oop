@@ -22,17 +22,9 @@ void PrintText(std::string& text)
 
 int main()
 {
-	try
-	{
-		std::string text = ReadInput();
-		std::string decodeText = HtmlDecode(text);
-		PrintText(decodeText);
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-		return 1;
-	}
+	std::string text = ReadInput();
+	std::string decodeText = HtmlDecode(text);
+	PrintText(decodeText);
 
 	return 0;
 }
