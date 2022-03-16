@@ -15,7 +15,6 @@ void ReplaceText(std::string& str, size_t& found, const std::string& escapeCode)
 {
 	str.erase(found, 1);
 	str.insert(found, escapeCode);
-	found = str.find_first_of(SPECIFIC_SYMBLES, found + escapeCode.length());
 }
 
 std::string HtmlEncode(const std::string& text)
@@ -28,30 +27,35 @@ std::string HtmlEncode(const std::string& text)
 		if (str[found] == '<')
 		{
 			ReplaceText(str, found, LEFT_ARROW_CODE);
+			found = str.find_first_of(SPECIFIC_SYMBLES, found + LEFT_ARROW_CODE.length());
 			continue;
 		}
 
 		if (str[found] == '>')
 		{
 			ReplaceText(str, found, RIGHT_ARROW_CODE);
+			found = str.find_first_of(SPECIFIC_SYMBLES, found + RIGHT_ARROW_CODE.length());
 			continue;
 		}
 
 		if (str[found] == '\"')
 		{
 			ReplaceText(str, found, QUOTES_CODE);
+			found = str.find_first_of(SPECIFIC_SYMBLES, found + QUOTES_CODE.length());
 			continue;
 		}
 
 		if (str[found] == '\'')
 		{
 			ReplaceText(str, found, APOSTROPHE_CODE);
+			found = str.find_first_of(SPECIFIC_SYMBLES, found + APOSTROPHE_CODE.length());
 			continue;
 		}
 
 		if (str[found] == '&')
 		{
 			ReplaceText(str, found, AMPERSAND_CODE);
+			found = str.find_first_of(SPECIFIC_SYMBLES, found + AMPERSAND_CODE.length());
 			continue;
 		}
 	}
