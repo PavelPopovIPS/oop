@@ -98,3 +98,24 @@ SCENARIO("Тестирование HtmlEncode")
 		}
 	}
 }
+
+SCENARIO("Тестирование ReplaceText")
+{
+	WHEN("передается строка с нужным символом, номером позиции этого символа и строкой, на которую должен замеиться символ")
+	{
+		std::string str = "Hello world";
+		size_t found = 4;
+		const std::string replaceStr = "123";
+
+		ReplaceText(str, found, replaceStr);
+
+		THEN("символ заменится на новую строку")
+		{
+			REQUIRE(str == "Hell123 world");
+		}
+		THEN("позиция изменится на")
+		{
+			REQUIRE(found == std::string::npos);
+		}
+	}
+}
