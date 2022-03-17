@@ -13,5 +13,5 @@ std::string ReadInput()
 
 int main()
 {
-	std::cout << "Hello World!\n";
+	std::string text = ReadInput();
 }
