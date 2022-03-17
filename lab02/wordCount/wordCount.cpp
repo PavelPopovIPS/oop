@@ -13,7 +13,18 @@ std::string ReadInput()
 	return text;
 }
 
-std::map<std::string, int> CountWordInLine(std::string& text)
+void TextToLowCase(std::string& word)
+{
+	for (int i = 0; i < word.length(); i++)
+	{
+		if (word[i] >= 'A' && word[i] <= 'Z')
+		{
+			word[i] += 'z' - 'Z';
+		}
+	}
+}
+
+std::map<std::string, int> CountWordsInLine(std::string& text)
 {
 	std::map<std::string, int> wordCounter;
 	std::istringstream strm(text);
@@ -21,6 +32,7 @@ std::map<std::string, int> CountWordInLine(std::string& text)
 
 	while (strm >> word)
 	{
+		TextToLowCase(word);
 		++wordCounter[word];
 	}
 
@@ -38,7 +50,8 @@ void PrintMap(std::map<std::string, int>& wordCounter)
 int main()
 {
 	std::string text = ReadInput();
-	std::map<std::string, int> wordCounter = CountWordInLine(text);
+	std::map<std::string, int> wordCounter = CountWordsInLine(text);
 	PrintMap(wordCounter);
+
 	return 0;
 }
