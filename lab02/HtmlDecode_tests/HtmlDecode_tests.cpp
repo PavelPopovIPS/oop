@@ -16,8 +16,8 @@ SCENARIO("Тестирование HtmlDecode")
 		{
 			REQUIRE(HtmlDecode(emptyStr) == "");
 		}
-	}	
-	
+	}
+
 	WHEN("передается строка c закодированным символом LEFT_ARROW_CODE (&lt;)")
 	{
 		std::string str = "&lt;";
@@ -42,6 +42,7 @@ SCENARIO("Тестирование HtmlDecode")
 	{
 		std::string str = "&quot;";
 
+		// 2. ошибка в описании
 		THEN("должна вернуться строка, содержащая стрелку вправо (\")")
 		{
 			REQUIRE(HtmlDecode(str) == "\"");

@@ -28,11 +28,11 @@ std::vector<double> ParseStringToVector(const std::string& inputStr)
 		{
 			vectr.push_back(std::stod(elem));
 		}
-		catch (std::invalid_argument e) // Если принимать по ссылке, появляется варнинг
+		catch (std::invalid_argument& e) // Если принимать по ссылке, появляется варнинг
 		{
 			throw std::runtime_error("You should use number\n");
 		}
-		catch (std::out_of_range e)
+		catch (std::out_of_range& e)
 		{
 			throw std::runtime_error("Number is toooo big\n");
 		}
@@ -73,6 +73,7 @@ void AddNumberToVectorElements(std::vector<double>& vectr, double number)
 void PrintVector(std::vector<double>& vectr)
 {
 	// Сортировка элементов массива с помощью алгоритма sort и итераторов вектора
+	// 2. думаю стоит отделить сортировку от вывода
 	std::sort(vectr.begin(), vectr.end());
 
 	for (double elem : vectr)

@@ -13,6 +13,8 @@ const std::string QUOTES_CODE = "&quot;";
 const std::string APOSTROPHE_CODE = "&apos;";
 const std::string AMPERSAND_CODE = "&amp;";
 
+// 2. подумать над названием escapeCode, оно может запутать
+//  возможно стоит передавать сразу число
 void ReplaceText(std::string& str, size_t found, const std::string& escapeCode, const std::string& symbol)
 {
 	str.erase(found, escapeCode.length());
@@ -26,6 +28,7 @@ std::string HtmlDecode(const std::string& text)
 
 	while (found != std::string::npos)
 	{
+		// 1. можно условия вынести в функции для удобства чтения
 		if (str[found] == '&' && str[found + 1] == 'l' && str[found + 2] == 't' && str[found + 3] == ';')
 		{
 			ReplaceText(str, found, LEFT_ARROW_CODE, LEFT_ARROW_SYMBOL);
