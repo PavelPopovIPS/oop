@@ -17,6 +17,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HtmlDecode_tests", "HtmlDec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wordCount", "wordCount\wordCount.vcxproj", "{EA7ADB87-90B8-4B2A-9DDA-2176AC2DD80A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dictionary", "dictionary", "{E95E9105-7CE2-4283-AD11-06C5AD386E69}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dictionary", "dictionary\dictionary.vcxproj", "{AB28D06A-2210-425E-92D6-29D6BFE67F3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,9 +85,20 @@ Global
 		{EA7ADB87-90B8-4B2A-9DDA-2176AC2DD80A}.Release|x64.Build.0 = Release|x64
 		{EA7ADB87-90B8-4B2A-9DDA-2176AC2DD80A}.Release|x86.ActiveCfg = Release|Win32
 		{EA7ADB87-90B8-4B2A-9DDA-2176AC2DD80A}.Release|x86.Build.0 = Release|Win32
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Debug|x64.ActiveCfg = Debug|x64
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Debug|x64.Build.0 = Debug|x64
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Debug|x86.ActiveCfg = Debug|Win32
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Debug|x86.Build.0 = Debug|Win32
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Release|x64.ActiveCfg = Release|x64
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Release|x64.Build.0 = Release|x64
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Release|x86.ActiveCfg = Release|Win32
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB28D06A-2210-425E-92D6-29D6BFE67F3C} = {E95E9105-7CE2-4283-AD11-06C5AD386E69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F51E02F5-7113-448C-A391-EFF8E3122943}
