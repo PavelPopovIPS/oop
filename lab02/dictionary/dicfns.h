@@ -3,5 +3,5 @@
 #include <map>
 #include <string>
 
-std::string DeleteSpaces(std::string& string);
-std::map<std::string, std::string> InitDictionary(std::string dicFileName);
+std::string CutSpaces(const std::string& string);
+std::map<std::string, std::string> InitDictionary(const std::string& dicFileName);
