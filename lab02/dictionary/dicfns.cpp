@@ -6,15 +6,36 @@
 #include <sstream>
 #include <string>
 
-void DeleteBrackets(std::string& key)
+void DeleteUnusefulSymbols(std::string& key)
 {
-	const std::string DELETE_SYMBOLS = "[]";
+	const std::string DELETE_SYMBOLS = "[],";
 	size_t found = key.find_first_of(DELETE_SYMBOLS);
 	while (found != std::string::npos)
 	{
 		key.erase(found, 1);
 		found = key.find_first_of(DELETE_SYMBOLS);
 	}
+}
+
+std::string DeleteSpaces(std::string& string)
+{
+	std::istringstream strm(string);
+	std::string word;
+	std::string newLine;
+	bool isMulti = false;
+
+	while (strm >> word)
+	{
+		if (isMulti)
+		{
+			newLine.append(" ");
+		}
+
+		newLine.append(word);
+		isMulti = true;
+	}
+
+	return newLine;
 }
 
 std::map<std::string, std::string> InitDictionary(std::string dicFileName)
@@ -38,12 +59,19 @@ std::map<std::string, std::string> InitDictionary(std::string dicFileName)
 			continue;
 		}
 
-		DeleteBrackets(key);
+		DeleteUnusefulSymbols(key);
 
+		bool isMulti = false;
 		while (strm >> value)
 		{
+			if (isMulti)
+			{
+				translate.append(", ");
+			}
+
+			DeleteUnusefulSymbols(value);
 			translate.append(value);
-			translate.append(" ");
+			isMulti = true;
 		}
 
 		dictionary.insert(std::make_pair(key, translate));

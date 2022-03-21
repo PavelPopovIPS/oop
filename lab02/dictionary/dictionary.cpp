@@ -41,11 +41,19 @@ int main(int argv, char* argc[])
 {
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
+
 	try
 	{
 		Args args = ParseArgs(argv, argc);
 		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
-		PrintMap(dictionary);
+
+		std::string line;
+		while (getline(std::cin, line))
+		{
+			std::cout << DeleteSpaces(line) << std::endl;
+		}
+
+		// PrintMap(dictionary);
 	}
 	catch (const std::exception& e)
 	{
