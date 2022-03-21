@@ -20,9 +20,9 @@ std::string DeleteBrackets(std::string key)
 	return key;
 }
 
-std::string CutSpaces(const std::string& string)
+std::string CutSpaces(const std::string& str)
 {
-	std::istringstream strm(string);
+	std::istringstream strm(str);
 	std::string word;
 	std::string newLine;
 	bool isMulti = false;
@@ -49,6 +49,11 @@ std::string ConvertTextToLowCase(std::string text)
 		{
 			text[i] += 'z' - 'Z';
 		}
+
+		if (text[i] >= 'А' && text[i] <= 'Я')
+		{
+			text[i] += 'я' - 'Я';
+		}
 	}
 
 	return text;
@@ -64,9 +69,8 @@ std::pair<std::string, std::string> ParseLine(const std::string& line)
 	std::string key = line.substr(begin, found);
 	std::string translate = line.substr(found);
 
-	key = DeleteBrackets(key);
+	key = DeleteBrackets(CutSpaces(key));
 	translate = CutSpaces(translate);
-	// std::cout << key << " -> " << translate << std::endl;
 
 	translateUnit = std::make_pair(key, translate);
 	return translateUnit;
