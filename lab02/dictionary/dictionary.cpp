@@ -2,8 +2,33 @@
 //
 
 #include <iostream>
+#include <map>
+#include <string>
 
-int main()
+struct Args
 {
-	std::cout << "Hello World!\n";
+	std::string dicFileName;
+};
+
+Args ParseArgs(int argv, char* argc[])
+{
+	if (argv != 2)
+	{
+		throw std::runtime_error("Invalid argument count\nFor use: dictionary.exe <dictionary file name>\n";
+	}
+}
+
+std::map<std::string, std::string> InitDictionary()
+{
+}
+
+int main(int argv, char* argc[])
+{
+	try
+	{
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
