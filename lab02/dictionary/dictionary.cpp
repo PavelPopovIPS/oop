@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include "./dicfns.h"
 
 int main()
 {
