@@ -1,4 +1,5 @@
 #pragma once
 #include <fstream>
+#include <map>
 
-void InitDictionary(std::fstream dictionaryStream);
+std::map<std::string, std::string> InitDictionary(std::fstream dictionaryStream);

@@ -1,10 +1,10 @@
 // dictionary.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "./dicfns.h"
 #include <iostream>
 #include <map>
 #include <string>
-#include "./dicfns.h"
 
 struct Args
 {
@@ -15,13 +15,17 @@ Args ParseArgs(int argv, char* argc[])
 {
 	if (argv != 2)
 	{
-		throw std::runtime_error("Invalid argument count\nFor use: dictionary.exe <dictionary file name>\n";
+		throw std::runtime_error("Invalid argument count\nFor use: dictionary.exe <dictionary file name>\n");
 	}
-}
 
+	Args args;
+	args.dicFileName = argc[1];
+	if (args.dicFileName == "")
+	{
+		throw std::runtime_error("Dictionary file name can not be empty\n");
+	}
 
-std::map<std::string, std::string> InitDictionary()
-{
+	return args;
 }
 
 int main(int argv, char* argc[])
@@ -32,5 +36,6 @@ int main(int argv, char* argc[])
 	catch (const std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
+		return 1;
 	}
 }

@@ -1,11 +1,11 @@
 #include "./dicfns.h"
 
 #include <fstream>
-#include <string>
-#include <sstream>
 #include <map>
+#include <sstream>
+#include <string>
 
-void InitDictionary(std::fstream dictionaryStream)
+std::map<std::string, std::string> InitDictionary(std::fstream dictionaryStream)
 {
 	std::string line;
 	std::map<std::string, std::string> dictionary;
@@ -29,8 +29,7 @@ void InitDictionary(std::fstream dictionaryStream)
 			translate.append(value);
 			translate.append(" ");
 		}
-
-
 	}
 
+	return dictionary;
 }
