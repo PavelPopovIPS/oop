@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include "./dicfns.h"
 
 struct Args
 {
@@ -17,6 +18,7 @@ Args ParseArgs(int argv, char* argc[])
 		throw std::runtime_error("Invalid argument count\nFor use: dictionary.exe <dictionary file name>\n";
 	}
 }
+
 
 std::map<std::string, std::string> InitDictionary()
 {
