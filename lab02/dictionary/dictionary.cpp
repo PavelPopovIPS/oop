@@ -5,6 +5,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <windows.h>
 
 struct Args
 {
@@ -28,10 +29,23 @@ Args ParseArgs(int argv, char* argc[])
 	return args;
 }
 
+void PrintMap(std::map<std::string, std::string> dictionary)
+{
+	for (auto& item : dictionary)
+	{
+		std::cout << "[" << item.first << "] " << item.second << std::endl;
+	}
+}
+
 int main(int argv, char* argc[])
 {
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
 	try
 	{
+		Args args = ParseArgs(argv, argc);
+		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
+		PrintMap(dictionary);
 	}
 	catch (const std::exception& e)
 	{
