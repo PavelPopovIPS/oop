@@ -6,15 +6,18 @@
 #include <sstream>
 #include <string>
 
-void DeleteUnusefulSymbols(std::string& key)
+std::string DeleteBrackets(std::string key)
 {
-	const std::string DELETE_SYMBOLS = "[],";
+	const std::string DELETE_SYMBOLS = "[]";
+
 	size_t found = key.find_first_of(DELETE_SYMBOLS);
 	while (found != std::string::npos)
 	{
 		key.erase(found, 1);
 		found = key.find_first_of(DELETE_SYMBOLS);
 	}
+
+	return key;
 }
 
 std::string CutSpaces(const std::string& string)
@@ -37,6 +40,20 @@ std::string CutSpaces(const std::string& string)
 
 	return newLine;
 }
+
+std::string ConvertTextToLowCase(std::string text)
+{
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (text[i] >= 'A' && text[i] <= 'Z')
+		{
+			text[i] += 'z' - 'Z';
+		}
+	}
+
+	return text;
+}
+
 std::pair<std::string, std::string> ParseLine(const std::string& line)
 {
 	std::pair<std::string, std::string> translateUnit;
@@ -47,7 +64,7 @@ std::pair<std::string, std::string> ParseLine(const std::string& line)
 	std::string key = line.substr(begin, found);
 	std::string translate = line.substr(found);
 
-	DeleteUnusefulSymbols(key);
+	key = DeleteBrackets(key);
 	translate = CutSpaces(translate);
 	// std::cout << key << " -> " << translate << std::endl;
 
@@ -80,7 +97,7 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 
 	if (inputFileStream.bad())
 	{
-		std::runtime_error("Failed to read data from file\n");
+		throw std::runtime_error("Failed to read data from file\n");
 	}
 
 	inputFileStream.close();

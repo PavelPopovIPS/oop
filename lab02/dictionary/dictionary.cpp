@@ -48,14 +48,14 @@ int main(int argv, char* argc[])
 		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
 
 		std::string line;
-		// while (getline(std::cin, line))
-		//{
-		//	std::string key = DeleteSpaces(line);
+		while (getline(std::cin, line))
+		{
+			std::string key = ConvertTextToLowCase(CutSpaces(line));
 
-		//	std::cout << dictionary[key] << std::endl;
-		//}
+			std::cout << dictionary[key] << std::endl;
+		}
 
-		PrintMap(dictionary);
+		// PrintMap(dictionary);
 	}
 	catch (const std::exception& e)
 	{
