@@ -113,7 +113,7 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 	return dictionary;
 }
 
-bool IsTranslationExisting(std::map<std::string, std::string>& dictionary, std::string& key)
+bool IsTranslationExisting(const std::map<std::string, std::string>& dictionary, std::string& key)
 {
 	if (dictionary.find(key) != dictionary.end())
 	{
@@ -129,9 +129,9 @@ void PrintTranslation(std::map<std::string, std::string>& dictionary, std::strin
 
 void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 	const std::string& key,
-	const std::string& originalLine)
+	const std::string& originalText)
 {
-	std::cout << "Неизвестное слово \"" << originalLine << "\". Введите перевод или пустую строку для отказа."
+	std::cout << "Неизвестное слово \"" << originalText << "\". Введите перевод или пустую строку для отказа."
 			  << std::endl;
 
 	std::pair<std::string, std::string> translationUnit;
@@ -147,17 +147,35 @@ void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 
 		if (IsTranslationExisting(dictionary, oppositeKey))
 		{
-			dictionary[oppositeKey].append(", " + originalLine);
+			dictionary[oppositeKey].append(", " + originalText);
 		}
 		else
 		{
-			translationUnit = CreateTranslationUnit(oppositeKey, originalLine);
+			translationUnit = CreateTranslationUnit(oppositeKey, originalText);
 			dictionary.insert(translationUnit);
 		}
-		std::cout << "Слово \"" << originalLine << "\" сохранено в словаре как " << translation << std::endl;
+		std::cout << "Слово \"" << originalText << "\" сохранено в словаре как " << translation << std::endl;
 	}
 	else
 	{
-		std::cout << "Слово \"" << originalLine << "\" проигнорировано." << std::endl;
+		std::cout << "Слово \"" << originalText << "\" проигнорировано." << std::endl;
 	}
+}
+
+void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize)
+{
+	if (dictionary.size() != originalSize)
+	{
+		std::cout << "В словарь были внесены изменения. Введите Y или y для сохранения перед выходом." << std::endl;
+
+		std::string answer;
+		getline(std::cin, answer);
+		answer = ConvertTextToLowCase(CutSpaces(answer));
+		if (answer == "y")
+		{
+			std::cout << "Сохраняем словар..." << std::endl;
+			std::cout << "Изменения сохранены. ";
+		}
+	}
+	std::cout << "До свидания." << std::endl;
 }

@@ -31,14 +31,6 @@ Args ParseArgs(int argv, char* argc[])
 	return args;
 }
 
-void PrintMap(std::map<std::string, std::string> dictionary)
-{
-	for (auto& item : dictionary)
-	{
-		std::cout << "[" << item.first << "] " << item.second << std::endl;
-	}
-}
-
 int main(int argv, char* argc[])
 {
 	SetConsoleOutputCP(1251);
@@ -48,17 +40,17 @@ int main(int argv, char* argc[])
 	{
 		Args args = ParseArgs(argv, argc);
 		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
+		size_t originalSize = dictionary.size();
 
-		std::string originalLine;
-		std::string lineWithoutSpaces;
-		while (getline(std::cin, originalLine))
+		std::string key;
+		std::string originalText;
+		while (getline(std::cin, originalText))
 		{
-			lineWithoutSpaces = ConvertTextToLowCase(CutSpaces(originalLine));
-			std::string key = ConvertTextToLowCase(lineWithoutSpaces);
+			key = ConvertTextToLowCase(CutSpaces(originalText));
 
 			if (key == EXIT)
 			{
-				std::cout << "До свидания." << std::endl;
+				Exit(dictionary, originalSize);
 				break;
 			}
 
@@ -68,11 +60,10 @@ int main(int argv, char* argc[])
 			}
 			else
 			{
-				AddNewTranslation(dictionary, key, originalLine);
+				AddNewTranslation(dictionary, key, originalText);
 			}
 		}
 
-		// PrintMap(dictionary);
 		return 0;
 	}
 	catch (const std::exception& e)
