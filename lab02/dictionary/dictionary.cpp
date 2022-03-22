@@ -12,6 +12,8 @@ struct Args
 	std::string dicFileName;
 };
 
+const std::string EXIT = "...";
+
 Args ParseArgs(int argv, char* argc[])
 {
 	if (argv != 2)
@@ -47,15 +49,31 @@ int main(int argv, char* argc[])
 		Args args = ParseArgs(argv, argc);
 		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
 
-		std::string line;
-		while (getline(std::cin, line))
+		std::string originalLine;
+		std::string lineWithoutSpaces;
+		while (getline(std::cin, originalLine))
 		{
-			std::string key = ConvertTextToLowCase(CutSpaces(line));
+			lineWithoutSpaces = ConvertTextToLowCase(CutSpaces(originalLine));
+			std::string key = ConvertTextToLowCase(lineWithoutSpaces);
 
-			std::cout << dictionary[key] << std::endl;
+			if (key == EXIT)
+			{
+				std::cout << "До свидания." << std::endl;
+				break;
+			}
+
+			if (IsTranslationExisting(dictionary, key))
+			{
+				PrintTranslation(dictionary, key);
+			}
+			else
+			{
+				AddNewTranslation(dictionary, key, originalLine);
+			}
 		}
 
 		// PrintMap(dictionary);
+		return 0;
 	}
 	catch (const std::exception& e)
 	{

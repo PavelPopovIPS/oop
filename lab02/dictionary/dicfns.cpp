@@ -59,6 +59,11 @@ std::string ConvertTextToLowCase(std::string text)
 	return text;
 }
 
+std::pair<std::string, std::string> CreateTranslationUnit(const std::string& key, const std::string& translation)
+{
+	return std::make_pair(key, translation);
+}
+
 std::pair<std::string, std::string> ParseLine(const std::string& line)
 {
 	std::pair<std::string, std::string> translateUnit;
@@ -67,13 +72,12 @@ std::pair<std::string, std::string> ParseLine(const std::string& line)
 	size_t found = line.find("]");
 	++found; //перевожу позицию в количество символов и в номер следующего элемента
 	std::string key = line.substr(begin, found);
-	std::string translate = line.substr(found);
+	std::string translation = line.substr(found);
 
 	key = DeleteBrackets(CutSpaces(key));
-	translate = CutSpaces(translate);
+	translation = CutSpaces(translation);
 
-	translateUnit = std::make_pair(key, translate);
-	return translateUnit;
+	return CreateTranslationUnit(key, translation);
 }
 
 std::map<std::string, std::string> InitDictionary(const std::string& dicFileName)
@@ -94,9 +98,9 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 			continue;
 		}
 
-		std::pair<std::string, std::string> translateUnit = ParseLine(line);
+		std::pair<std::string, std::string> translationUnit = ParseLine(line);
 
-		dictionary.insert(translateUnit);
+		dictionary.insert(translationUnit);
 	}
 
 	if (inputFileStream.bad())
@@ -107,4 +111,53 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 	inputFileStream.close();
 
 	return dictionary;
+}
+
+bool IsTranslationExisting(std::map<std::string, std::string>& dictionary, std::string& key)
+{
+	if (dictionary.find(key) != dictionary.end())
+	{
+		return true;
+	}
+	return false;
+}
+
+void PrintTranslation(std::map<std::string, std::string>& dictionary, std::string& key)
+{
+	std::cout << dictionary[key] << std::endl;
+}
+
+void AddNewTranslation(std::map<std::string, std::string>& dictionary,
+	const std::string& key,
+	const std::string& originalLine)
+{
+	std::cout << "Неизвестное слово \"" << originalLine << "\". Введите перевод или пустую строку для отказа."
+			  << std::endl;
+
+	std::pair<std::string, std::string> translationUnit;
+	std::string translation;
+	getline(std::cin, translation);
+
+	if (translation != "")
+	{
+		translationUnit = CreateTranslationUnit(key, translation);
+		dictionary.insert(translationUnit);
+
+		std::string oppositeKey = ConvertTextToLowCase(CutSpaces(translation));
+
+		if (IsTranslationExisting(dictionary, oppositeKey))
+		{
+			dictionary[oppositeKey].append(", " + originalLine);
+		}
+		else
+		{
+			translationUnit = CreateTranslationUnit(oppositeKey, originalLine);
+			dictionary.insert(translationUnit);
+		}
+		std::cout << "Слово \"" << originalLine << "\" сохранено в словаре как " << translation << std::endl;
+	}
+	else
+	{
+		std::cout << "Слово \"" << originalLine << "\" проигнорировано." << std::endl;
+	}
 }
