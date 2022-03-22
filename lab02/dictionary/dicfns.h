@@ -11,4 +11,4 @@ bool IsTranslationExisting(const std::map<std::string, std::string>& dictionary,
 void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 	const std::string& key,
 	const std::string& originalText);
-void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize);
+void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize, const std::string& dicFileName);

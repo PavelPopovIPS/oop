@@ -162,7 +162,11 @@ void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 	}
 }
 
-void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize)
+void SaveDictionaryToFile(const std::map<std::string, std::string>& dictionary, const std::string& dicFileName)
+{
+}
+
+void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize, const std::string& dicFileName)
 {
 	if (dictionary.size() != originalSize)
 	{
@@ -171,10 +175,15 @@ void Exit(const std::map<std::string, std::string>& dictionary, size_t originalS
 		std::string answer;
 		getline(std::cin, answer);
 		answer = ConvertTextToLowCase(CutSpaces(answer));
+
 		if (answer == "y")
 		{
 			std::cout << "Сохраняем словар..." << std::endl;
 			std::cout << "Изменения сохранены. ";
+		}
+		else
+		{
+			std::cout << "Все что было нажито непосильным трудом безвозвратно потеряно. ";
 		}
 	}
 	std::cout << "До свидания." << std::endl;

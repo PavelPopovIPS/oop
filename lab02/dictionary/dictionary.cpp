@@ -50,8 +50,13 @@ int main(int argv, char* argc[])
 
 			if (key == EXIT)
 			{
-				Exit(dictionary, originalSize);
+				Exit(dictionary, originalSize, args.dicFileName);
 				break;
+			}
+
+			if (key == "")
+			{
+				continue;
 			}
 
 			if (IsTranslationExisting(dictionary, key))
