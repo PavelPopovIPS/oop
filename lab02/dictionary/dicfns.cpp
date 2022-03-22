@@ -131,7 +131,7 @@ void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 	const std::string& key,
 	const std::string& originalText)
 {
-	std::cout << "Неизвестное слово \"" << originalText << "\". Введите перевод или пустую строку для отказа."
+	std::cout << "Неизвестное слово \"" + originalText + "\". Введите перевод или пустую строку для отказа."
 			  << std::endl;
 
 	std::pair<std::string, std::string> translationUnit;
@@ -154,11 +154,11 @@ void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 			translationUnit = CreateTranslationUnit(oppositeKey, originalText);
 			dictionary.insert(translationUnit);
 		}
-		std::cout << "Слово \"" << originalText << "\" сохранено в словаре как " << translation << std::endl;
+		std::cout << "Слово \"" + originalText + "\" сохранено в словаре как \"" + translation + "\"" << std::endl;
 	}
 	else
 	{
-		std::cout << "Слово \"" << originalText << "\" проигнорировано." << std::endl;
+		std::cout << "Слово \"" + originalText + "\" проигнорировано." << std::endl;
 	}
 }
 
