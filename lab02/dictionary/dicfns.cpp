@@ -113,7 +113,7 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 	return dictionary;
 }
 
-bool IsTranslationExisting(const std::map<std::string, std::string>& dictionary, std::string& key)
+bool IsTranslationExisting(const std::map<std::string, std::string>& dictionary, const std::string& key)
 {
 	if (dictionary.find(key) != dictionary.end())
 	{
@@ -122,7 +122,7 @@ bool IsTranslationExisting(const std::map<std::string, std::string>& dictionary,
 	return false;
 }
 
-void PrintTranslation(std::map<std::string, std::string>& dictionary, std::string& key)
+void PrintTranslation(std::map<std::string, std::string>& dictionary, const std::string& key)
 {
 	std::cout << dictionary[key] << std::endl;
 }
@@ -170,7 +170,6 @@ void SaveDictionaryToFile(const std::map<std::string, std::string>& dictionary, 
 		throw std::runtime_error("File " + dicFileName + " was not opened for writining\n");
 	}
 
-	//экшен
 	for (auto& translationUnit : dictionary)
 	{
 		outputFile << "[" + translationUnit.first + "] " + translationUnit.second << std::endl;

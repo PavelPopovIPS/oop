@@ -39,6 +39,7 @@ int main(int argv, char* argc[])
 	try
 	{
 		Args args = ParseArgs(argv, argc);
+
 		std::map<std::string, std::string> dictionary = InitDictionary(args.dicFileName);
 		size_t originalSize = dictionary.size();
 
