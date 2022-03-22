@@ -164,6 +164,24 @@ void AddNewTranslation(std::map<std::string, std::string>& dictionary,
 
 void SaveDictionaryToFile(const std::map<std::string, std::string>& dictionary, const std::string& dicFileName)
 {
+	std::ofstream outputFile(dicFileName);
+	if (!outputFile.is_open())
+	{
+		throw std::runtime_error("File " + dicFileName + " was not opened for writining\n");
+	}
+
+	//экшен
+	for (auto& translationUnit : dictionary)
+	{
+		outputFile << "[" + translationUnit.first + "] " + translationUnit.second << std::endl;
+	}
+
+	if (!outputFile.flush())
+	{
+		throw std::runtime_error("Failed to write to file\n");
+	}
+
+	outputFile.close();
 }
 
 void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize, const std::string& dicFileName)
@@ -178,7 +196,7 @@ void Exit(const std::map<std::string, std::string>& dictionary, size_t originalS
 
 		if (answer == "y")
 		{
-			std::cout << "Сохраняем словар..." << std::endl;
+			SaveDictionaryToFile(dictionary, dicFileName);
 			std::cout << "Изменения сохранены. ";
 		}
 		else
