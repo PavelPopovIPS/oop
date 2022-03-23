@@ -50,6 +50,12 @@ std::string ConvertTextToLowCase(std::string text)
 			text[i] += 'z' - 'Z';
 		}
 
+		if (text[i] == 'Ё')
+		{
+			text[i] = 'ё';
+			continue;
+		}
+
 		if (text[i] >= 'А' && text[i] <= 'Я')
 		{
 			text[i] += 'я' - 'Я';
