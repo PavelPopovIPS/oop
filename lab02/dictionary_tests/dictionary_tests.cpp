@@ -300,3 +300,35 @@ SCENARIO("Проверка функции InitDictionary")
 		}
 	}
 }
+
+SCENARIO("Проверка функции IsTranslationExisting")
+{
+	GIVEN("контейнер map с одним элементом")
+	{
+		std::string key = "cat";
+		std::string translation = "кот";
+		std::map<std::string, std::string> dictionary;
+		dictionary.insert(std::make_pair(key, translation));
+
+		WHEN("в IsTranslationExisting передается контейнер map и существующий в нем key")
+		{
+			bool result = IsTranslationExisting(dictionary, key);
+
+			THEN("вернется true")
+			{
+				REQUIRE(result == true);
+			}
+		}
+
+		WHEN("в IsTranslationExisting передается контейнер map и НЕ существующий в нем key")
+		{
+
+			bool result = IsTranslationExisting(dictionary, "dog");
+
+			THEN("вернется false")
+			{
+				REQUIRE(result == false);
+			}
+		}
+	}
+}
