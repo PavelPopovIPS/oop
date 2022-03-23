@@ -210,3 +210,42 @@ SCENARIO("Проверка функции CreateTranslationUnit")
 		}
 	}
 }
+
+SCENARIO("Проверка функции ParseLine")
+{
+	WHEN("передается строка в формате хранения данных с одним переводом")
+	{
+		std::string line = "[cat] кошка";
+		std::pair<std::string, std::string> result = ParseLine(line);
+
+		THEN("должнен вернуться объект pair из заданных ключа в квадратных скобках и перевода")
+		{
+			REQUIRE(result.first == "cat");
+			REQUIRE(result.second == "кошка");
+		}
+	}
+
+	WHEN("передается строка в формате хранения данных с несколькими переводами через запятую")
+	{
+		std::string line = "[cat] кот, кошка, кошечка";
+		std::pair<std::string, std::string> result = ParseLine(line);
+
+		THEN("должнен вернуться объект pair из заданных ключа в квадратных скобках и строки с переводами")
+		{
+			REQUIRE(result.first == "cat");
+			REQUIRE(result.second == "кот, кошка, кошечка");
+		}
+	}
+
+	WHEN("передается строка в формате хранения данных в которой key - русское слово, в переводе - английское")
+	{
+		std::string line = "[кот] cat";
+		std::pair<std::string, std::string> result = ParseLine(line);
+
+		THEN("должнен вернуться объект pair из заданных ключа в квадратных скобках и строки с переводами")
+		{
+			REQUIRE(result.first == "кот");
+			REQUIRE(result.second == "cat");
+		}
+	}
+}
