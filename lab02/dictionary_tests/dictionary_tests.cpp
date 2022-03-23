@@ -4,6 +4,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../catch2/catch.hpp"
 #include "../dictionary/dicfns.h"
+#include <string>
 
 SCENARIO("Проверка DeleteBrackets")
 {
@@ -127,7 +128,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("text");
 
-		THEN("должна вернуться текст из латинских символов в нижнем регистре")
+		THEN("должен вернуться текст из латинских символов в нижнем регистре")
 		{
 			REQUIRE(result == "text");
 		}
@@ -137,7 +138,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("TeXt");
 
-		THEN("должна вернуться текст из латинских символов в нижнем регистре")
+		THEN("должен вернуться текст из латинских символов в нижнем регистре")
 		{
 			REQUIRE(result == "text");
 		}
@@ -147,7 +148,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		THEN("должен вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
 		{
 			REQUIRE(result == "abcdefghijklmnopqrstuvwxyz");
 		}
@@ -157,7 +158,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("текст");
 
-		THEN("должна вернуться текст из кириллицы в нижнем регистре")
+		THEN("должен вернуться текст из кириллицы в нижнем регистре")
 		{
 			REQUIRE(result == "текст");
 		}
@@ -167,7 +168,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("ТеКсТ");
 
-		THEN("должна вернуться текст из кириллицы в нижнем регистре")
+		THEN("должен вернуться текст из кириллицы в нижнем регистре")
 		{
 			REQUIRE(result == "текст");
 		}
@@ -177,7 +178,7 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ");
 
-		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		THEN("должен вернуться текст содержащий все буквы русского алфавита в нижнем регистре")
 		{
 			REQUIRE(result == "абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
 		}
@@ -187,9 +188,25 @@ SCENARIO("Проверка функции ConvertTextToLowCase")
 	{
 		std::string result = ConvertTextToLowCase("СлоВо Ёжик на АнГлийСкоМ - heDgEhOG");
 
-		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		THEN("должен вернуться русский и английский текст в нижнем регистре")
 		{
 			REQUIRE(result == "слово ёжик на английском - hedgehog");
+		}
+	}
+}
+
+SCENARIO("Проверка функции CreateTranslationUnit")
+{
+	WHEN("передается пара key и translation")
+	{
+		std::string key = "cat";
+		std::string translation = "кошка";
+		std::pair<std::string, std::string> result = CreateTranslationUnit(key, translation);
+
+		THEN("должнен вернуться объект pair из заданных ключа и перевода")
+		{
+			REQUIRE(result.first == key);
+			REQUIRE(result.second == translation);
 		}
 	}
 }
