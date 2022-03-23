@@ -110,3 +110,86 @@ SCENARIO("Проверка функции CutSpaces")
 		}
 	}
 }
+
+SCENARIO("Проверка функции ConvertTextToLowCase")
+{
+	WHEN("передается пустая строка")
+	{
+		std::string result = ConvertTextToLowCase("");
+
+		THEN("должна вернуться пустая строка")
+		{
+			REQUIRE(result == "");
+		}
+	}
+
+	WHEN("передается текст из латинских символов в нижнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("text");
+
+		THEN("должна вернуться текст из латинских символов в нижнем регистре")
+		{
+			REQUIRE(result == "text");
+		}
+	}
+
+	WHEN("передается текст из латинских символов в нижнем и верхнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("TeXt");
+
+		THEN("должна вернуться текст из латинских символов в нижнем регистре")
+		{
+			REQUIRE(result == "text");
+		}
+	}
+
+	WHEN("передается текст содержащий все буквы латинского алфавита в верхнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		{
+			REQUIRE(result == "abcdefghijklmnopqrstuvwxyz");
+		}
+	}
+
+	WHEN("передается текст из кириллицы в нижнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("текст");
+
+		THEN("должна вернуться текст из кириллицы в нижнем регистре")
+		{
+			REQUIRE(result == "текст");
+		}
+	}
+
+	WHEN("передается текст из кириллицы в нижнем и верхнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("ТеКсТ");
+
+		THEN("должна вернуться текст из кириллицы в нижнем регистре")
+		{
+			REQUIRE(result == "текст");
+		}
+	}
+
+	WHEN("передается текст содержащий все буквы русского алфавита в верхнем регистре")
+	{
+		std::string result = ConvertTextToLowCase("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ");
+
+		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		{
+			REQUIRE(result == "абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
+		}
+	}
+
+	WHEN("передается русский и английский текст в разном регистре")
+	{
+		std::string result = ConvertTextToLowCase("СлоВо Ёжик на АнГлийСкоМ - heDgEhOG");
+
+		THEN("должна вернуться текст содержащий все буквы латинского алфавита в нижнем регистре")
+		{
+			REQUIRE(result == "слово ёжик на английском - hedgehog");
+		}
+	}
+}
