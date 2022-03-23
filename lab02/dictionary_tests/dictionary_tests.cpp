@@ -57,3 +57,56 @@ SCENARIO("Проверка DeleteBrackets")
 		}
 	}
 }
+
+SCENARIO("Проверка функции CutSpaces")
+{
+	WHEN("передается пустая строка")
+	{
+		std::string result = CutSpaces("");
+
+		THEN("дожна вернуться пустая строка")
+		{
+			REQUIRE(result == "");
+		}
+	}
+
+	WHEN("передается текст без пробелов")
+	{
+		std::string result = CutSpaces("text");
+
+		THEN("должен вернуться текст без пробелов")
+		{
+			REQUIRE(result == "text");
+		}
+	}
+
+	WHEN("передается текст c пробелами между слов")
+	{
+		std::string result = CutSpaces("text1 text2");
+
+		THEN("должен вернуться текст c пробелами между слов")
+		{
+			REQUIRE(result == "text1 text2");
+		}
+	}
+
+	WHEN("передается текст c пробелами до и после слова")
+	{
+		std::string result = CutSpaces("     text      ");
+
+		THEN("должен вернуться текст без пробелов")
+		{
+			REQUIRE(result == "text");
+		}
+	}
+
+	WHEN("передается текст c пробелами до, между и после слов")
+	{
+		std::string result = CutSpaces("     text1      text2       ");
+
+		THEN("должен вернуться текст с одним пробелом между словами")
+		{
+			REQUIRE(result == "text1 text2");
+		}
+	}
+}
