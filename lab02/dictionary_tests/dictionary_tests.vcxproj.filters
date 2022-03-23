@@ -27,4 +27,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="dic.txt" />
+    <Text Include="dic-empty.txt" />
+    <Text Include="dic-empty-lines.txt" />
+  </ItemGroup>
 </Project>

@@ -249,3 +249,54 @@ SCENARIO("Проверка функции ParseLine")
 		}
 	}
 }
+
+SCENARIO("Проверка функции InitDictionary")
+{
+	WHEN("передается название файла на несуществующий словарик")
+	{
+		std::string fileName = "dic-not-exist.txt";
+		std::map<std::string, std::string> result = InitDictionary(fileName);
+
+		THEN("вернется пустой контейнер map")
+		{
+			REQUIRE(result.size() == 0);
+		}
+	}
+
+	WHEN("передается название файла на пустой словарик")
+	{
+		std::string fileName = "dic-empty.txt";
+		std::map<std::string, std::string> result = InitDictionary(fileName);
+
+		THEN("вернется пустой контейнер map")
+		{
+			REQUIRE(result.size() == 0);
+		}
+	}
+
+	WHEN("передается название файла с данными словаря из 2х элементов")
+	{
+		std::string fileName = "dic.txt";
+		std::map<std::string, std::string> result = InitDictionary(fileName);
+
+		THEN("вернется контейнер map с 2мя элементами и нужными полями")
+		{
+			REQUIRE(result.size() == 2);
+			REQUIRE(result["red"] == "красный");
+			REQUIRE(result["кот"] == "cat");
+		}
+	}
+
+	WHEN("передается название файла с данными словаря из 2х элементов и пустыми строками")
+	{
+		std::string fileName = "dic-empty-lines.txt";
+		std::map<std::string, std::string> result = InitDictionary(fileName);
+
+		THEN("вернется контейнер map с 2мя элементами и нужными полями")
+		{
+			REQUIRE(result.size() == 2);
+			REQUIRE(result["red"] == "красный");
+			REQUIRE(result["кот"] == "cat");
+		}
+	}
+}
