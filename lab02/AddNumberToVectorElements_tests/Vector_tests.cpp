@@ -31,10 +31,29 @@ SCENARIO("Тестирование ParseStringToVector")
 	{
 		std::vector<double> vectr = ParseStringToVector("12");
 
-		THEN("в векторе должен быть один элемент с нужным значением")
+		THEN("в векторе должен быть один элемент")
 		{
 			REQUIRE(vectr.size() == 1.0);
+		}
+	}
+
+	WHEN("передается строка с одним положительным числом")
+	{
+		std::vector<double> vectr = ParseStringToVector("12");
+
+		THEN("в векторе должен быть единственным значением элемента будет это число")
+		{
 			REQUIRE(vectr[0] == 12.0);
+		}
+	}
+
+	WHEN("передается строка с двумя double числами")
+	{
+		std::vector<double> vectr = ParseStringToVector("1.11 -5.37");
+
+		THEN("в векторе должно быть 2 элемент")
+		{
+			REQUIRE(vectr.size() == 2);
 		}
 	}
 
@@ -44,7 +63,6 @@ SCENARIO("Тестирование ParseStringToVector")
 
 		THEN("в векторе должно быть 2 элемент с double числами")
 		{
-			REQUIRE(vectr.size() == 2.0);
 			REQUIRE(vectr[0] == 1.11);
 			REQUIRE(vectr[1] == -5.37);
 		}
@@ -148,7 +166,6 @@ SCENARIO("Тестирование AddNumberToVectorElements")
 
 		THEN("к каждому элементу вектора должно быть прибавлено переданное число")
 		{
-			REQUIRE(vectr.size() == 2);
 			REQUIRE(vectr[0] == 2);
 			REQUIRE(vectr[1] == 3);
 		}
@@ -163,11 +180,24 @@ SCENARIO("Тестирование AddNumberToVectorElements")
 
 		THEN("к каждому элементу вектора должно быть прибавлено переданное число")
 		{
-			REQUIRE(vectr.size() == 3);
-
 			REQUIRE(round(vectr[0] * 10) / 10 == 2.3);
 			REQUIRE(round(vectr[1] * 10) / 10 == 3.3);
 			REQUIRE(round(vectr[2] * 10) / 10 == 1.3);
+		}
+	}
+}
+
+SCENARIO("Тестирование SortVector")
+{
+	WHEN("пеедается вектор с неотсортированными элементами")
+	{
+		std::vector<double> vectr = { 1, 0, -1 };
+		SortVector(vectr);
+
+		THEN("вернется вектор с отсортированными элементами")
+		{
+			std::vector<double> expectedVector = { -1, 0, 1 };
+			REQUIRE(vectr == expectedVector);
 		}
 	}
 }

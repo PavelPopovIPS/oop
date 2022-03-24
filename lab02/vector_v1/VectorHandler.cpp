@@ -1,4 +1,4 @@
-#include "VectorHandler.h"
+п»ї#include "VectorHandler.h"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -28,11 +28,11 @@ std::vector<double> ParseStringToVector(const std::string& inputStr)
 		{
 			vectr.push_back(std::stod(elem));
 		}
-		catch (std::invalid_argument e) // Если принимать по ссылке, появляется варнинг при сборке
+		catch (std::invalid_argument e) // Р•СЃР»Рё РїСЂРёРЅРёРјР°С‚СЊ РїРѕ СЃСЃС‹Р»РєРµ, РїРѕСЏРІР»СЏРµС‚СЃСЏ РІР°СЂРЅРёРЅРі РїСЂРё СЃР±РѕСЂРєРµ
 		{
 			throw std::runtime_error("You should use number\n");
 		}
-		catch (std::out_of_range& e)
+		catch (std::out_of_range e)
 		{
 			throw std::runtime_error("Number is toooo big\n");
 		}
@@ -70,12 +70,14 @@ void AddNumberToVectorElements(std::vector<double>& vectr, double number)
 	}
 }
 
+void SortVector(std::vector<double>& vectr)
+{
+	// 2. РґСѓРјР°СЋ СЃС‚РѕРёС‚ РѕС‚РґРµР»РёС‚СЊ СЃРѕСЂС‚РёСЂРѕРІРєСѓ РѕС‚ РІС‹РІРѕРґР°
+	std::sort(vectr.begin(), vectr.end());
+}
+
 void PrintVector(std::vector<double>& vectr)
 {
-	// Сортировка элементов массива с помощью алгоритма sort и итераторов вектора
-	// 2. думаю стоит отделить сортировку от вывода
-	std::sort(vectr.begin(), vectr.end());
-
 	for (double elem : vectr)
 	{
 		std::cout << elem << " ";

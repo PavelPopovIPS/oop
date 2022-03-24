@@ -16,6 +16,7 @@ int main()
 		// 1. Если передавать в параметры функцию которая выполняет необходимое поведение, можно было бы сделать код более переиспользуемым
 		//  map название фуекции
 		AddNumberToVectorElements(vectr, positiveElementsAverage);
+		SortVector(vectr);
 		PrintVector(vectr);
 	}
 	catch (const std::exception& e)
