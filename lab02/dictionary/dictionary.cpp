@@ -67,7 +67,7 @@ int main(int argv, char* argc[])
 			else
 			{
 				CreateTranslation(dictionary, key, originalText);
-			} 
+			}
 		}
 
 		return 0;

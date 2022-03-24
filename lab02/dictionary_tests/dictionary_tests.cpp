@@ -348,7 +348,7 @@ SCENARIO("Проверка функции AddNewTranslationToDictionary")
 			std::string translation = "кот";
 			AddNewTranslationToDictionary(dictionary, key, originalText, translation);
 
-			THEN("В словарике должно появитсяь два элемента для двунаправленного перевода")
+			THEN("в словарике должно появитсяь два элемента для двунаправленного перевода")
 			{
 				REQUIRE(dictionary.size() == 2);
 			}
@@ -357,6 +357,34 @@ SCENARIO("Проверка функции AddNewTranslationToDictionary")
 			{
 				REQUIRE(dictionary["cat"] == "кот");
 				REQUIRE(dictionary["кот"] == "Cat");
+			}
+		}
+
+	}	
+
+	GIVEN("контейнер map с одним переводом cat - кот")
+	{
+		std::string key = "cat";
+		std::string translation = "кот";
+		std::map<std::string, std::string> dictionary;
+		dictionary.insert(std::make_pair(key, translation));
+
+		WHEN("в AddNewTranslationToDictionary передается контейнер map с одним юнитом перевода, пара key и translation и оригинальный текст")
+		{
+			std::string originalText = "Кошка";
+			std::string key = "кошка";
+			std::string translation = "cat";
+
+			AddNewTranslationToDictionary(dictionary, key, originalText, translation);
+
+			THEN("в словарике должно появитсяь новый перевод кошка - cat")
+			{
+				REQUIRE(dictionary["кошка"] == "cat");
+			}
+			
+			THEN("к существующему переводу слова cat должен прибавиться новый перевод Кошка, с сохранением регистра")
+			{
+				REQUIRE(dictionary["cat"] == "кот, Кошка");
 			}
 		}
 
