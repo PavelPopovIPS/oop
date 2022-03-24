@@ -28,7 +28,7 @@ SCENARIO("Проверка DeleteBrackets")
 		}
 	}
 
-	WHEN("передается строка содержащая текст, обернутый в кобки")
+	WHEN("передается строка содержащая текст, обернутый в скобки")
 	{
 		std::string result = DeleteBrackets("[text]");
 
@@ -57,7 +57,7 @@ SCENARIO("Проверка DeleteBrackets")
 			REQUIRE(result == "text");
 		}
 	}
-} 
+}
 
 SCENARIO("Проверка функции CutSpaces")
 {
@@ -97,7 +97,8 @@ SCENARIO("Проверка функции CutSpaces")
 
 		THEN("должен вернуться текст без пробелов")
 		{
-			REQUIRE(result == "text");
+			std::string expectedResult = "text";
+			REQUIRE(expectedResult == result);
 		}
 	}
 
@@ -350,15 +351,14 @@ SCENARIO("Проверка функции AddNewTranslationToDictionary")
 			{
 				REQUIRE(dictionary.size() == 2);
 			}
-			
+
 			THEN("оба элемента словарика должны обеспечивать двунаправленный перевод")
 			{
 				REQUIRE(dictionary["cat"] == "кот");
 				REQUIRE(dictionary["кот"] == "Cat");
 			}
 		}
-
-	}	
+	}
 
 	GIVEN("контейнер map с одним переводом cat - кот")
 	{
@@ -379,13 +379,11 @@ SCENARIO("Проверка функции AddNewTranslationToDictionary")
 			{
 				REQUIRE(dictionary["кошка"] == "cat");
 			}
-			
+
 			THEN("к существующему переводу слова cat должен прибавиться новый перевод Кошка, с сохранением регистра")
 			{
 				REQUIRE(dictionary["cat"] == "кот, Кошка");
 			}
 		}
-
 	}
-
 }

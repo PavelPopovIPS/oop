@@ -15,9 +15,13 @@ const std::string AMPERSAND_CODE = "&amp;";
 
 // 2. подумать над названием escapeCode, оно может запутать
 //  возможно стоит передавать сразу число
-void ReplaceText(std::string& str, size_t found, const std::string& escapeCode, const std::string& symbol)
+void ReplaceText(
+	std::string& str,
+	const size_t found,
+	const size_t codeLen,
+	const std::string& symbol)
 {
-	str.erase(found, escapeCode.length());
+	str.erase(found, codeLen);
 	str.insert(found, symbol);
 }
 
@@ -57,6 +61,15 @@ bool IsApostropheCode(const std::string& str, const size_t found)
 		&& str[found + 5] == ';';
 }
 
+bool IsAmpersandCode(const std::string& str, const size_t found)
+{
+	return str[found] == '&'
+		&& str[found + 1] == 'a'
+		&& str[found + 2] == 'm'
+		&& str[found + 3] == 'p'
+		&& str[found + 4] == ';';
+}
+
 std::string HtmlDecode(const std::string& text)
 {
 	std::string str = text;
@@ -67,27 +80,27 @@ std::string HtmlDecode(const std::string& text)
 		// 1. можно условия вынести в функции для удобства чтения
 		if (IsLeftArrowCode(str, found))
 		{
-			ReplaceText(str, found, LEFT_ARROW_CODE, LEFT_ARROW_SYMBOL);
+			ReplaceText(str, found, LEFT_ARROW_CODE.length(), LEFT_ARROW_SYMBOL);
 		}
 
 		if (IsRightArrowCode(str, found))
 		{
-			ReplaceText(str, found, RIGHT_ARROW_CODE, RIGHT_ARROW_SYMBOL);
+			ReplaceText(str, found, RIGHT_ARROW_CODE.length(), RIGHT_ARROW_SYMBOL);
 		}
 
 		if (IsQuotesCode(str, found))
 		{
-			ReplaceText(str, found, QUOTES_CODE, QUOTES_SYMBOL);
+			ReplaceText(str, found, QUOTES_CODE.length(), QUOTES_SYMBOL);
 		}
 
-		if ()
+		if (IsApostropheCode(str, found))
 		{
-			ReplaceText(str, found, APOSTROPHE_CODE, APOSTROPHE_SYMBOL);
+			ReplaceText(str, found, APOSTROPHE_CODE.length(), APOSTROPHE_SYMBOL);
 		}
 
-		if (str[found] == '&' && str[found + 1] == 'a' && str[found + 2] == 'm' && str[found + 3] == 'p' && str[found + 4] == ';')
+		if (IsAmpersandCode(str, found))
 		{
-			ReplaceText(str, found, AMPERSAND_CODE, AMPERSAND_SYMBOL);
+			ReplaceText(str, found, AMPERSAND_CODE.length(), AMPERSAND_SYMBOL);
 		}
 
 		found = str.find(AMPERSAND_SYMBOL, ++found);

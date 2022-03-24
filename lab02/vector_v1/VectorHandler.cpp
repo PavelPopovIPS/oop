@@ -28,7 +28,7 @@ std::vector<double> ParseStringToVector(const std::string& inputStr)
 		{
 			vectr.push_back(std::stod(elem));
 		}
-		catch (std::invalid_argument& e) // Если принимать по ссылке, появляется варнинг
+		catch (std::invalid_argument e) // Если принимать по ссылке, появляется варнинг при сборке
 		{
 			throw std::runtime_error("You should use number\n");
 		}

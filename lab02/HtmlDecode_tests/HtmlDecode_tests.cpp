@@ -115,8 +115,9 @@ SCENARIO("Тестирование ReplaceText")
 	WHEN("передается строка с позицией заменяемого закодированного символа")
 	{
 		std::string str = "10&gt;1";
+		std::string code = "&gt;";
 		size_t found = 2;
-		ReplaceText(str, found, "&gt;", ">");
+		ReplaceText(str, found, code.length(), ">");
 
 		THEN("в строке должен замениться код на нужный символ")
 		{

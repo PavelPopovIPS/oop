@@ -45,6 +45,9 @@ int main(int argv, char* argc[])
 
 		std::string key;
 		std::string originalText;
+
+		// 1. можно вынести эту логику из main
+		// подумай на структурой файла
 		while (getline(std::cin, originalText))
 		{
 			key = ConvertTextToLowCase(CutSpaces(originalText));

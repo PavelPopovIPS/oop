@@ -43,6 +43,7 @@ std::string CutSpaces(const std::string& str)
 
 std::string ConvertTextToLowCase(std::string text)
 {
+	// Посмотри, думаю должна быть стандартная функция для этого
 	for (int i = 0; i < text.length(); i++)
 	{
 		if (text[i] >= 'A' && text[i] <= 'Z')
@@ -104,6 +105,8 @@ std::map<std::string, std::string> InitDictionary(const std::string& dicFileName
 			continue;
 		}
 
+		// 4. что будет если файлик будет некорректный?
+		//думаю стоит об этом предупредить пользователя
 		std::pair<std::string, std::string> translationUnit = ParseLine(line);
 
 		dictionary.insert(translationUnit);
@@ -136,8 +139,7 @@ void PrintTranslation(std::map<std::string, std::string>& dictionary, const std:
 void AddNewTranslationToDictionary(std::map<std::string, std::string>& dictionary,
 	const std::string& key,
 	const std::string& originalText,
-	const std::string& translation
-	)
+	const std::string& translation)
 {
 	std::pair<std::string, std::string> translationUnit = CreateTranslationUnit(key, translation);
 	dictionary.insert(translationUnit);
@@ -155,7 +157,7 @@ void AddNewTranslationToDictionary(std::map<std::string, std::string>& dictionar
 	}
 }
 
-void CreateTranslation(std::map<std::string, std::string>& dictionary,	const std::string& key, const std::string& originalText)
+void CreateTranslation(std::map<std::string, std::string>& dictionary, const std::string& key, const std::string& originalText)
 {
 	std::cout << "Неизвестное слово \"" + originalText + "\". Введите перевод или пустую строку для отказа." << std::endl;
 
@@ -194,6 +196,7 @@ void SaveDictionaryToFile(const std::map<std::string, std::string>& dictionary, 
 	outputFile.close();
 }
 
+// 2. В требования описано не больше 100 символов в строке
 void Exit(const std::map<std::string, std::string>& dictionary, size_t originalSize, const std::string& dicFileName)
 {
 	if (dictionary.size() != originalSize)
@@ -204,6 +207,7 @@ void Exit(const std::map<std::string, std::string>& dictionary, size_t originalS
 		getline(std::cin, answer);
 		answer = ConvertTextToLowCase(CutSpaces(answer));
 
+		// 3. лучше выносить в константы
 		if (answer == "y")
 		{
 			SaveDictionaryToFile(dictionary, dicFileName);
