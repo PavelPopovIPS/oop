@@ -133,33 +133,38 @@ void PrintTranslation(std::map<std::string, std::string>& dictionary, const std:
 	std::cout << dictionary[key] << std::endl;
 }
 
-void AddNewTranslation(std::map<std::string, std::string>& dictionary,
+void AddNewTranslationToDictionary(std::map<std::string, std::string>& dictionary,
 	const std::string& key,
-	const std::string& originalText)
+	const std::string& originalText,
+	const std::string& translation
+	)
 {
-	std::cout << "Неизвестное слово \"" + originalText + "\". Введите перевод или пустую строку для отказа."
-			  << std::endl;
+	std::pair<std::string, std::string> translationUnit = CreateTranslationUnit(key, translation);
+	dictionary.insert(translationUnit);
 
-	std::pair<std::string, std::string> translationUnit;
+	std::string oppositeKey = ConvertTextToLowCase(CutSpaces(translation));
+
+	if (IsTranslationExisting(dictionary, oppositeKey))
+	{
+		dictionary[oppositeKey].append(", " + originalText);
+	}
+	else
+	{
+		translationUnit = CreateTranslationUnit(oppositeKey, originalText);
+		dictionary.insert(translationUnit);
+	}
+}
+
+void CreateTranslation(std::map<std::string, std::string>& dictionary,	const std::string& key, const std::string& originalText)
+{
+	std::cout << "Неизвестное слово \"" + originalText + "\". Введите перевод или пустую строку для отказа." << std::endl;
+
 	std::string translation;
 	getline(std::cin, translation);
 
 	if (translation != "")
 	{
-		translationUnit = CreateTranslationUnit(key, translation);
-		dictionary.insert(translationUnit);
-
-		std::string oppositeKey = ConvertTextToLowCase(CutSpaces(translation));
-
-		if (IsTranslationExisting(dictionary, oppositeKey))
-		{
-			dictionary[oppositeKey].append(", " + originalText);
-		}
-		else
-		{
-			translationUnit = CreateTranslationUnit(oppositeKey, originalText);
-			dictionary.insert(translationUnit);
-		}
+		AddNewTranslationToDictionary(dictionary, key, originalText, translation);
 		std::cout << "Слово \"" + originalText + "\" сохранено в словаре как \"" + translation + "\"" << std::endl;
 	}
 	else

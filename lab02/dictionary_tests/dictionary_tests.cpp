@@ -57,7 +57,7 @@ SCENARIO("Проверка DeleteBrackets")
 			REQUIRE(result == "text");
 		}
 	}
-}
+} 
 
 SCENARIO("Проверка функции CutSpaces")
 {
