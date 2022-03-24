@@ -21,6 +21,42 @@ void ReplaceText(std::string& str, size_t found, const std::string& escapeCode, 
 	str.insert(found, symbol);
 }
 
+bool IsLeftArrowCode(const std::string& str, const size_t found)
+{
+	return str[found] == '&'
+		&& str[found + 1] == 'l'
+		&& str[found + 2] == 't'
+		&& str[found + 3] == ';';
+}
+
+bool IsRightArrowCode(const std::string& str, const size_t found)
+{
+	return str[found] == '&'
+		&& str[found + 1] == 'g'
+		&& str[found + 2] == 't'
+		&& str[found + 3] == ';';
+}
+
+bool IsQuotesCode(const std::string& str, const size_t found)
+{
+	return str[found] == '&'
+		&& str[found + 1] == 'q'
+		&& str[found + 2] == 'u'
+		&& str[found + 3] == 'o'
+		&& str[found + 4] == 't'
+		&& str[found + 5] == ';';
+}
+
+bool IsApostropheCode(const std::string& str, const size_t found)
+{
+	return str[found] == '&'
+		&& str[found + 1] == 'a'
+		&& str[found + 2] == 'p'
+		&& str[found + 3] == 'o'
+		&& str[found + 4] == 's'
+		&& str[found + 5] == ';';
+}
+
 std::string HtmlDecode(const std::string& text)
 {
 	std::string str = text;
@@ -29,22 +65,22 @@ std::string HtmlDecode(const std::string& text)
 	while (found != std::string::npos)
 	{
 		// 1. можно условия вынести в функции для удобства чтения
-		if (str[found] == '&' && str[found + 1] == 'l' && str[found + 2] == 't' && str[found + 3] == ';')
+		if (IsLeftArrowCode(str, found))
 		{
 			ReplaceText(str, found, LEFT_ARROW_CODE, LEFT_ARROW_SYMBOL);
 		}
 
-		if (str[found] == '&' && str[found + 1] == 'g' && str[found + 2] == 't' && str[found + 3] == ';')
+		if (IsRightArrowCode(str, found))
 		{
 			ReplaceText(str, found, RIGHT_ARROW_CODE, RIGHT_ARROW_SYMBOL);
 		}
 
-		if (str[found] == '&' && str[found + 1] == 'q' && str[found + 2] == 'u' && str[found + 3] == 'o' && str[found + 4] == 't' && str[found + 5] == ';')
+		if (IsQuotesCode(str, found))
 		{
 			ReplaceText(str, found, QUOTES_CODE, QUOTES_SYMBOL);
 		}
 
-		if (str[found] == '&' && str[found + 1] == 'a' && str[found + 2] == 'p' && str[found + 3] == 'o' && str[found + 4] == 's' && str[found + 5] == ';')
+		if ()
 		{
 			ReplaceText(str, found, APOSTROPHE_CODE, APOSTROPHE_SYMBOL);
 		}
