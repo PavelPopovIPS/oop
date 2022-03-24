@@ -1,9 +1,6 @@
 // HtmlDecode.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-// string.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "HtmlDecode.h"
 #include <iostream>
 #include <string>
@@ -28,4 +25,3 @@ int main()
 
 	return 0;
 }
- 
