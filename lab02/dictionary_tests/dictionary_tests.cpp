@@ -338,8 +338,6 @@ SCENARIO("Проверка функции AddNewTranslationToDictionary")
 	GIVEN("пусотй контейнер map")
 	{
 		std::map<std::string, std::string> dictionary;
-		//dictionary.insert(std::make_pair(key, translation));
-		//dictionary.insert(std::make_pair(translation, key));
 
 		WHEN("в AddNewTranslationToDictionary передается пустой контейнер map, пара key и translation и оригинальный текст")
 		{
