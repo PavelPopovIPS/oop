@@ -332,3 +332,34 @@ SCENARIO("Проверка функции IsTranslationExisting")
 		}
 	}
 }
+
+SCENARIO("Проверка функции AddNewTranslationToDictionary")
+{
+	GIVEN("пусотй контейнер map")
+	{
+		std::map<std::string, std::string> dictionary;
+		//dictionary.insert(std::make_pair(key, translation));
+		//dictionary.insert(std::make_pair(translation, key));
+
+		WHEN("в AddNewTranslationToDictionary передается пустой контейнер map, пара key и translation и оригинальный текст")
+		{
+			std::string originalText = "Cat";
+			std::string key = "cat";
+			std::string translation = "кот";
+			AddNewTranslationToDictionary(dictionary, key, originalText, translation);
+
+			THEN("В словарике должно появитсяь два элемента для двунаправленного перевода")
+			{
+				REQUIRE(dictionary.size() == 2);
+			}
+			
+			THEN("оба элемента словарика должны обеспечивать двунаправленный перевод")
+			{
+				REQUIRE(dictionary["cat"] == "кот");
+				REQUIRE(dictionary["кот"] == "Cat");
+			}
+		}
+
+	}
+
+}
