@@ -203,6 +203,8 @@ bool Car::SetSpeed(int speed)
 		if (m_gear == 5)
 		{
 		}
+
+		return false;
 	}
 	else
 	{
