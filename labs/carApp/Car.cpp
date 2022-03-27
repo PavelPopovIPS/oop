@@ -3,7 +3,7 @@
 
 bool Car::IsTurnedOn() const
 {
-	return false;
+	return m_isEngineOn;
 }
 
 Direction Car::GetDirection() const
@@ -24,12 +24,14 @@ int Car::GetGear() const
 
 bool Car::TurnOnEngine()
 {
-	return false;
+	m_isEngineOn = true;
+	return m_isEngineOn;
 }
 
 bool Car::TurnOffEngine()
 {
-	return false;
+	m_isEngineOn = false;
+	return m_isEngineOn;
 }
 
 bool Car::SetGear(int gear)
