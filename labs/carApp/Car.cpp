@@ -61,21 +61,59 @@ bool Car::SetGear(int gear)
 				m_gear = gear;
 				return true;
 			}
+
 			return false;
 		}
 
-		if (m_speed > 0 && m_speed <= 20)
+		if (m_direction == Direction::Forward)
 		{
-			if (m_direction == Direction::Forward)
+			if (m_speed > 0 && m_speed <= 20)
+			{
+
+				if (gear == 1)
+				{
+					m_gear = gear;
+					return true;
+				}
+			}
+
+			if (m_speed >= 20 && m_speed <= 30)
 			{
 				if (gear == 1)
 				{
 					m_gear = gear;
 					return true;
 				}
-				return false;
+
+				if (gear == 2)
+				{
+					m_gear = gear;
+					return true;
+				}
+			}
+
+			if (m_speed >= 30 && m_speed <= 40)
+			{
+			}
+
+			if (m_speed >= 40 && m_speed <= 50)
+			{
+			}
+
+			if (m_speed >= 50 && m_speed <= 60)
+			{
+			}
+
+			if (m_speed >= 60 && m_speed <= 90)
+			{
+			}
+
+			if (m_speed >= 90 && m_speed <= 150)
+			{
 			}
 		}
+
+		return false;
 	}
 	else
 	{

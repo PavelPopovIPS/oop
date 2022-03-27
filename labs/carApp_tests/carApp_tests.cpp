@@ -293,6 +293,67 @@ SCENARIO("Testing method SetGear()")
 		}
 	}
 
+	GIVEN("engine is turn on, gear is -1 and speed 10")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(10);
+
+		WHEN("set gear 0 and set gear -1 again")
+		{
+			bool result = car.SetGear(0);
+
+			THEN("SetGear() should return true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			result = car.SetGear(-1);
+			int resultGear = car.GetGear();
+
+			THEN("SetGear() should return false and GetGear() should return 0")
+			{
+				bool expectedResult = false;
+				int expectedGear = 0;
+				REQUIRE(result == expectedResult);
+				REQUIRE(resultGear == expectedGear);
+			}
+		}
+
+		WHEN("set gear 0, set speed 0 and set gear -1 again")
+		{
+			car.SetGear(0);
+			car.SetSpeed(0);
+			bool result = car.SetGear(-1);
+			int resultGear = car.GetGear();
+
+			THEN("SetGear() should return true and GetGear() should return -1")
+			{
+				bool expectedResult = true;
+				int expectedGear = -1;
+				REQUIRE(result == expectedResult);
+				REQUIRE(resultGear == expectedGear);
+			}
+		}
+
+		WHEN("set gear 0 and set gear 1")
+		{
+			car.SetGear(0);
+			bool result = car.SetGear(1);
+			int resultGear = car.GetGear();
+
+			THEN("SetGear() should return false and GetGear() should return 0")
+			{
+				bool expectedResult = false;
+				int expectedGear = 0;
+				REQUIRE(result == expectedResult);
+				REQUIRE(resultGear == expectedGear);
+			}
+		}
+	}
+
 	GIVEN("engine is turn on")
 	{
 		Car car;
@@ -345,11 +406,11 @@ SCENARIO("Testing method SetGear()")
 
 SCENARIO("Testing method SetSpeed()")
 {
-	GIVEN("class car")
+	GIVEN("class car and engine is turn off")
 	{
 		Car car;
 
-		WHEN("engine is turn off and set speed 10")
+		WHEN("set speed 10")
 		{
 			bool result = car.SetSpeed(10);
 
@@ -467,6 +528,71 @@ SCENARIO("Testing method SetSpeed()")
 				REQUIRE(statusResult == expectedResult);
 				REQUIRE(directionResult == expectedDirection);
 				REQUIRE(speedResult == expectedSpeed);
+			}
+		}
+
+		WHEN("set speed 20, set speed 0")
+		{
+			bool statusResult = car.SetSpeed(20);
+			statusResult = car.SetSpeed(0);
+			Direction directionResult = car.GetDirection();
+			int speedResult = car.GetSpeed();
+			int gearResult = car.GetGear();
+
+			THEN("status should be true, direction should be Stop, speed should be 0, gear should be -1")
+			{
+				bool expectedResult = true;
+				Direction expectedDirection = Direction::Stop;
+				int expectedSpeed = 0;
+				int expectedGear = -1;
+				REQUIRE(statusResult == expectedResult);
+				REQUIRE(directionResult == expectedDirection);
+				REQUIRE(speedResult == expectedSpeed);
+				REQUIRE(gearResult == expectedGear);
+			}
+		}
+
+		WHEN("set speed 20, set gear 0, set speed 0")
+		{
+			bool statusResult = car.SetSpeed(20);
+			statusResult = car.SetGear(0);
+			statusResult = car.SetSpeed(0);
+			Direction directionResult = car.GetDirection();
+			int speedResult = car.GetSpeed();
+			int gearResult = car.GetGear();
+
+			THEN("status should be true, direction should be Stop, speed should be 0, gear should be 0")
+			{
+				bool expectedResult = true;
+				Direction expectedDirection = Direction::Stop;
+				int expectedSpeed = 0;
+				int expectedGear = 0;
+				REQUIRE(statusResult == expectedResult);
+				REQUIRE(directionResult == expectedDirection);
+				REQUIRE(speedResult == expectedSpeed);
+				REQUIRE(gearResult == expectedGear);
+			}
+		}
+
+		WHEN("set speed 10, set gear 0, set speed 15")
+		{
+			bool statusResult = car.SetSpeed(10);
+			statusResult = car.SetGear(0);
+			statusResult = car.SetSpeed(15);
+			Direction directionResult = car.GetDirection();
+			int speedResult = car.GetSpeed();
+			int gearResult = car.GetGear();
+
+			THEN("status should be false, direction should be Back, speed should be 10, gear should be 0")
+			{
+				bool expectedResult = false;
+				Direction expectedDirection = Direction::Back;
+				int expectedSpeed = 10;
+				int expectedGear = 0;
+				REQUIRE(statusResult == expectedResult);
+				REQUIRE(directionResult == expectedDirection);
+				REQUIRE(speedResult == expectedSpeed);
+				REQUIRE(gearResult == expectedGear);
 			}
 		}
 	}
@@ -623,6 +749,6 @@ SCENARIO("Testing method SetSpeed()")
 	}
 }
 
-SCENARIO("")
+SCENARIO("Конфликтные ситуации с переключением скоростей")
 {
 }
