@@ -140,7 +140,7 @@ bool Car::SetSpeed(int speed)
 				return true;
 			}
 
-			if (speed > 0 && speed <= 20)
+			if (speed > 0 && speed <= 30)
 			{
 				m_speed = speed;
 				m_direction = Direction::Forward;
