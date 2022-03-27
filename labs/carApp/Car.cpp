@@ -8,30 +8,40 @@ bool Car::IsTurnedOn() const
 
 Direction Car::GetDirection() const
 {
-	Direction direction = Direction::Stop;
-	return direction;
-}
-
-int Car::GetSpeed() const
-{
-	return 0;
+	return m_direction;
 }
 
 int Car::GetGear() const
 {
-	return 0;
+	return m_gear;
+}
+
+int Car::GetSpeed() const
+{
+	return m_speed;
 }
 
 bool Car::TurnOnEngine()
 {
-	m_isEngineOn = true;
-	return m_isEngineOn;
+	if (!m_isEngineOn)
+	{
+		m_isEngineOn = true;
+	}
+	return true;
 }
 
 bool Car::TurnOffEngine()
 {
-	m_isEngineOn = false;
-	return m_isEngineOn;
+	if (m_isEngineOn)
+	{
+		if (m_gear == 0 && m_speed == 0 && m_direction == Direction::Stop)
+		{
+			m_isEngineOn = false;
+			return true;
+		}
+		return false;
+	}
+	return true;
 }
 
 bool Car::SetGear(int gear)
