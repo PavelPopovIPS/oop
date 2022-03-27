@@ -268,5 +268,117 @@ SCENARIO("Testing method SetGear()")
 			}
 		}
 	}
+
+	GIVEN("engine is turn on")
+	{
+		Car car;
+		car.TurnOnEngine();
+
+		WHEN("set gear equal 0")
+		{
+			bool returnResult = car.SetGear(1);
+
+			THEN("SetGear() should return true")
+			{
+				bool expectedResult = true;
+				REQUIRE(returnResult == expectedResult);
+			}
+
+			int state = car.GetGear();
+			THEN("GetGear() should return 0")
+			{
+				int expectedResult = 1;
+				REQUIRE(state == expectedResult);
+			}
+		}
+	}
+
+	GIVEN("engine is turn on")
+	{
+		Car car;
+		car.TurnOnEngine();
+
+		WHEN("set gear equal 1")
+		{
+			bool returnResult = car.SetGear(1);
+
+			THEN("SetGear() should return true")
+			{
+				bool expectedResult = true;
+				REQUIRE(returnResult == expectedResult);
+			}
+
+			int state = car.GetGear();
+			THEN("GetGear() should return 1")
+			{
+				int expectedResult = 1;
+				REQUIRE(state == expectedResult);
+			}
+		}
+	}
 	// Дописать тесты назначения передачи на каждый диапазон скорости
+}
+
+SCENARIO("Testing method SetSpeed()")
+{
+	GIVEN("class car")
+	{
+		Car car;
+
+		WHEN("engine is turn off and set speed 10")
+		{
+			bool result = car.SetSpeed(10);
+
+			THEN("SetSpeed() should return false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+		}
+	}
+
+	GIVEN("turn on car and gear is zero and speed is zero")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(0);
+
+		WHEN("set speed 0")
+		{
+			bool statusResult = car.SetSpeed(0);
+			Direction directionResult = car.GetDirection();
+			int speedResult = car.GetSpeed();
+
+			THEN("status should be true, direction should be Stop, speed should be zero")
+			{
+				bool expectedResult = true;
+				Direction expectedDirection = Direction::Stop;
+				int expectedSpeed = 0;
+				REQUIRE(statusResult == expectedResult);
+				REQUIRE(directionResult == expectedDirection);
+				REQUIRE(speedResult == expectedSpeed);
+			}
+		}
+
+		WHEN("set speed 10")
+		{
+			bool statusResult = car.SetSpeed(10);
+			Direction directionResult = car.GetDirection();
+			int speedResult = car.GetSpeed();
+
+			THEN("status should be false, direction should be Stop, speed should be zero")
+			{
+				bool expectedResult = false;
+				Direction expectedDirection = Direction::Stop;
+				int expectedSpeed = 0;
+				REQUIRE(statusResult == expectedResult);
+				REQUIRE(directionResult == expectedDirection);
+				REQUIRE(speedResult == expectedSpeed);
+			}
+		}
+	}
+}
+
+SCENARIO("")
+{
 }
