@@ -46,7 +46,19 @@ bool Car::TurnOffEngine()
 
 bool Car::SetGear(int gear)
 {
-	return false;
+	if (m_isEngineOn)
+	{
+		return true;
+	}
+	else
+	{
+		if (gear == 0)
+		{
+			m_gear = gear;
+			return true;
+		}
+		return false;
+	}
 }
 
 bool Car::SetSpeed(int speed)

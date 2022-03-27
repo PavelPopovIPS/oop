@@ -86,7 +86,7 @@ SCENARIO("Testing property GetDirection()")
 
 SCENARIO("Testing property GetGear()")
 {
-	GIVEN("class Car")
+	GIVEN("class Car for default states")
 	{
 		Car car;
 
@@ -114,6 +114,34 @@ SCENARIO("Testing property GetGear()")
 		}
 	}
 
+	GIVEN("class car for gear changing")
+	{
+		Car car;
+
+		WHEN("engine is turn off and set 0 gear (neutral)")
+		{
+			car.SetGear(0);
+			int result = car.GetGear();
+
+			THEN("GetGear() should return 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(result == expectedResult);
+			}
+		}
+
+		WHEN("engine is turn off and set gear not equal 0(neutral)")
+		{
+			car.SetGear(-1);
+			int result = car.GetGear();
+
+			THEN("GetGear() should return 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(result == expectedResult);
+			}
+		}
+	}
 	// TODO: Написать тесты для остальных передач
 }
 
@@ -210,4 +238,35 @@ SCENARIO("Testing method TurnOffEngine()")
 	}
 
 	// TODO: Написать тесты для случчаев когда передача не нейтраль, скорость не ноль и направление не стоп
+}
+
+SCENARIO("Testing method SetGear()")
+{
+	GIVEN("class car")
+	{
+		Car car;
+
+		WHEN("engine is turn off and set 0 gear (neutral)")
+		{
+			bool result = car.SetGear(0);
+
+			THEN("SetGear() should return true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+		}
+
+		WHEN("engine is turn off and set gear not equal 0(neutral)")
+		{
+			bool result = car.SetGear(1);
+
+			THEN("SetGear() should return false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+		}
+	}
+	// Дописать тесты назначения передачи на каждый диапазон скорости
 }
