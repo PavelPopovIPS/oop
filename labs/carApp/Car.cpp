@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Car.h"
 
 bool Car::IsTurnedOn() const
@@ -94,6 +94,23 @@ bool Car::SetGear(int gear)
 
 			if (m_speed >= 30 && m_speed <= 40)
 			{
+				if (gear == 1)
+				{
+					m_gear = gear;
+					return true;
+				}
+
+				if (gear == 2)
+				{
+					m_gear = gear;
+					return true;
+				}
+
+				if (gear == 3)
+				{
+					m_gear = gear;
+					return true;
+				}
 			}
 
 			if (m_speed >= 40 && m_speed <= 50)
@@ -145,13 +162,11 @@ bool Car::SetSpeed(int speed)
 				m_direction = Direction::Back;
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+
+			return false;
 		}
 
-		if (m_gear == 0) // Neutral, ñêîğîñòü ìîæåò òîëüêî óìåíüøàòüñÿ
+		if (m_gear == 0) // Neutral, ÑĞºĞ¾Ñ€Ğ¾ÑÑ‚ÑŒ Ğ¼Ğ¾Ğ¶ĞµÑ‚ Ñ‚Ğ¾Ğ»ÑŒĞºĞ¾ ÑƒĞ¼ĞµĞ½ÑŒÑˆĞ°Ñ‚ÑŒÑÑ
 		{
 			if (speed == 0)
 			{
