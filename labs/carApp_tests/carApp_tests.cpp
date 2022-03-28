@@ -240,13 +240,14 @@ SCENARIO("Testing method TurnOffEngine()")
 	// TODO: Написать тесты для случчаев когда передача не нейтраль, скорость не ноль и направление не стоп
 }
 
+// Проверяю возможность вставить передачу на определенной скорости
 SCENARIO("Testing method SetGear()")
 {
-	GIVEN("class car")
+	GIVEN("class car and engine is turn off")
 	{
 		Car car;
 
-		WHEN("engine is turn off and set 0 gear (neutral)")
+		WHEN("set 0 gear (neutral)")
 		{
 			bool result = car.SetGear(0);
 
@@ -257,7 +258,7 @@ SCENARIO("Testing method SetGear()")
 			}
 		}
 
-		WHEN("engine is turn off and set gear not equal 0(neutral)")
+		WHEN("set gear not equal 0(neutral)")
 		{
 			bool result = car.SetGear(1);
 
@@ -269,12 +270,12 @@ SCENARIO("Testing method SetGear()")
 		}
 	}
 
-	GIVEN("engine is turn on")
+	GIVEN("engine is turn on and speed 0")
 	{
 		Car car;
 		car.TurnOnEngine();
 
-		WHEN("set gear equal -1")
+		WHEN("set gear -1")
 		{
 			bool returnResult = car.SetGear(-1);
 
@@ -354,14 +355,14 @@ SCENARIO("Testing method SetGear()")
 		}
 	}
 
-	GIVEN("engine is turn on")
+	GIVEN("engine is turn on and speed 0")
 	{
 		Car car;
 		car.TurnOnEngine();
 
 		WHEN("set gear equal 0")
 		{
-			bool returnResult = car.SetGear(1);
+			bool returnResult = car.SetGear(0);
 
 			THEN("SetGear() should return true")
 			{
@@ -372,13 +373,13 @@ SCENARIO("Testing method SetGear()")
 			int state = car.GetGear();
 			THEN("GetGear() should return 0")
 			{
-				int expectedResult = 1;
+				int expectedResult = 0;
 				REQUIRE(state == expectedResult);
 			}
 		}
 	}
 
-	GIVEN("engine is turn on")
+	GIVEN("engine is turn on and speed 0")
 	{
 		Car car;
 		car.TurnOnEngine();
@@ -401,9 +402,13 @@ SCENARIO("Testing method SetGear()")
 			}
 		}
 	}
-	// Дописать тесты назначения передачи на каждый диапазон скорости
 }
 
+SCENARIO("Проверка включения первой скорости на разных скоростях")
+{
+}
+
+// Проверяю ограничения скорости для определенной передачи
 SCENARIO("Testing method SetSpeed()")
 {
 	GIVEN("class car and engine is turn off")
@@ -747,8 +752,4 @@ SCENARIO("Testing method SetSpeed()")
 			}
 		}
 	}
-}
-
-SCENARIO("Конфликтные ситуации с переключением скоростей")
-{
 }
