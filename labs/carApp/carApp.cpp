@@ -2,8 +2,13 @@
 //
 
 #include "stdafx.h"
+#include "Car.h"
+#include "Driver.h"
 
 int main()
 {
-	std::cout << "Hello World!\n";
+	Car car;
+	Driver driver(car);
+
+	driver.Init();
 }

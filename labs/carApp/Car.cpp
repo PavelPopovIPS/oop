@@ -254,9 +254,6 @@ bool Car::SetSpeed(int speed)
 
 		return false; // передали неправильный номер передачи
 	}
-	else
-	{
 
-		return false;
-	}
+	return false;
 }
