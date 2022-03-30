@@ -214,3 +214,121 @@ SCENARIO("2. Проверка метода TurnOffEngine()")
 		}
 	}
 }
+
+SCENARIO("3 Проверка SetGear() и SetSpeed() - При вЫключенном двигателе")
+{
+	SECTION("3.1 При выключенном двигателе включается только нейтраль")
+	{
+		Car car;
+
+		WHEN("включаю нейтраль")
+		{
+			bool result = car.SetGear(0);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("3.2 При вЫключенном двигателе задняя передача (-1) не включается")
+	{
+		Car car;
+
+		WHEN("включаю заднюю передачу")
+		{
+			bool result = car.SetGear(-1);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("3.3 При вЫключенном двигателе первая передача не включается")
+	{
+		Car car;
+
+		WHEN("включаю первую передачу")
+		{
+			bool result = car.SetGear(1);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("3.4 При вЫключенном двигателе отрицательная скорость не выставляется")
+	{
+		Car car;
+
+		WHEN("выставляю скорость меньше нуля")
+		{
+			bool result = car.SetSpeed(-1);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость на нуле")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("3.5 При вЫключенном двигателе скорость не выставляется")
+	{
+		Car car;
+
+		WHEN("выставляю скорость больше нуля")
+		{
+			bool result = car.SetSpeed(1);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость на нуле")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+}
