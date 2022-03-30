@@ -333,7 +333,7 @@ SCENARIO("3 Проверка SetGear() и SetSpeed() - При вЫключенн
 	}
 }
 
-SCENARIO("4.1 Проверка SetGear() и SetSpeed() - При вКлюченном двигателе - Задняя передача ")
+SCENARIO("4.1 Проверка SetGear() и SetSpeed() - При вКлюченном двигателе - Задняя передача")
 {
 	SECTION("4.1.1 На задний ход (-1) можно переключиться на нулевой скорости")
 	{
@@ -677,6 +677,69 @@ SCENARIO("4.1 Проверка SetGear() и SetSpeed() - При вКлюченн
 			{
 				int expectedResult = -1;
 				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("4.2 Проверка SetGear() и SetSpeed() - При вКлюченном двигателе - Нейтраль")
+{
+	SECTION("4.2.1 На нейтрали можно переключиться на нейтраль")
+	{
+		Car car;
+		car.TurnOnEngine();
+
+		WHEN("включаю нейтраль")
+		{
+			bool result = car.SetGear(0);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.2.2 Переключиться на нейтраль с 1й скорости и остановиться")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(15);
+
+		WHEN("включаю нейтраль и останавливаюсь")
+		{
+			car.SetGear(0);
+			car.SetSpeed(0);
+
+			int gear = car.GetGear();
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+
+			THEN("скорость 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина стоит на месте")
+			{
+				Direction expectedResult = Direction::Stop;
+				REQUIRE(direction == expectedResult);
 			}
 		}
 	}
