@@ -332,3 +332,352 @@ SCENARIO("3 Проверка SetGear() и SetSpeed() - При вЫключенн
 		}
 	}
 }
+
+SCENARIO("4.1 Проверка SetGear() и SetSpeed() - При вКлюченном двигателе - Задняя передача ")
+{
+	SECTION("4.1.1 На задний ход (-1) можно переключиться на нулевой скорости")
+	{
+		Car car;
+		car.TurnOnEngine();
+
+		WHEN("включаю заднюю передачу")
+		{
+			bool result = car.SetGear(-1);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена задняя скорость")
+			{
+				int expectedResult = -1;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.2 Можно стоять на месте задав скорость 0, направление будет stop")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+
+		WHEN("задаю скорость 0")
+		{
+			bool result = car.SetSpeed(0);
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость равна 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина стоит на месте")
+			{
+				Direction expectedResult = Direction::Stop;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.3 Можно развить скорость 1, направление будет back")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+
+		WHEN("задаю скорость 1")
+		{
+			bool result = car.SetSpeed(1);
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость равна 1")
+			{
+				int expectedResult = 1;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина двигается назад")
+			{
+				Direction expectedResult = Direction::Back;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.4 Можно развить скорость 20, направление будет back")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+
+		WHEN("задаю скорость 20")
+		{
+			bool result = car.SetSpeed(20);
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость равна 20")
+			{
+				int expectedResult = 20;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина двигается назад")
+			{
+				Direction expectedResult = Direction::Back;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.5 При движении назад на нейтральной передаче не допускается включать заднюю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(10);
+		car.SetGear(0);
+
+		WHEN("включаю заднюю передачу")
+		{
+			bool result = car.SetGear(-1);
+			int gear = car.GetGear();
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтраль")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+
+			THEN("скорость равна 10")
+			{
+				int expectedResult = 10;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина двигается назад")
+			{
+				Direction expectedResult = Direction::Back;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.6 Переключившись на заднем ходу на нейтральную передачу на ненулевой скорости, скорость можно уменьшать")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(10);
+		car.SetGear(0);
+
+		WHEN("уменьшаю скорость")
+		{
+			bool result = car.SetSpeed(8);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость равна 8")
+			{
+				int expectedResult = 8;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1.7 Переключившись на заднем ходу на нейтральную передачу на ненулевой скорости переключиться на переднюю передачу можно только после остановки")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(10);
+		car.SetGear(0);
+		car.SetSpeed(0);
+
+		WHEN("включаю первую скорость")
+		{
+			bool result = car.SetGear(1);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("Включена первая передача")
+			{
+				int expectedResult = 1;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1[Негативный сценарий 1] Нельзя развить скорость меньше 0 ")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+
+		WHEN("задаю отрицательную скорость")
+		{
+			bool result = car.SetSpeed(-1);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1[Негативный сценарий 2] Нельзя развить скорость больше 20 ")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+
+		WHEN("задаю скорость больше 20")
+		{
+			bool result = car.SetSpeed(21);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 0")
+			{
+				int expectedResult = 0;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1[Негативный сценарий 3] Переключившись на заднем ходу на нейтральную передачу на ненулевой скорости переключиться на переднюю нельзя")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(15);
+		car.SetGear(0);
+
+		WHEN("задаю первую передачу")
+		{
+			bool result = car.SetGear(1);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("Включена нейтральная передача")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1[Негативный сценарий 4] Переключившись на заднем ходу на нейтральную передачу на ненулевой скорости, скорость нельзя увеличить")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(10);
+		car.SetGear(0);
+
+		WHEN("увеличиваю скорость")
+		{
+			bool result = car.SetSpeed(15);
+			int speed = car.GetSpeed();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость остается неизменной")
+			{
+				int expectedResult = 10;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.1[Негативный сценарий 5] Нельзя задавать скорость меньше -1")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(20);
+
+		WHEN("увеличиваю скорость")
+		{
+			bool result = car.SetGear(-2);
+			int gear = car.GetGear();
+
+			THEN("метод возвращает false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("передача заняя")
+			{
+				int expectedResult = -1;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+}
