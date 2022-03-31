@@ -34,7 +34,7 @@ bool Car::TurnOffEngine()
 {
 	if (m_isEngineOn)
 	{
-		if (m_gear == 0 && m_speed == 0 && m_direction == Direction::Stop)
+		if (m_gear == 0 && m_speed == 0 && m_direction == Direction::Stop) // одна из проверко (Скорость и направление) лишняя
 		{
 			m_isEngineOn = false;
 			return true;
@@ -44,8 +44,10 @@ bool Car::TurnOffEngine()
 	return true;
 }
 
+// метод слишком большой, наверняка код дублируется (завести табицу, структуру с диапазонами скоростей) и в ней проверять возможность включения передачи
 bool Car::SetGear(int gear)
 {
+	// уменьшить вложенность, если проверять на невключенность двигателя и сразу выходить
 	if (m_isEngineOn)
 	{
 		if (gear == 0)

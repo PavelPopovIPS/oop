@@ -24,5 +24,6 @@ private:
 	bool m_isEngineOn = false;
 	int m_gear = 0;
 	int m_speed = 0;
+	//Возможно обойтись без переменной Direction, храня направление в знаке скорости
 	Direction m_direction = Direction::Stop;
 };
