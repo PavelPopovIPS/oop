@@ -2332,7 +2332,7 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 		WHEN("задать отрицательную скорость")
 		{
 			bool result = car.SetSpeed(-1);
-			int gear = car.GetSpeed();
+			int speed = car.GetSpeed();
 
 			THEN("метод вернет false")
 			{
@@ -2343,7 +2343,7 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 			THEN("скорость 40")
 			{
 				int expectedResult = 40;
-				REQUIRE(gear == expectedResult);
+				REQUIRE(speed == expectedResult);
 			}
 		}
 	}
@@ -2361,7 +2361,7 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 		WHEN("задать скорость 29")
 		{
 			bool result = car.SetSpeed(29);
-			int gear = car.GetSpeed();
+			int speed = car.GetSpeed();
 
 			THEN("метод вернет false")
 			{
@@ -2372,7 +2372,7 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 			THEN("скорость 40")
 			{
 				int expectedResult = 40;
-				REQUIRE(gear == expectedResult);
+				REQUIRE(speed == expectedResult);
 			}
 		}
 	}
@@ -2390,7 +2390,7 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 		WHEN("задать скорость 61")
 		{
 			bool result = car.SetSpeed(61);
-			int gear = car.GetSpeed();
+			int speed = car.GetSpeed();
 
 			THEN("метод вернет false")
 			{
@@ -2401,7 +2401,572 @@ SCENARIO("4.5 Проверка SetGear() и SetSpeed() - При вКлюченн
 			THEN("скорость 40")
 			{
 				int expectedResult = 40;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("4.6 Проверка SetGear() и SetSpeed() - При вКлюченном двигателе - Четвертая передача (4) - скорость 40 – 90")
+{
+	SECTION("4.6.1 При скорости 40 со 2й передачи можно переключиться на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(2);
+		car.SetSpeed(40);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
 				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.2 При скорости 40 с 3й передачи можно переключиться на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(40);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.3 При скорости 60 с 3й передачи можно переключиться на 4ю передачу ")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.4 При скорости 50 с 5й передачи можно переключиться на 4ю передачу ")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(5);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.5 При скорости 60 с 5й передачи можно переключиться на 4ю передачу ")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(5);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.7 С 4й передачи можно переключиться на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.8 Можно развить скорость 40 направление будет forward")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+
+		WHEN("задать скорость 40")
+		{
+			bool result = car.SetSpeed(40);
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 40")
+			{
+				int expectedResult = 40;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина двигается вперед")
+			{
+				Direction expectedResult = Direction::Forward;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.9 Можно развить скорость 90 направление будет forward")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+
+		WHEN("задать скорость 90")
+		{
+			bool result = car.SetSpeed(90);
+			int speed = car.GetSpeed();
+			Direction direction = car.GetDirection();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 40")
+			{
+				int expectedResult = 90;
+				REQUIRE(speed == expectedResult);
+			}
+
+			THEN("машина двигается вперед")
+			{
+				Direction expectedResult = Direction::Forward;
+				REQUIRE(direction == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.11 Можно переключиться с нейтрали на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(0);
+
+		WHEN("переключиться на 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.13 На нейтрали можно уменьшить скорость")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+		car.SetSpeed(90);
+		car.SetGear(0);
+
+		WHEN("уменьшить скорость до 50")
+		{
+			bool result = car.SetSpeed(50);
+			int speed = car.GetSpeed();
+
+			THEN("метод вернет true")
+			{
+				bool expectedResult = true;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость уменьшена до 50")
+			{
+				int expectedResult = 50;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6.14 На нейтрали нельзя увеличить скорость")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+		car.SetSpeed(80);
+		car.SetGear(0);
+
+		WHEN("увеличить скорость на 5")
+		{
+			bool result = car.SetSpeed(85);
+			int speed = car.GetSpeed();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость осталась прежней")
+			{
+				int expectedResult = 80;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 1] При нулевой передаче и нулевой скорости нельзя включить 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+
+		WHEN("включить 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтральная передача")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 2] С 4й передачи нельзя переключиться на заднюю передачу (-1)")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(50);
+		car.SetGear(4);
+
+		WHEN("включить заднюю передачу")
+		{
+			bool result = car.SetGear(-1);
+			int gear = car.GetGear();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 4я передача")
+			{
+				int expectedResult = 4;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 3] При скорости 39 нельзя переключиться с 3й на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(39);
+
+		WHEN("включить 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 3я передача")
+			{
+				int expectedResult = 3;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 4] При скорости 91 нельзя переключиться с 5й на 4ю передачу")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(5);
+		car.SetSpeed(91);
+
+		WHEN("включить 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена 5я передача")
+			{
+				int expectedResult = 5;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 5] На нейтрали уменьшить скорость до 39 и переключиться на 4ю")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(0);
+		car.SetSpeed(39);
+
+		WHEN("включить 4ю передачу")
+		{
+			bool result = car.SetGear(4);
+			int gear = car.GetGear();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("включена нейтральная передача")
+			{
+				int expectedResult = 0;
+				REQUIRE(gear == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 7] Нельзя развить отрицательную скорость")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(4);
+
+		WHEN("задать отрицательную скорость")
+		{
+			bool result = car.SetSpeed(-1);
+			int speed = car.GetSpeed();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 60")
+			{
+				int expectedResult = 60;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 8] Нельзя развить скорость 39")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(4);
+
+		WHEN("задать скорость 39")
+		{
+			bool result = car.SetSpeed(39);
+			int speed = car.GetSpeed();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 60")
+			{
+				int expectedResult = 60;
+				REQUIRE(speed == expectedResult);
+			}
+		}
+	}
+
+	SECTION("4.6 [Негативный сценарий 9] Нельзя развить скорость 91")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(1);
+		car.SetSpeed(30);
+		car.SetGear(3);
+		car.SetSpeed(60);
+		car.SetGear(4);
+
+		WHEN("задать скорость 91")
+		{
+			bool result = car.SetSpeed(91);
+			int speed = car.GetSpeed();
+
+			THEN("метод вернет false")
+			{
+				bool expectedResult = false;
+				REQUIRE(result == expectedResult);
+			}
+
+			THEN("скорость 60")
+			{
+				int expectedResult = 60;
+				REQUIRE(speed == expectedResult);
 			}
 		}
 	}
