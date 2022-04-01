@@ -252,3 +252,11 @@ bool Car::SetSpeed(int speed)
 
 	return false;
 }
+
+void Car::print()
+{
+	for (auto& i : m_gearInfoTable)
+	{
+		std::cout << i.gear << i.minSpeed << i.maxSpeed << std::endl;
+	}
+}
