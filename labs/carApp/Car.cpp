@@ -47,103 +47,96 @@ bool Car::TurnOffEngine()
 // метод слишком большой, наверняка код дублируется (завести табицу, структуру с диапазонами скоростей) и в ней проверять возможность включения передачи
 bool Car::SetGear(int gear)
 {
-	// уменьшить вложенность, если проверять на невключенность двигателя и сразу выходить
-	if (m_isEngineOn)
+	if (gear == 0)
 	{
-		if (gear == 0)
+		m_gear = gear;
+		return true;
+	}
+
+	// уменьшить вложенность, если проверять на невключенность двигателя и сразу выходить
+	if (!m_isEngineOn)
+	{
+		return false;
+	}
+
+	if (m_speed == 0 && m_direction == Direction::Stop)
+	{
+		if (gear == -1 || gear == 1)
 		{
 			m_gear = gear;
 			return true;
 		}
 
-		if (m_speed == 0 && m_direction == Direction::Stop)
+		return false;
+	}
+
+	if (m_direction == Direction::Forward)
+	{
+		if (m_speed > 0 && m_speed <= 20)
 		{
-			if (gear == -1 || gear == 1)
+			if (gear == 1)
 			{
 				m_gear = gear;
 				return true;
 			}
-
-			return false;
 		}
 
-		if (m_direction == Direction::Forward)
+		if (m_speed >= 20 && m_speed <= 30)
 		{
-			if (m_speed > 0 && m_speed <= 20)
+			if (gear == 1 || gear == 2)
 			{
-				if (gear == 1)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 20 && m_speed <= 30)
-			{
-				if (gear == 1 || gear == 2)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 30 && m_speed <= 40)
-			{
-				if (gear == 2 || gear == 3)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 40 && m_speed <= 50)
-			{
-				if (gear == 2 || gear == 3 || gear == 4)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 50 && m_speed <= 60)
-			{
-				if (gear == 3 || gear == 4 || gear == 5)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 60 && m_speed <= 90)
-			{
-				if (gear == 4 || gear == 5)
-				{
-					m_gear = gear;
-					return true;
-				}
-			}
-
-			if (m_speed >= 90 && m_speed <= 150)
-			{
-				if (gear == 5)
-				{
-					m_gear = gear;
-					return true;
-				}
+				m_gear = gear;
+				return true;
 			}
 		}
 
-		return false;
-	}
-	else
-	{
-		if (gear == 0)
+		if (m_speed >= 30 && m_speed <= 40)
 		{
-			m_gear = gear;
-			return true;
+			if (gear == 2 || gear == 3)
+			{
+				m_gear = gear;
+				return true;
+			}
 		}
-		return false;
+
+		if (m_speed >= 40 && m_speed <= 50)
+		{
+			if (gear == 2 || gear == 3 || gear == 4)
+			{
+				m_gear = gear;
+				return true;
+			}
+		}
+
+		if (m_speed >= 50 && m_speed <= 60)
+		{
+			if (gear == 3 || gear == 4 || gear == 5)
+			{
+				m_gear = gear;
+				return true;
+			}
+		}
+
+		if (m_speed >= 60 && m_speed <= 90)
+		{
+			if (gear == 4 || gear == 5)
+			{
+				m_gear = gear;
+				return true;
+			}
+		}
+
+		if (m_speed >= 90 && m_speed <= 150)
+		{
+			if (gear == 5)
+			{
+				m_gear = gear;
+				return true;
+			}
+		}
 	}
+
+	return false;
 }
 
 bool Car::SetSpeed(int speed)
