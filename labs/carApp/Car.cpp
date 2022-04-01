@@ -253,7 +253,7 @@ bool Car::SetSpeed(int speed)
 	return false; // передали неправильный номер передачи
 }
 
-void Car::print()
+void Car::print() // debug
 {
 	for (auto& i : m_GEAR_TABLE_INFO)
 	{
@@ -263,15 +263,40 @@ void Car::print()
 
 GearInfo Car::FindGearInfo(int gear)
 {
-	return m_GEAR_TABLE_INFO[0];
+	for (GearInfo gearInfo : m_GEAR_TABLE_INFO)
+	{
+		if (gearInfo.gear == gear)
+		{
+			return gearInfo;
+		}
+	}
 }
 
 bool Car::CanSetGear(int gear)
 {
-	return false;
+	if (gear < -1 && gear > 5)
+	{
+		return false;
+	}
+
+	GearInfo gearInfo = FindGearInfo(gear);
+
+	if (m_speed < gearInfo.minSpeed || m_speed > gearInfo.minSpeed)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool Car::CanSetSpeed(int speed)
 {
-	return false;
+	GearInfo gearInfo = FindGearInfo(m_gear);
+
+	if (speed < gearInfo.minSpeed || speed > gearInfo.minSpeed)
+	{
+		return false;
+	}
+
+	return true;
 }
