@@ -255,8 +255,23 @@ bool Car::SetSpeed(int speed)
 
 void Car::print()
 {
-	for (auto& i : m_gearInfoTable)
+	for (auto& i : m_GEAR_TABLE_INFO)
 	{
 		std::cout << i.gear << i.minSpeed << i.maxSpeed << std::endl;
 	}
+}
+
+GearInfo Car::FindGearInfo(int gear)
+{
+	return m_GEAR_TABLE_INFO[0];
+}
+
+bool Car::CanSetGear(int gear)
+{
+	return false;
+}
+
+bool Car::CanSetSpeed(int speed)
+{
+	return false;
 }
