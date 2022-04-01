@@ -141,116 +141,116 @@ bool Car::SetGear(int gear)
 
 bool Car::SetSpeed(int speed)
 {
-	if (m_isEngineOn)
+	if (!m_isEngineOn)
 	{
-		if (m_gear == -1)
-		{
-			if (speed == 0)
-			{
-				m_speed = speed;
-				m_direction = Direction::Stop;
-				return true;
-			}
-
-			if (speed > 0 && speed <= 20)
-			{
-				m_speed = speed;
-				m_direction = Direction::Back;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 0) // Neutral, скорость может только уменьшаться
-		{
-			if (speed == 0)
-			{
-				m_speed = speed;
-				m_direction = Direction::Stop;
-				return true;
-			}
-
-			if (speed > 0 && speed <= m_speed)
-			{
-				m_speed = speed;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 1)
-		{
-			if (speed == 0)
-			{
-				m_speed = speed;
-				m_direction = Direction::Stop;
-				return true;
-			}
-
-			if (speed > 0 && speed <= 30)
-			{
-				m_speed = speed;
-				m_direction = Direction::Forward;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 2)
-		{
-			if (speed >= 20 && speed <= 50)
-			{
-				m_speed = speed;
-				m_direction = Direction::Forward;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 3)
-		{
-			if (speed >= 30 && speed <= 60)
-			{
-				m_speed = speed;
-				m_direction = Direction::Forward;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 4)
-		{
-			if (speed >= 40 && speed <= 90)
-			{
-				m_speed = speed;
-				m_direction = Direction::Forward;
-				return true;
-			}
-
-			return false;
-		}
-
-		if (m_gear == 5)
-		{
-			if (speed >= 50 && speed <= 150)
-			{
-				m_speed = speed;
-				m_direction = Direction::Forward;
-				return true;
-			}
-
-			return false;
-		}
-
-		return false; // передали неправильный номер передачи
+		return false;
 	}
 
-	return false;
+	if (m_gear == -1)
+	{
+		if (speed == 0)
+		{
+			m_speed = speed;
+			m_direction = Direction::Stop;
+			return true;
+		}
+
+		if (speed > 0 && speed <= 20)
+		{
+			m_speed = speed;
+			m_direction = Direction::Back;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 0) // Neutral, скорость может только уменьшаться
+	{
+		if (speed == 0)
+		{
+			m_speed = speed;
+			m_direction = Direction::Stop;
+			return true;
+		}
+
+		if (speed > 0 && speed <= m_speed)
+		{
+			m_speed = speed;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 1)
+	{
+		if (speed == 0)
+		{
+			m_speed = speed;
+			m_direction = Direction::Stop;
+			return true;
+		}
+
+		if (speed > 0 && speed <= 30)
+		{
+			m_speed = speed;
+			m_direction = Direction::Forward;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 2)
+	{
+		if (speed >= 20 && speed <= 50)
+		{
+			m_speed = speed;
+			m_direction = Direction::Forward;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 3)
+	{
+		if (speed >= 30 && speed <= 60)
+		{
+			m_speed = speed;
+			m_direction = Direction::Forward;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 4)
+	{
+		if (speed >= 40 && speed <= 90)
+		{
+			m_speed = speed;
+			m_direction = Direction::Forward;
+			return true;
+		}
+
+		return false;
+	}
+
+	if (m_gear == 5)
+	{
+		if (speed >= 50 && speed <= 150)
+		{
+			m_speed = speed;
+			m_direction = Direction::Forward;
+			return true;
+		}
+
+		return false;
+	}
+
+	return false; // передали неправильный номер передачи
 }
 
 void Car::print()
