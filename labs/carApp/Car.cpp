@@ -114,6 +114,7 @@ GearInfo Car::FindGearInfo(int gear) const
 			return gearInfo;
 		}
 	}
+	//при сборке в консоли варнинг
 }
 
 bool Car::CanSetGear(int gear) const

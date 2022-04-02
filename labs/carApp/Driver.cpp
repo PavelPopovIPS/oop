@@ -39,7 +39,7 @@ void Driver::Init()
 	}
 }
 
-void Driver::Info([[maybe_unused]] std::istream& args)
+bool Driver::Info([[maybe_unused]] std::istream& args)
 {
 	std::cout << "Engine is Turned ";
 	std::string state = (m_car.IsTurnedOn())
@@ -64,52 +64,108 @@ void Driver::Info([[maybe_unused]] std::istream& args)
 
 	std::cout << "Gear is " << m_car.GetGear() << std::endl;
 	std::cout << "Speed is " << m_car.GetSpeed() << std::endl;
+
+	return true;
 }
 
-void Driver::EngineOn([[maybe_unused]] std::istream& args)
+bool Driver::EngineOn([[maybe_unused]] std::istream& args)
 {
 	m_car.TurnOnEngine();
-	std::cout << "Engine is Turned On" << std::endl;
+	return true;
 }
 
-void Driver::EngineOff([[maybe_unused]] std::istream& args)
+bool Driver::EngineOff([[maybe_unused]] std::istream& args)
 {
-	if (m_car.TurnOffEngine())
+	if (!m_car.TurnOffEngine())
 	{
-		std::cout << "Engine is Turned Off" << std::endl;
+		if (m_car.GetGear() != 0)
+		{
+			std::cout << "Gear is not equal neutral." << std::endl;
+			return false;
+		}
+
+		if (m_car.GetSpeed() != 0)
+		{
+			std::cout << "Speed is not equal 0." << std::endl;
+			return false;
+		}
+
+		return false;
 	}
-	else
-	{
-		std::cout << "Engine state error" << std::endl;
-	}
+	return true;
 }
 
-void Driver::SetGear(std::istream& args)
+bool Driver::SetGear(std::istream& args)
 {
 	int gear;
 	if (!(args >> gear))
 	{
-		std::cout << "Gear is not number\nUse: SetGear <number>" << std::endl
-				  << std::endl;
+		std::cout << "Gear is not number\nUse: SetGear <number>" << std::endl;
+		return false;
 	}
 
 	if (!m_car.SetGear(gear))
 	{
-		std::cout << "Gear state error" << std::endl;
+		if (!m_car.IsTurnedOn())
+		{
+			std::cout << "Engine is not Turned On." << std::endl;
+			return false;
+		}
+
+		if (gear < -1 || gear > 5)
+		{
+			std::cout << "Gear is not correct. You should use numbers -1 ... 5" << std::endl;
+			return false;
+		}
+
+		if (m_car.GetGear() == 0 && m_car.GetDirection() == Direction::Back)
+		{
+			std::cout << "You can not set Back Gear when direction is Back. Stop your car and try again " << std::endl;
+		}
+
+		std::cout << "You can not set gear " + std::to_string(gear)
+				+ " when speed is " + std::to_string(m_car.GetSpeed())
+				  << std::endl;
+
+		return false;
 	}
+	return true;
 }
 
-void Driver::SetSpeed(std::istream& args)
+bool Driver::SetSpeed(std::istream& args)
 {
 	int speed;
 	if (!(args >> speed))
 	{
-		std::cout << "Speed is not number.\nUse: SetSpeed <number>" << std::endl
-				  << std::endl;
+		std::cout << "Speed is not number.\nUse: SetSpeed <number>" << std::endl;
+		return false;
 	}
 
 	if (!m_car.SetSpeed(speed))
 	{
-		std::cout << "Speed state error" << std::endl;
+		if (!m_car.IsTurnedOn())
+		{
+			std::cout << "Engine is not Turned On." << std::endl;
+			return false;
+		}
+
+		if (m_car.GetGear() == 0 && speed > m_car.GetSpeed())
+		{
+			std::cout << "You can not increase speed when gear is neutral." << std::endl;
+			return false;
+		}
+
+		if (speed < 0 || speed > 150)
+		{
+			std::cout << "You can not set speed less then 0 and greater then 150." << std::endl;
+			return false;
+		}
+
+		std::cout << "You can not set speed " + std::to_string(speed)
+				+ " when gear is " + std::to_string(m_car.GetGear())
+				  << std::endl;
+
+		return false;
 	}
+	return true;
 }

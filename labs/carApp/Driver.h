@@ -9,13 +9,13 @@ public:
 	void Init();
 
 private:
-	void Info(std::istream& args);
-	void EngineOn(std::istream& args);
-	void EngineOff(std::istream& args);
-	void SetGear(std::istream& args);
-	void SetSpeed(std::istream& args);
+	bool Info(std::istream& args);
+	bool EngineOn(std::istream& args);
+	bool EngineOff(std::istream& args);
+	bool SetGear(std::istream& args);
+	bool SetSpeed(std::istream& args);
 
-	using Handler = std::function<void(std::istream& args)>;
+	using Handler = std::function<bool(std::istream& args)>;
 	using ActionMap = std::map<std::string, Handler>;
 	ActionMap m_actionMap;
 
