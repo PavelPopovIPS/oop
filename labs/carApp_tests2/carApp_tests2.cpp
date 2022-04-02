@@ -18,33 +18,34 @@
 //{
 //	REQUIRE(action(car));
 // }
-//
-// SCENARIO("Движение задним ходом")
-//{
-//	{
-//		Car car;
-//		car.TurnOnEngine();
-//		car.SetGear(1);
-//		car.SetSpeed(20);
-//		RequireCarToFail(car, [](Car& car) { return car.SetGear(1); });
-//	}
-//
-//	GIVEN("A moving car with turned on engine at backward gear")
-//	{
-//		Car car;
-//		car.TurnOnEngine();
-//		car.SetGear(-1);
-//		car.SetSpeed(15);
-//		WHEN("Setting speed in range 0-20")
-//		{
-//			car.SetSpeed(20);
-//			THEN("Car changes its speed")
-//			{
-//				CHECK(car.GetSpeed() == 20);
-//			}
-//		}
-//	}
-// }
+
+//Пример Алексея
+SCENARIO("Движение задним ходом")
+{
+	//{
+	//	Car car;
+	//	car.TurnOnEngine();
+	//	car.SetGear(1);
+	//	car.SetSpeed(20);
+	//	RequireCarToFail(car, [](Car& car) { return car.SetGear(1); });
+	//}
+
+	GIVEN("A moving car with turned on engine at backward gear")
+	{
+		Car car;
+		car.TurnOnEngine();
+		car.SetGear(-1);
+		car.SetSpeed(15);
+		WHEN("Setting speed in range 0-20")
+		{
+			car.SetSpeed(20);
+			THEN("Car changes its speed")
+			{
+				CHECK(car.GetSpeed() == 20);
+			}
+		}
+	}
+}
 
 SCENARIO("1. Проверка метода TurnOnEngine()")
 {
