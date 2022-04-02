@@ -1,10 +1,10 @@
-#include "Driver.h"
+ï»¿#include "Driver.h"
 using namespace std::placeholders;
 
 Driver::Driver(Car& car)
 	: m_car(car)
 	, m_actionMap({
-		  { "Info", bind(&Driver::Info, this, std::placeholders::_1) }, //çà÷åì áèíäèòü? çà÷åì this ïåðåäàâàòü?
+		  { "Info", bind(&Driver::Info, this, std::placeholders::_1) }, //Ð·Ð°Ñ‡ÐµÐ¼ Ð±Ð¸Ð½Ð´Ð¸Ñ‚ÑŒ? Ð·Ð°Ñ‡ÐµÐ¼ this Ð¿ÐµÑ€ÐµÐ´Ð°Ð²Ð°Ñ‚ÑŒ?
 		  { "EngineOn", bind(&Driver::EngineOn, this, std::placeholders::_1) },
 		  { "EngineOff", bind(&Driver::EngineOff, this, std::placeholders::_1) },
 		  { "SetGear", bind(&Driver::SetGear, this, std::placeholders::_1) },
@@ -22,10 +22,10 @@ void Driver::Init()
 	{
 		std::istringstream strm(line);
 
-		std::string command;
-		strm >> command;
+		std::string action;
+		strm >> action;
 
-		auto it = m_actionMap.find(command);
+		auto it = m_actionMap.find(action);
 		if (it != m_actionMap.end())
 		{
 			it->second(strm);
