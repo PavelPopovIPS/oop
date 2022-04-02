@@ -93,17 +93,14 @@ bool Car::SetSpeed(int speed)
 		return false;
 	}
 
+	if (m_gear == -1 || m_speed < 0) // Пересчитать знак устанавливаемой скорости, если едем назад
+	{
+		speed *= -1;
+	}
+
 	if (CanSetSpeed(speed))
 	{
-		if (m_gear == -1 || m_speed < 0)
-		{
-			// std::cout << "gear " << m_gear << std::endl;
-			// std::cout << "speed " << m_speed << std::endl;
-			speed *= -1; // Пересчитать знак скорость, если едем назад
-		}
-
 		m_speed = speed;
-
 		return true;
 	}
 
@@ -145,16 +142,19 @@ bool Car::CanSetGear(int gear) const
 
 bool Car::CanSetSpeed(int speed) const
 {
-	int currentSpeed = m_speed;
-
-	if (m_gear == 0) // Neutral, скорость может только уменьшаться
+	if (m_gear == 0) // На нейтрали, скорость может только уменьшаться
 	{
-		if (currentSpeed < 0) // если двигаемся назад, нужно взять скорость по модулю
+		if (speed == 0)
 		{
-			currentSpeed = abs(currentSpeed);
+			return true;
 		}
 
-		if (speed >= 0 && speed <= currentSpeed) // стоим или двигаемся вперед на нейтрали
+		if (speed >= m_speed && speed < 0) // если двигаемся назад
+		{
+			return true;
+		}
+
+		if (speed > 0 && speed <= m_speed) // если двигаемся прямо
 		{
 			return true;
 		}
@@ -163,11 +163,6 @@ bool Car::CanSetSpeed(int speed) const
 	}
 
 	GearInfo gearInfo = FindGearInfo(m_gear);
-
-	if (m_gear == -1 || currentSpeed < 0)
-	{
-		speed *= -1; // Если двигаемся назад, нужно изменить знак новой скорости
-	}
 
 	if (speed >= gearInfo.minSpeed && speed <= gearInfo.maxSpeed)
 	{
