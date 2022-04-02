@@ -9,6 +9,6 @@ int main()
 {
 	Car car;
 	Driver driver(car);
-	car.print();
-	// driver.Init();
+
+	driver.Init();
 }

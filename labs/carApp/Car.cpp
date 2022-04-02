@@ -8,7 +8,20 @@ bool Car::IsTurnedOn() const
 
 Direction Car::GetDirection() const
 {
-	return m_direction;
+	if (m_speed < 0)
+	{
+		return Direction::Back;
+	}
+
+	if (m_speed == 0)
+	{
+		return Direction::Stop;
+	}
+
+	if (m_speed > 0)
+	{
+		return Direction::Forward;
+	}
 }
 
 int Car::GetGear() const
@@ -18,7 +31,14 @@ int Car::GetGear() const
 
 int Car::GetSpeed() const
 {
-	return m_speed;
+	int currentSpeed = m_speed;
+
+	if (m_speed < 0)
+	{
+		currentSpeed = abs(m_speed);
+	}
+
+	return currentSpeed;
 }
 
 bool Car::TurnOnEngine()
@@ -34,7 +54,7 @@ bool Car::TurnOffEngine()
 {
 	if (m_isEngineOn)
 	{
-		if (m_gear == 0 && m_speed == 0 && m_direction == Direction::Stop) // одна из проверко (Скорость и направление) лишняя
+		if (m_gear == 0 && m_speed == 0)
 		{
 			m_isEngineOn = false;
 			return true;
@@ -44,7 +64,6 @@ bool Car::TurnOffEngine()
 	return true;
 }
 
-// метод слишком большой, наверняка код дублируется (завести табицу, структуру с диапазонами скоростей) и в ней проверять возможность включения передачи
 bool Car::SetGear(int gear)
 {
 	if (gear == 0)
@@ -53,87 +72,15 @@ bool Car::SetGear(int gear)
 		return true;
 	}
 
-	// уменьшить вложенность, если проверять на невключенность двигателя и сразу выходить
 	if (!m_isEngineOn)
 	{
 		return false;
 	}
 
-	if (m_speed == 0 && m_direction == Direction::Stop)
+	if (CanSetGear(gear))
 	{
-		if (gear == -1 || gear == 1)
-		{
-			m_gear = gear;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_direction == Direction::Forward)
-	{
-		if (m_speed > 0 && m_speed <= 20)
-		{
-			if (gear == 1)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 20 && m_speed <= 30)
-		{
-			if (gear == 1 || gear == 2)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 30 && m_speed <= 40)
-		{
-			if (gear == 2 || gear == 3)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 40 && m_speed <= 50)
-		{
-			if (gear == 2 || gear == 3 || gear == 4)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 50 && m_speed <= 60)
-		{
-			if (gear == 3 || gear == 4 || gear == 5)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 60 && m_speed <= 90)
-		{
-			if (gear == 4 || gear == 5)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
-
-		if (m_speed >= 90 && m_speed <= 150)
-		{
-			if (gear == 5)
-			{
-				m_gear = gear;
-				return true;
-			}
-		}
+		m_gear = gear;
+		return true;
 	}
 
 	return false;
@@ -146,122 +93,24 @@ bool Car::SetSpeed(int speed)
 		return false;
 	}
 
-	if (m_gear == -1)
+	if (CanSetSpeed(speed))
 	{
-		if (speed == 0)
+		if (m_gear == -1 || m_speed < 0)
 		{
-			m_speed = speed;
-			m_direction = Direction::Stop;
-			return true;
+			// std::cout << "gear " << m_gear << std::endl;
+			// std::cout << "speed " << m_speed << std::endl;
+			speed *= -1; // Пересчитать знак скорость, если едем назад
 		}
 
-		if (speed > 0 && speed <= 20)
-		{
-			m_speed = speed;
-			m_direction = Direction::Back;
-			return true;
-		}
+		m_speed = speed;
 
-		return false;
+		return true;
 	}
 
-	if (m_gear == 0) // Neutral, скорость может только уменьшаться
-	{
-		if (speed == 0)
-		{
-			m_speed = speed;
-			m_direction = Direction::Stop;
-			return true;
-		}
-
-		if (speed > 0 && speed <= m_speed)
-		{
-			m_speed = speed;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_gear == 1)
-	{
-		if (speed == 0)
-		{
-			m_speed = speed;
-			m_direction = Direction::Stop;
-			return true;
-		}
-
-		if (speed > 0 && speed <= 30)
-		{
-			m_speed = speed;
-			m_direction = Direction::Forward;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_gear == 2)
-	{
-		if (speed >= 20 && speed <= 50)
-		{
-			m_speed = speed;
-			m_direction = Direction::Forward;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_gear == 3)
-	{
-		if (speed >= 30 && speed <= 60)
-		{
-			m_speed = speed;
-			m_direction = Direction::Forward;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_gear == 4)
-	{
-		if (speed >= 40 && speed <= 90)
-		{
-			m_speed = speed;
-			m_direction = Direction::Forward;
-			return true;
-		}
-
-		return false;
-	}
-
-	if (m_gear == 5)
-	{
-		if (speed >= 50 && speed <= 150)
-		{
-			m_speed = speed;
-			m_direction = Direction::Forward;
-			return true;
-		}
-
-		return false;
-	}
-
-	return false; // передали неправильный номер передачи
+	return false;
 }
 
-void Car::print() // debug
-{
-	for (auto& i : m_GEAR_TABLE_INFO)
-	{
-		std::cout << i.gear << i.minSpeed << i.maxSpeed << std::endl;
-	}
-}
-
-GearInfo Car::FindGearInfo(int gear)
+GearInfo Car::FindGearInfo(int gear) const
 {
 	for (GearInfo gearInfo : m_GEAR_TABLE_INFO)
 	{
@@ -272,31 +121,58 @@ GearInfo Car::FindGearInfo(int gear)
 	}
 }
 
-bool Car::CanSetGear(int gear)
+bool Car::CanSetGear(int gear) const
 {
 	if (gear < -1 && gear > 5)
 	{
 		return false;
 	}
 
+	if (m_gear == 0 && GetDirection() == Direction::Back)
+	{
+		return false;
+	}
+
 	GearInfo gearInfo = FindGearInfo(gear);
 
-	if (m_speed < gearInfo.minSpeed || m_speed > gearInfo.minSpeed)
+	if (m_speed >= gearInfo.minSpeed && m_speed <= gearInfo.maxSpeed)
 	{
-		return false;
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
-bool Car::CanSetSpeed(int speed)
+bool Car::CanSetSpeed(int speed) const
 {
-	GearInfo gearInfo = FindGearInfo(m_gear);
+	int currentSpeed = m_speed;
 
-	if (speed < gearInfo.minSpeed || speed > gearInfo.minSpeed)
+	if (m_gear == 0) // Neutral, скорость может только уменьшаться
 	{
+		if (currentSpeed < 0) // если двигаемся назад, нужно взять скорость по модулю
+		{
+			currentSpeed = abs(currentSpeed);
+		}
+
+		if (speed >= 0 && speed <= currentSpeed) // стоим или двигаемся вперед на нейтрали
+		{
+			return true;
+		}
+
 		return false;
 	}
 
-	return true;
+	GearInfo gearInfo = FindGearInfo(m_gear);
+
+	if (m_gear == -1 || currentSpeed < 0)
+	{
+		speed *= -1; // Если двигаемся назад, нужно изменить знак новой скорости
+	}
+
+	if (speed >= gearInfo.minSpeed && speed <= gearInfo.maxSpeed)
+	{
+		return true;
+	}
+
+	return false;
 }

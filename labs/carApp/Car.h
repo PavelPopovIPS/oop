@@ -27,15 +27,10 @@ public:
 	bool SetGear(int gear);
 	bool SetSpeed(int speed);
 
-	void print(); // debug
-
 private:
 	bool m_isEngineOn = false;
 	int m_gear = 0;
 	int m_speed = 0;
-
-	//Возможно обойтись без переменной Direction, храня направление в знаке скорости
-	Direction m_direction = Direction::Stop;
 
 	const GearInfo m_GEAR_TABLE_INFO[7] = {
 		{ -1, -20, 0 },
@@ -47,7 +42,7 @@ private:
 		{ 5, 50, 150 },
 	};
 
-	GearInfo FindGearInfo(int gear);
-	bool CanSetGear(int gear);
-	bool CanSetSpeed(int speed);
+	GearInfo FindGearInfo(int gear) const;
+	bool CanSetGear(int gear) const;
+	bool CanSetSpeed(int speed) const;
 };
