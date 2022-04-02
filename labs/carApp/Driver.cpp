@@ -1,7 +1,15 @@
 #include "Driver.h"
+using namespace std::placeholders;
 
 Driver::Driver(Car& car)
 	: m_car(car)
+	, m_actionMap({
+		  { "Info", bind(&Driver::Info, this, std::placeholders::_1) }, //зачем биндить? зачем this передавать?
+		  { "EngineOn", bind(&Driver::EngineOn, this, std::placeholders::_1) },
+		  { "EngineOff", bind(&Driver::EngineOff, this, std::placeholders::_1) },
+		  { "SetGear", bind(&Driver::SetGear, this, std::placeholders::_1) },
+		  { "SetSpeed", bind(&Driver::SetSpeed, this, std::placeholders::_1) },
+	  })
 {
 }
 
@@ -15,62 +23,23 @@ void Driver::Init()
 		std::istringstream strm(line);
 
 		std::string command;
-
 		strm >> command;
 
-		if (command == "Info" || command == "info")
+		auto it = m_actionMap.find(command);
+		if (it != m_actionMap.end())
 		{
-			Driver::Info();
-		}
-		else if (command == "EngineOn" || command == "engineOn")
-		{
-			Driver::EngineOn();
-		}
-		else if (command == "EngineOff" || command == "engineOff")
-		{
-			Driver::EngineOff();
-		}
-		else if (command == "SetGear" || command == "setGear")
-		{
-			int gear;
-			if (strm >> gear)
-			{
-				Driver::SetGear(gear);
-			}
-			else
-			{
-				std::cout << "Gear is not number\n Use: SetGear <number>" << std::endl
-						  << std::endl
-						  << ">>";
-				continue;
-			}
-		}
-		else if (command == "SetSpeed" || command == "setSpeed")
-		{
-			int speed;
-			if (strm >> speed)
-			{
-				Driver::SetSpeed(speed);
-			}
-			else
-			{
-				std::cout << "Speed is not number.\n Use: SetSpeed <number>" << std::endl
-						  << std::endl
-						  << ">>";
-				continue;
-			}
+			it->second(strm);
 		}
 		else
 		{
 			std::cout << "Unknown command!" << std::endl;
 		}
 
-		std::cout << std::endl
-				  << ">>";
+		std::cout << "\n>>";
 	}
 }
 
-void Driver::Info()
+void Driver::Info([[maybe_unused]] std::istream& args)
 {
 	std::cout << "Engine is Turned ";
 	std::string state = (m_car.IsTurnedOn())
@@ -97,13 +66,13 @@ void Driver::Info()
 	std::cout << "Speed is " << m_car.GetSpeed() << std::endl;
 }
 
-void Driver::EngineOn()
+void Driver::EngineOn([[maybe_unused]] std::istream& args)
 {
 	m_car.TurnOnEngine();
 	std::cout << "Engine is Turned On" << std::endl;
 }
 
-void Driver::EngineOff()
+void Driver::EngineOff([[maybe_unused]] std::istream& args)
 {
 	if (m_car.TurnOffEngine())
 	{
@@ -115,16 +84,30 @@ void Driver::EngineOff()
 	}
 }
 
-void Driver::SetGear(int gear)
+void Driver::SetGear(std::istream& args)
 {
+	int gear;
+	if (!(args >> gear))
+	{
+		std::cout << "Gear is not number\nUse: SetGear <number>" << std::endl
+				  << std::endl;
+	}
+
 	if (!m_car.SetGear(gear))
 	{
 		std::cout << "Gear state error" << std::endl;
 	}
 }
 
-void Driver::SetSpeed(int speed)
+void Driver::SetSpeed(std::istream& args)
 {
+	int speed;
+	if (!(args >> speed))
+	{
+		std::cout << "Speed is not number.\nUse: SetSpeed <number>" << std::endl
+				  << std::endl;
+	}
+
 	if (!m_car.SetSpeed(speed))
 	{
 		std::cout << "Speed state error" << std::endl;
