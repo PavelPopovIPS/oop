@@ -13,15 +13,12 @@ Direction Car::GetDirection() const
 		return Direction::Back;
 	}
 
-	if (m_speed == 0)
-	{
-		return Direction::Stop;
-	}
-
 	if (m_speed > 0)
 	{
 		return Direction::Forward;
 	}
+
+	return Direction::Stop;
 }
 
 int Car::GetGear() const
@@ -93,7 +90,8 @@ bool Car::SetSpeed(int speed)
 		return false;
 	}
 
-	if (m_gear == -1 || m_speed < 0) // Пересчитать знак устанавливаемой скорости, если едем назад
+	// Пересчитать знак устанавливаемой скорости при движении назад
+	if (m_gear == -1 || m_speed < 0)
 	{
 		speed *= -1;
 	}
@@ -142,7 +140,8 @@ bool Car::CanSetGear(int gear) const
 
 bool Car::CanSetSpeed(int speed) const
 {
-	if (m_gear == 0) // На нейтрали, скорость может только уменьшаться
+	// На нейтрали, скорость может только уменьшаться
+	if (m_gear == 0)
 	{
 		if (speed == 0)
 		{
