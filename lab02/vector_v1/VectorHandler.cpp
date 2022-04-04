@@ -77,7 +77,6 @@ void Map(ActionFunction const& actionFn, std::vector<double>& vectr, double numb
 
 void SortVector(std::vector<double>& vectr)
 {
-	// 2. думаю стоит отделить сортировку от вывода
 	std::sort(vectr.begin(), vectr.end());
 }
 
