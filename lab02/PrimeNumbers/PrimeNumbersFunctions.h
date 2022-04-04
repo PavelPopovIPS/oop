@@ -1,10 +1,12 @@
 #pragma once
 #include <iostream>
+#include <set>
 #include <string>
 
 struct Args
 {
-	std::string upperBound;
+	int upperBound;
 };
 
 Args ParseArgs(int argc, char* argv[]);
+std::set<int> GeneratePrimeNumbersSet(int upperBound);
