@@ -18,9 +18,9 @@ Args ParseArgs(int argc, char* argv[])
 	try
 	{
 		args.upperBound = std::stoi(upperBoundText);
-		if (args.upperBound < 0 || args.upperBound > 100000000)
+		if (args.upperBound < 2 || args.upperBound > 100000000)
 		{
-			throw std::runtime_error("Number should be greater then zero and less then 100 000 000\n");
+			throw std::runtime_error("Number should be greater then 1 and less then 100 000 000\n");
 		}
 
 		return args;
@@ -37,5 +37,41 @@ Args ParseArgs(int argc, char* argv[])
 
 std::set<int> GeneratePrimeNumbersSet(int upperBound)
 {
-	return std::set<int>();
+	std::set<int> setPrimeNumbers;
+	std::vector<bool> numbers(upperBound, true);
+
+	numbers[0] = numbers[1] = false;
+
+	int p = 2;
+	for (p; p < numbers.size(); ++p)
+	{
+		if (!numbers[p])
+		{
+			continue;
+		}
+
+		int n = p;
+		for (n; n < numbers.size(); ++n)
+		{
+			if ((p * n) >= numbers.size())
+			{
+				break;
+			}
+
+			numbers[p * n] = false;
+		}
+	}
+
+	int counter = 0;
+	for (counter; counter < numbers.size(); ++counter)
+	{
+		if (numbers[counter])
+		{
+			setPrimeNumbers.insert(counter);
+		}
+	}
+
+	std::cout << setPrimeNumbers.size() << std::endl;
+
+	return setPrimeNumbers;
 }

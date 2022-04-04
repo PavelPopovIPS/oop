@@ -2,13 +2,19 @@
 //
 
 #include "PrimeNumbersFunctions.h"
+std::set<int>::iterator it;
 
 int main(int argc, char* argv[])
 {
 	try
 	{
 		Args args = ParseArgs(argc, argv);
-		GeneratePrimeNumbersSet(args.upperBound);
+		std::set<int> setPrimeNumbers = GeneratePrimeNumbersSet(args.upperBound);
+
+		/*for (it = setPrimeNumbers.begin(); it != setPrimeNumbers.end(); ++it)
+		{
+			std::cout << *it << std::endl;
+		}*/
 	}
 	catch (const std::exception& e)
 	{
