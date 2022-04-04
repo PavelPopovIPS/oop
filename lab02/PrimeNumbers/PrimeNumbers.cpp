@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 	try
 	{
 		Args args = ParseArgs(argc, argv);
-		std::cout << args.upperBound << std::endl;
+		GeneratePrimeNumbersSet(args.upperBound);
 	}
 	catch (const std::exception& e)
 	{

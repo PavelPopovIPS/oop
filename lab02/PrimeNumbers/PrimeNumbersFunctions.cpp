@@ -18,9 +18,9 @@ Args ParseArgs(int argc, char* argv[])
 	try
 	{
 		args.upperBound = std::stoi(upperBoundText);
-		if (args.upperBound < 0)
+		if (args.upperBound < 0 || args.upperBound > 100000000)
 		{
-			throw std::runtime_error("Number should be greater then zero\n");
+			throw std::runtime_error("Number should be greater then zero and less then 100 000 000\n");
 		}
 
 		return args;
