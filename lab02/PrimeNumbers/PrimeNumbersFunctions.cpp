@@ -38,27 +38,27 @@ Args ParseArgs(int argc, char* argv[])
 std::set<int> GeneratePrimeNumbersSet(int upperBound)
 {
 	std::set<int> setPrimeNumbers;
-	std::vector<bool> numbers(upperBound, true);
+	std::vector<bool> numbers(upperBound + 1, true);
 
 	numbers[0] = numbers[1] = false;
 
-	int p = 2;
-	for (p; p < numbers.size(); ++p)
+	int i = 2;
+	for (i; i * i <= upperBound; ++i)
 	{
-		if (!numbers[p])
+		if (numbers[i])
 		{
-			continue;
-		}
+			// std::cout << i << std::endl;
 
-		int n = p;
-		for (n; n < numbers.size(); ++n)
-		{
-			if ((p * n) >= numbers.size())
+			int k = 0;
+			int j = i * i + k * i;
+			while (j <= upperBound)
 			{
-				break;
-			}
 
-			numbers[p * n] = false;
+				// std::cout << j << std::endl;
+				numbers[j] = false;
+				++k;
+				j = i * i + k * i;
+			}
 		}
 	}
 
