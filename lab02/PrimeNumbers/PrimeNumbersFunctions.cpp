@@ -35,43 +35,58 @@ Args ParseArgs(int argc, char* argv[])
 	}
 }
 
-std::set<int> GeneratePrimeNumbersSet(int upperBound)
+void FindPrimeNumbers(std::vector<bool>& numbers)
 {
-	std::set<int> setPrimeNumbers;
-	std::vector<bool> numbers(upperBound + 1, true);
-
 	numbers[0] = numbers[1] = false;
 
-	int i = 2;
-	for (i; i * i <= upperBound; ++i)
+	for (int i = 2; i * i < numbers.size(); ++i)
 	{
 		if (numbers[i])
 		{
-			// std::cout << i << std::endl;
-
 			int k = 0;
 			int j = i * i + k * i;
-			while (j <= upperBound)
+			while (j < numbers.size())
 			{
-
-				// std::cout << j << std::endl;
 				numbers[j] = false;
 				++k;
 				j = i * i + k * i;
 			}
 		}
 	}
+}
 
-	int counter = 0;
-	for (counter; counter < numbers.size(); ++counter)
+void SetPrimeNumbers(std::set<int>& primeNumbersSet, const std::vector<bool>& numbers)
+{
+	for (int counter = 0; counter < numbers.size(); ++counter)
 	{
 		if (numbers[counter])
 		{
-			setPrimeNumbers.insert(counter);
+			primeNumbersSet.insert(counter);
 		}
 	}
+}
 
-	std::cout << setPrimeNumbers.size() << std::endl;
+std::set<int> GeneratePrimeNumbersSet(int upperBound)
+{
+	std::vector<bool> numbers(upperBound + 1, true);
+	FindPrimeNumbers(numbers);
 
-	return setPrimeNumbers;
+	std::set<int> primeNumbersSet;
+	SetPrimeNumbers(primeNumbersSet, numbers);
+
+	return primeNumbersSet;
+}
+
+void PrintSet(const std::set<int>& primeNumbersSet)
+{
+	std::set<int>::iterator it;
+	for (it = primeNumbersSet.begin(); it != primeNumbersSet.end(); ++it)
+	{
+		std::cout << *it << std::endl;
+	}
+}
+
+void PrintSetSize(const std::set<int>& primeNumbersSet)
+{
+	std::cout << primeNumbersSet.size() << std::endl;
 }
