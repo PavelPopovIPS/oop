@@ -1,20 +1,27 @@
-// PrimeNumbers_tests.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// PrimeNumbers_tests.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #define CATCH_CONFIG_MAIN
 #include "../../catch2/catch.hpp"
 #include "../PrimeNumbers/PrimeNumbersFunctions.h"
 
-SCENARIO("Тестирование ParseArgs")
+SCENARIO("РўРµСЃС‚РёСЂРѕРІР°РЅРёРµ ParseArgs")
 {
-	WHEN("передано 2 аргуметна")
+	WHEN("РїРµСЂРµРґР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ РІРµСЂС…РЅРµР№ РіСЂР°РЅРёС†С‹ СЂР°РІРЅРѕРµ 10")
 	{
-		const char* argv[] = { "c :\tmp\example.exe", "10" };
+		char arg0[] = { "c :\\tmp\\example.exe" };
+		char arg1[] = { "10" };
+		char* argv[] = { arg0, arg1 };
+
 		int argc = std::size(argv);
 
-		THEN("должна вернуться структура с аргументом")
+		THEN("Р°СЂРіСѓРјРµРЅС‚ РєРѕСЂСЂРµРєС‚РЅРѕ РєРѕРЅРІРµСЂС‚РёС‚СЃСЏ РІ С‡РёСЃР»Рѕ")
 		{
-			std::cout << argc;
+			Args args = ParseArgs(argc, argv);
+
+			int expectedResult = 10;
+
+			REQUIRE(expectedResult == args.upperBound);
 		}
 	}
 }
