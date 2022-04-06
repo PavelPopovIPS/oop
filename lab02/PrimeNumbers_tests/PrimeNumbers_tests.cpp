@@ -194,3 +194,62 @@ SCENARIO("Testing ParseArgs")
 		}
 	}
 }
+
+SCENARIO("Testing FindPrimeNumbers")
+{
+	WHEN("upper bound is 2")
+	{
+		int upperBound = 2;
+		std::vector<bool> numbers(upperBound + 1, true);
+		FindPrimeNumbers(numbers);
+
+		THEN("element whith index 0 should be false")
+		{
+			bool expectedResult = false;
+
+			REQUIRE(expectedResult == numbers[0]);
+		}
+
+		THEN("element whith index 1 should be false")
+		{
+			bool expectedResult = false;
+
+			REQUIRE(expectedResult == numbers[1]);
+		}
+
+		THEN("only element whith index 2 should be true")
+		{
+			bool expectedResult = true;
+
+			REQUIRE(expectedResult == numbers[2]);
+		}
+	}
+
+	WHEN("numbers is empty")
+	{
+		int upperBound = 0;
+		std::vector<bool> numbers(upperBound, true);
+		FindPrimeNumbers(numbers);
+
+		THEN("size of numbers should be 0")
+		{
+			size_t expectedResult = 0;
+
+			REQUIRE(expectedResult == numbers.size());
+		}
+	}
+
+	WHEN("upper bound is 20")
+	{
+		int upperBound = 20;
+		std::vector<bool> numbers(upperBound + 1, true);
+		FindPrimeNumbers(numbers);
+
+		THEN("certain elements should be true")
+		{
+			std::vector<bool> expectedResult = { 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0 };
+
+			REQUIRE(expectedResult == numbers);
+		}
+	}
+}
