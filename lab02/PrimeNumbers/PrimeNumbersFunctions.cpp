@@ -20,7 +20,7 @@ Args ParseArgs(int argc, char* argv[])
 		args.upperBound = std::stoi(upperBoundText);
 		if (args.upperBound < 2 || args.upperBound > 100000000)
 		{
-			throw std::runtime_error("Number should be greater then 1 and less then 100 000 000\n");
+			throw std::runtime_error("Number should be greater then 1 and less then or equal 100 000 000\n");
 		}
 
 		return args;
