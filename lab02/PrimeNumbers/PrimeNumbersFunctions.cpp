@@ -37,7 +37,10 @@ Args ParseArgs(int argc, char* argv[])
 
 void FindPrimeNumbers(std::vector<bool>& numbers)
 {
-	numbers[0] = numbers[1] = false;
+	if (numbers.size() >= 2)
+	{
+		numbers[0] = numbers[1] = false;
+	}
 
 	for (int i = 2; i * i < numbers.size(); ++i)
 	{

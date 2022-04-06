@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 	{
 		Args args = ParseArgs(argc, argv);
 		std::set<int> setPrimeNumbers = GeneratePrimeNumbersSet(args.upperBound);
-		PrintSet(setPrimeNumbers);
+		PrintSetSize(setPrimeNumbers);
 	}
 	catch (const std::exception& e)
 	{
