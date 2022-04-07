@@ -43,8 +43,7 @@ private:
 		{ 5, 50, 150 },
 	};
 
-	GearInfo FindGearInfo(int gear) const;
-	std::optional<GearInfo> TryFindGearInfo1(int gear) const;
+	std::optional<GearInfo> FindGearInfo(int gear) const;
 	bool CanSetGear(int gear) const;
 	bool CanSetSpeed(int speed) const;
 };

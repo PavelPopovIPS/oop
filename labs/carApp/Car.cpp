@@ -105,7 +105,7 @@ bool Car::SetSpeed(int speed)
 	return false;
 }
 
-GearInfo Car::FindGearInfo(int gear) const
+std::optional<GearInfo> Car::FindGearInfo(int gear) const
 {
 	for (GearInfo gearInfo : m_GEAR_TABLE_INFO)
 	{
@@ -114,12 +114,6 @@ GearInfo Car::FindGearInfo(int gear) const
 			return gearInfo;
 		}
 	}
-	//при сборке в консоли варнинг
-}
-
-std::optional<GearInfo> Car::TryFindGearInfo1(int gear) const
-{
-	return std::optional<GearInfo>();
 }
 
 bool Car::CanSetGear(int gear) const
@@ -134,9 +128,14 @@ bool Car::CanSetGear(int gear) const
 		return false;
 	}
 
-	GearInfo gearInfo = FindGearInfo(gear);
+	auto gearInfo = FindGearInfo(gear);
 
-	if (m_speed >= gearInfo.minSpeed && m_speed <= gearInfo.maxSpeed)
+	if (gearInfo == std::nullopt)
+	{
+		return false;
+	}
+
+	if (m_speed >= gearInfo->minSpeed && m_speed <= gearInfo->maxSpeed)
 	{
 		return true;
 	}
@@ -167,9 +166,14 @@ bool Car::CanSetSpeed(int speed) const
 		return false;
 	}
 
-	GearInfo gearInfo = FindGearInfo(m_gear);
+	auto gearInfo = FindGearInfo(m_gear);
 
-	if (speed >= gearInfo.minSpeed && speed <= gearInfo.maxSpeed)
+	if (gearInfo == std::nullopt)
+	{
+		return false;
+	}
+
+	if (speed >= gearInfo->minSpeed && speed <= gearInfo->maxSpeed)
 	{
 		return true;
 	}
