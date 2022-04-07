@@ -337,4 +337,15 @@ SCENARIO("Testing SetPrimeNumbers")
 	}
 }
 
-// GeneratePrimeNumbersSet
+SCENARIO("Testing GeneratePrimeNumbersSet")
+{
+	WHEN("set upper bound 30")
+	{
+		int upperBound = 30;
+		std::set<int> result = GeneratePrimeNumbersSet(upperBound);
+
+		THEN("set shoul have ")
+		{
+		}
+	}
+}
