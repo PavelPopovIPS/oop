@@ -12,7 +12,7 @@ SCENARIO("Testing ParseArgs")
 		char arg0[] = { "c :\\tmp\\example.exe" };
 		char arg1[] = { "10" };
 		char* argv[] = { arg0, arg1 };
-
+		// явно привести к int через статик каст
 		int argc = std::size(argv);
 
 		THEN("argument should convert to number")

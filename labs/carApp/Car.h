@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <optional>
 
 struct GearInfo
 {
@@ -43,6 +44,7 @@ private:
 	};
 
 	GearInfo FindGearInfo(int gear) const;
+	std::optional<GearInfo> TryFindGearInfo1(int gear) const;
 	bool CanSetGear(int gear) const;
 	bool CanSetSpeed(int speed) const;
 };

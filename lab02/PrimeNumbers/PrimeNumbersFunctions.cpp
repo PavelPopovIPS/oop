@@ -25,7 +25,8 @@ Args ParseArgs(int argc, char* argv[])
 
 		return args;
 	}
-	catch (std::invalid_argument e)
+	// ловить исключения по константной ссылке
+	catch (std::invalid_argument&)
 	{
 		throw std::runtime_error("Argument should be number greater then zero\n");
 	}
@@ -35,6 +36,7 @@ Args ParseArgs(int argc, char* argv[])
 	}
 }
 
+// функция должна принимать верхнюю границу и возвращать вектор и переиеновать функцию
 void FindPrimeNumbers(std::vector<bool>& numbers)
 {
 	if (numbers.size() >= 2)
@@ -58,6 +60,7 @@ void FindPrimeNumbers(std::vector<bool>& numbers)
 	}
 }
 
+// функция должна создать множество и вернет его
 void SetPrimeNumbers(std::set<int>& primeNumbersSet, const std::vector<bool>& numbers)
 {
 	for (int counter = 0; counter < numbers.size(); ++counter)

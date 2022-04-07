@@ -117,6 +117,11 @@ GearInfo Car::FindGearInfo(int gear) const
 	//при сборке в консоли варнинг
 }
 
+std::optional<GearInfo> Car::TryFindGearInfo1(int gear) const
+{
+	return std::optional<GearInfo>();
+}
+
 bool Car::CanSetGear(int gear) const
 {
 	if (gear < -1 && gear > 5)
