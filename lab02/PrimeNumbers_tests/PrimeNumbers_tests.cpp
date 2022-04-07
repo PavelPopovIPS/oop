@@ -12,7 +12,7 @@ SCENARIO("Testing ParseArgs")
 		char arg0[] = { "c :\\tmp\\example.exe" };
 		char arg1[] = { "10" };
 		char* argv[] = { arg0, arg1 };
-		// явно привести к int через статик каст
+
 		int argc = static_cast<int>(std::size(argv));
 
 		THEN("argument should convert to number")
@@ -136,6 +136,7 @@ SCENARIO("Testing ParseArgs")
 
 		int argc = static_cast<int>(std::size(argv));
 
+		// тестирование сообщений лучше через выбрасывание типов ошибок
 		THEN("Message \"Number should be greater then 1 and less then or equal 100 000 000\n\" should be printed")
 		{
 			try
