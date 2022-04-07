@@ -11,8 +11,8 @@ struct Args
 };
 
 Args ParseArgs(int argc, char* argv[]);
-void FindPrimeNumbers(std::vector<bool>& numbers);
-void SetPrimeNumbers(std::set<int>& primeNumbersSet, const std::vector<bool>& numbers);
+std::vector<bool> SiftNumbers(int upperBound);
+std::set<int> GetPrimeNumbersSet(const std::vector<bool>& numbers);
 std::set<int> GeneratePrimeNumbersSet(int upperBound);
 void PrintSet(const std::set<int>& primeNumbersSet);
 void PrintSetSize(const std::set<int>& primeNumbersSet);

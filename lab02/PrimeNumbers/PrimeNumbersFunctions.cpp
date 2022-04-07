@@ -25,20 +25,20 @@ Args ParseArgs(int argc, char* argv[])
 
 		return args;
 	}
-	// ловить исключения по константной ссылке
 	catch (std::invalid_argument&)
 	{
 		throw std::runtime_error("Argument should be number greater then zero\n");
 	}
-	catch (std::out_of_range e)
+	catch (std::out_of_range&)
 	{
 		throw std::runtime_error("Argument tooo big\n");
 	}
 }
 
-// функция должна принимать верхнюю границу и возвращать вектор и переиеновать функцию
-void FindPrimeNumbers(std::vector<bool>& numbers)
+std::vector<bool> SiftNumbers(int upperBound)
 {
+	std::vector<bool> numbers(upperBound + 1, true);
+
 	if (numbers.size() >= 2)
 	{
 		numbers[0] = numbers[1] = false;
@@ -58,11 +58,14 @@ void FindPrimeNumbers(std::vector<bool>& numbers)
 			}
 		}
 	}
+
+	return numbers;
 }
 
-// функция должна создать множество и вернет его
-void SetPrimeNumbers(std::set<int>& primeNumbersSet, const std::vector<bool>& numbers)
+std::set<int> GetPrimeNumbersSet(const std::vector<bool>& numbers)
 {
+	std::set<int> primeNumbersSet;
+
 	for (int counter = 0; counter < numbers.size(); ++counter)
 	{
 		if (numbers[counter])
@@ -70,17 +73,15 @@ void SetPrimeNumbers(std::set<int>& primeNumbersSet, const std::vector<bool>& nu
 			primeNumbersSet.insert(counter);
 		}
 	}
+
+	return primeNumbersSet;
 }
 
 std::set<int> GeneratePrimeNumbersSet(int upperBound)
 {
-	std::vector<bool> numbers(upperBound + 1, true);
-	FindPrimeNumbers(numbers);
+	std::vector<bool> numbers = SiftNumbers(upperBound);
 
-	std::set<int> primeNumbersSet;
-	SetPrimeNumbers(primeNumbersSet, numbers);
-
-	return primeNumbersSet;
+	return GetPrimeNumbersSet(numbers);
 }
 
 void PrintSet(const std::set<int>& primeNumbersSet)
