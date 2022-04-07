@@ -6,6 +6,7 @@
 #include "../carApp/Car.h"
 #include "../carApp/stdafx.h"
 
+//Пример Алексея
 // void RequireCarToFail(const Car& car, const std::function<bool(Car&)>& action)
 //{
 //	Car carCopy(car);
@@ -19,7 +20,6 @@
 //	REQUIRE(action(car));
 // }
 
-//Пример Алексея
 SCENARIO("Движение задним ходом")
 {
 	//{
@@ -46,6 +46,7 @@ SCENARIO("Движение задним ходом")
 		}
 	}
 }
+//Пример Алексея
 
 SCENARIO("1. Проверка метода TurnOnEngine()")
 {
