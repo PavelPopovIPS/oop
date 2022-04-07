@@ -13,7 +13,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "10" };
 		char* argv[] = { arg0, arg1 };
 		// явно привести к int через статик каст
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("argument should convert to number")
 		{
@@ -31,7 +31,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "2" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("argument should convert to number")
 		{
@@ -49,7 +49,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "100000000" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("argument should convert to number")
 		{
@@ -68,7 +68,7 @@ SCENARIO("Testing ParseArgs")
 		char arg2[] = { "abc" };
 		char* argv[] = { arg0, arg1, arg2 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Invalid argument count\nFor use: PrimeNumbers.exe <upper bound>\n\" should be printed")
 		{
@@ -90,7 +90,7 @@ SCENARIO("Testing ParseArgs")
 
 		char* argv[] = { arg0 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Invalid argument count\nFor use: PrimeNumbers.exe <upper bound>\n\" should be printed")
 		{
@@ -112,7 +112,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Number should not be empty\n\" should be printed")
 		{
@@ -134,7 +134,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "1" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Number should be greater then 1 and less then or equal 100 000 000\n\" should be printed")
 		{
@@ -156,7 +156,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "100000001" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Number should be greater then 1 and less then or equal 100 000 000\n\" should be printed")
 		{
@@ -178,7 +178,7 @@ SCENARIO("Testing ParseArgs")
 		char arg1[] = { "10000000000" };
 		char* argv[] = { arg0, arg1 };
 
-		int argc = std::size(argv);
+		int argc = static_cast<int>(std::size(argv));
 
 		THEN("Message \"Argument tooo big\n\" should be printed")
 		{
@@ -195,157 +195,74 @@ SCENARIO("Testing ParseArgs")
 	}
 }
 
-SCENARIO("Testing FindPrimeNumbers")
+SCENARIO("Generate sets with prime numbers")
 {
-	WHEN("upper bound is 2")
+	WHEN("upperBound is equal 2")
 	{
 		int upperBound = 2;
-		std::vector<bool> numbers(upperBound + 1, true);
-		FindPrimeNumbers(numbers);
+		std::set<int> result = GeneratePrimeNumbersSet(upperBound);
 
-		THEN("element whith index 0 should be false")
-		{
-			bool expectedResult = false;
-
-			REQUIRE(expectedResult == numbers[0]);
-		}
-
-		THEN("element whith index 1 should be false")
-		{
-			bool expectedResult = false;
-
-			REQUIRE(expectedResult == numbers[1]);
-		}
-
-		THEN("only element whith index 2 should be true")
-		{
-			bool expectedResult = true;
-
-			REQUIRE(expectedResult == numbers[2]);
-		}
-	}
-
-	WHEN("numbers is empty")
-	{
-		int upperBound = 0;
-		std::vector<bool> numbers(upperBound, true);
-		FindPrimeNumbers(numbers);
-
-		THEN("size of numbers should be 0")
-		{
-			size_t expectedResult = 0;
-
-			REQUIRE(expectedResult == numbers.size());
-		}
-	}
-
-	WHEN("upper bound is 20")
-	{
-		int upperBound = 20;
-		std::vector<bool> numbers(upperBound + 1, true);
-		FindPrimeNumbers(numbers);
-
-		THEN("certain elements should be true")
-		{
-			std::vector<bool> expectedResult = { 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0 };
-
-			REQUIRE(expectedResult == numbers);
-		}
-	}
-}
-
-SCENARIO("Testing SetPrimeNumbers")
-{
-	WHEN("vector has 1 item with value equal true")
-	{
-		std::vector<bool> numbers = { 1 };
-
-		std::set<int> set;
-		SetPrimeNumbers(set, numbers);
-
-		THEN("set should have numbers equal truthly vector's index")
-		{
-			std::set<int> expectedResult = { 0 };
-			REQUIRE(expectedResult == set);
-		}
-
-		THEN("set should have 1 element")
+		THEN("set should have only one element")
 		{
 			size_t expectedResult = 1;
-			REQUIRE(expectedResult == set.size());
+
+			REQUIRE(expectedResult == result.size());
+		}
+
+		THEN("set should have only numer 2")
+		{
+			std::set<int> expectedResult = { 2 };
+
+			REQUIRE(expectedResult == result);
 		}
 	}
 
-	WHEN("vector has truthly items")
+	WHEN("upperBound is equal 20")
 	{
-		std::vector<bool> numbers = { 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0 };
-
-		std::set<int> set;
-		SetPrimeNumbers(set, numbers);
-
-		THEN("set should have numbers equal truthly vector's index")
-		{
-			std::set<int> expectedResult = { 2, 3, 5, 7, 11, 13, 17, 19 };
-			REQUIRE(expectedResult == set);
-		}
+		int upperBound = 20;
+		std::set<int> result = GeneratePrimeNumbersSet(upperBound);
 
 		THEN("set should have 8 elements")
 		{
 			size_t expectedResult = 8;
-			REQUIRE(expectedResult == set.size());
-		}
-	}
 
-	WHEN("vector has only falthly items")
-	{
-		std::vector<bool> numbers = { 0, 0 };
-
-		std::set<int> set;
-		SetPrimeNumbers(set, numbers);
-
-		THEN("set should be empty")
-		{
-			std::set<int> expectedResult = {};
-			REQUIRE(expectedResult == set);
+			REQUIRE(expectedResult == result.size());
 		}
 
-		THEN("set should have 0 elements")
+		THEN("set should have prime numers 2, 3, 5, 7, 11, 13, 17, 19")
 		{
-			size_t expectedResult = 0;
-			REQUIRE(expectedResult == set.size());
-		}
-	}
+			std::set<int> expectedResult = { 2, 3, 5, 7, 11, 13, 17, 19 };
 
-	WHEN("vector is empty")
-	{
-		std::vector<bool> numbers = {};
-
-		std::set<int> set;
-		SetPrimeNumbers(set, numbers);
-
-		THEN("set should be empty")
-		{
-			std::set<int> expectedResult = {};
-			REQUIRE(expectedResult == set);
-		}
-
-		THEN("set should have 0 elements")
-		{
-			size_t expectedResult = 0;
-			REQUIRE(expectedResult == set.size());
+			REQUIRE(expectedResult == result);
 		}
 	}
 }
 
-SCENARIO("Testing GeneratePrimeNumbersSet")
+SCENARIO("Generate empty set")
 {
-	WHEN("set upper bound 30")
+	WHEN("upperBound is equal 1")
 	{
-		int upperBound = 30;
+		int upperBound = 1;
 		std::set<int> result = GeneratePrimeNumbersSet(upperBound);
 
-		THEN("set shoul have ")
+		THEN("set should be empty")
 		{
+			std::set<int> expectedResult = {};
+
+			REQUIRE(expectedResult == result);
+		}
+	}
+
+	WHEN("upperBound is equal 0")
+	{
+		int upperBound = 0;
+		std::set<int> result = GeneratePrimeNumbersSet(upperBound);
+
+		THEN("set should be empty")
+		{
+			std::set<int> expectedResult = {};
+
+			REQUIRE(expectedResult == result);
 		}
 	}
 }

@@ -39,10 +39,12 @@ std::vector<bool> SiftNumbers(int upperBound)
 {
 	std::vector<bool> numbers(upperBound + 1, true);
 
-	if (numbers.size() >= 2)
+	if (upperBound < 2 || upperBound > 100000000)
 	{
-		numbers[0] = numbers[1] = false;
+		return {};
 	}
+
+	numbers[0] = numbers[1] = false;
 
 	for (int i = 2; i * i < numbers.size(); ++i)
 	{
