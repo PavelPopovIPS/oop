@@ -254,5 +254,87 @@ SCENARIO("Testing FindPrimeNumbers")
 	}
 }
 
-// SetPrimeNumbers
+SCENARIO("Testing SetPrimeNumbers")
+{
+	WHEN("vector has 1 item with value equal true")
+	{
+		std::vector<bool> numbers = { 1 };
+
+		std::set<int> set;
+		SetPrimeNumbers(set, numbers);
+
+		THEN("set should have numbers equal truthly vector's index")
+		{
+			std::set<int> expectedResult = { 0 };
+			REQUIRE(expectedResult == set);
+		}
+
+		THEN("set should have 1 element")
+		{
+			size_t expectedResult = 1;
+			REQUIRE(expectedResult == set.size());
+		}
+	}
+
+	WHEN("vector has truthly items")
+	{
+		std::vector<bool> numbers = { 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0 };
+
+		std::set<int> set;
+		SetPrimeNumbers(set, numbers);
+
+		THEN("set should have numbers equal truthly vector's index")
+		{
+			std::set<int> expectedResult = { 2, 3, 5, 7, 11, 13, 17, 19 };
+			REQUIRE(expectedResult == set);
+		}
+
+		THEN("set should have 8 elements")
+		{
+			size_t expectedResult = 8;
+			REQUIRE(expectedResult == set.size());
+		}
+	}
+
+	WHEN("vector has only falthly items")
+	{
+		std::vector<bool> numbers = { 0, 0 };
+
+		std::set<int> set;
+		SetPrimeNumbers(set, numbers);
+
+		THEN("set should be empty")
+		{
+			std::set<int> expectedResult = {};
+			REQUIRE(expectedResult == set);
+		}
+
+		THEN("set should have 0 elements")
+		{
+			size_t expectedResult = 0;
+			REQUIRE(expectedResult == set.size());
+		}
+	}
+
+	WHEN("vector is empty")
+	{
+		std::vector<bool> numbers = {};
+
+		std::set<int> set;
+		SetPrimeNumbers(set, numbers);
+
+		THEN("set should be empty")
+		{
+			std::set<int> expectedResult = {};
+			REQUIRE(expectedResult == set);
+		}
+
+		THEN("set should have 0 elements")
+		{
+			size_t expectedResult = 0;
+			REQUIRE(expectedResult == set.size());
+		}
+	}
+}
+
 // GeneratePrimeNumbersSet
