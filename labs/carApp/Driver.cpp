@@ -4,7 +4,7 @@ using namespace std::placeholders;
 Driver::Driver(Car& car)
 	: m_car(car)
 	, m_actionMap({
-		  { "Info", bind(&Driver::Info, this, std::placeholders::_1) }, //зачем биндить? зачем this передавать?
+		  { "Info", bind(&Driver::Info, this, std::placeholders::_1) },
 		  { "EngineOn", bind(&Driver::EngineOn, this, std::placeholders::_1) },
 		  { "EngineOff", bind(&Driver::EngineOff, this, std::placeholders::_1) },
 		  { "SetGear", bind(&Driver::SetGear, this, std::placeholders::_1) },
