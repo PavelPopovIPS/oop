@@ -5,7 +5,10 @@
 
 #pragma once
 
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
+#define _USE_MATH_DEFINES
+#include <math.h>
