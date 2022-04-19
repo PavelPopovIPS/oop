@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Body.h"
+#include "Sphere.h"
 
 class CShapeManager
 {

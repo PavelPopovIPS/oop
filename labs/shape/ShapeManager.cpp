@@ -37,12 +37,27 @@ void CShapeManager::InitShapeManager()
 
 bool CShapeManager::Info([[maybe_unused]] std::istream&)
 {
-	std::cout << "information" << std::endl;
+	std::cout << "vector size is: " << m_shapeCollection.size() << std::endl;
 	return true;
 }
 
 bool CShapeManager::SetSphereToCollection(std::istream& args)
 {
+	double density;
+	args >> density;
+
+	if (!args)
+	{
+		std::cout << "Density is not number" << std::endl;
+		return false;
+	}
+
+	if (density == 0)
+	{
+		std::cout << "Density can not be zero" << std::endl;
+		return false;
+	}
+
 	double radius;
 	args >> radius;
 
@@ -57,7 +72,9 @@ bool CShapeManager::SetSphereToCollection(std::istream& args)
 		std::cout << "Radius can not be zero" << std::endl;
 		return false;
 	}
-	std::cout << radius << std::endl;
+
+	auto sphere = std::make_shared<CSphere>(density, radius);
+	m_shapeCollection.push_back(sphere);
 
 	return true;
 }
