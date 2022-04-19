@@ -8,10 +8,13 @@ class CShapeManager
 public:
 	CShapeManager();
 	void InitShapeManager();
-	void Info(std::istream& args);
+	bool Info(std::istream&);
 
 private:
-	using Handler = std::function<void(std::istream& args)>;
+	using Handler = std::function<bool(std::istream& args)>;
 	using ActionMap = std::map<std::string, Handler>;
 	ActionMap m_actionMap;
+
+	bool SetSphereToCollection(std::istream& args);
+	std::vector<std::shared_ptr<CBody>> m_shapeCollection;
 };

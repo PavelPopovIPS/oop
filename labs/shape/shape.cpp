@@ -2,8 +2,12 @@
 //
 
 #include "stdafx.h"
+#include "ShapeManager.h"
 
 int main()
 {
-	std::cout << "Hello World!\n";
+	CShapeManager ShapeManager;
+	ShapeManager.InitShapeManager();
+
+	return 0;
 }
