@@ -17,6 +17,7 @@ private:
 	using ActionMap = std::map<std::string, Handler>;
 	ActionMap m_actionMap;
 
+	void PrintUsageInfo();
 	std::optional<double> ParseDensity(std::istream& args);
 
 	bool SetSphereToCollection(std::istream& args);

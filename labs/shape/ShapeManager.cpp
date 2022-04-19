@@ -12,6 +12,7 @@ CShapeManager::CShapeManager()
 
 void CShapeManager::InitShapeManager()
 {
+	PrintUsageInfo();
 	std::cout << ">>";
 
 	std::string line;
@@ -43,6 +44,17 @@ bool CShapeManager::Info([[maybe_unused]] std::istream&)
 		std::cout << p->ToString() << std::endl;
 	}
 	return true;
+}
+
+void CShapeManager::PrintUsageInfo()
+{
+	std::cout << "Usage:\n"
+			  << "\tEnter shapes with [parameters]. [Parameters] are numbers\n\n"
+			  << "\tSolid shapes:\n"
+			  << "\t\tsphere [density] [radius]\n"
+			  << "\t\tparallelepiped [density] [width] [height] [depth]\n"
+			  << "\t\tcone [base radius] [height]\n"
+			  << "\t\tcylinder [base radius] [height]\n\n";
 }
 
 std::optional<double> CShapeManager::ParseDensity(std::istream& args)
