@@ -11,4 +11,6 @@
 #include <sstream>
 #include <string>
 #define _USE_MATH_DEFINES
+#include <functional>
+#include <map>
 #include <math.h>
