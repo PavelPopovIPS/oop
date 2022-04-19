@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Body.h"
+#include "Cone.h"
 #include "Parallelepiped.h"
 #include "Sphere.h"
 
@@ -22,5 +23,6 @@ private:
 
 	bool SetSphereToCollection(std::istream& args);
 	bool SetParallelepipedToCollection(std::istream& args);
+	bool SetConeToCollection(std::istream& args);
 	std::vector<std::shared_ptr<CBody>> m_shapeCollection;
 };

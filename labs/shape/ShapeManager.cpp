@@ -6,6 +6,7 @@ CShapeManager::CShapeManager()
 		{ "Info", bind(&CShapeManager::Info, this, std::placeholders::_1) },
 		{ "Sphere", bind(&CShapeManager::SetSphereToCollection, this, std::placeholders::_1) },
 		{ "Parallelepiped", bind(&CShapeManager::SetParallelepipedToCollection, this, std::placeholders::_1) },
+		{ "Cone", bind(&CShapeManager::SetConeToCollection, this, std::placeholders::_1) },
 	})
 {
 }
@@ -49,12 +50,14 @@ bool CShapeManager::Info([[maybe_unused]] std::istream&)
 void CShapeManager::PrintUsageInfo()
 {
 	std::cout << "Usage:\n"
-			  << "\tEnter shapes with [parameters]. [Parameters] are numbers\n\n"
+			  << "\tEnter shapes with [parameters]. [Parameters] must be numbers.\n\n"
 			  << "\tSolid shapes:\n"
 			  << "\t\tSphere [density] [radius]\n"
 			  << "\t\tParallelepiped [density] [width] [height] [depth]\n"
 			  << "\t\tCone [density] [base radius] [height]\n"
-			  << "\t\tCylinder [density] [base radius] [height]\n\n";
+			  << "\t\tCylinder [density] [base radius] [height]\n\n"
+			  << "\tCommands:\n"
+			  << "\t\tInfo - get information about shapes\n\n";
 }
 
 std::optional<double> CShapeManager::ParseDensity(std::istream& args)
@@ -68,7 +71,7 @@ std::optional<double> CShapeManager::ParseDensity(std::istream& args)
 		return std::nullopt;
 	}
 
-	if (density == 0)
+	if (density <= 0)
 	{
 		std::cout << "Density can not be zero" << std::endl;
 		return std::nullopt;
@@ -116,18 +119,46 @@ bool CShapeManager::SetParallelepipedToCollection(std::istream& args)
 	double depth;
 	if (!(args >> width >> height >> depth))
 	{
-		std::cout << "Width or height or depth is not number" << std::endl;
+		std::cout << "Width or height or depth are not number" << std::endl;
 		return false;
 	}
 
 	if (width <= 0 || height <= 0 || depth <= 0)
 	{
-		std::cout << "width, height and depth must be greater then 0" << std::endl;
+		std::cout << "Width, height and depth must be greater then 0" << std::endl;
 		return false;
 	}
 
-	auto sphere = std::make_shared<CParalellepiped>(*density, width, height, depth);
-	m_shapeCollection.push_back(sphere);
+	auto paralellepiped = std::make_shared<CParalellepiped>(*density, width, height, depth);
+	m_shapeCollection.push_back(paralellepiped);
+
+	return true;
+}
+
+bool CShapeManager::SetConeToCollection(std::istream& args)
+{
+	auto density = ParseDensity(args);
+	if (!density)
+	{
+		return false;
+	}
+
+	double baseRadius;
+	double height;
+	if (!(args >> baseRadius >> height))
+	{
+		std::cout << "BaseRadius or height are not number" << std::endl;
+		return false;
+	}
+
+	if (baseRadius <= 0 || height <= 0)
+	{
+		std::cout << "BaseRadius, height must be greater then 0" << std::endl;
+		return false;
+	}
+
+	auto cone = std::make_shared<CCone>(*density, baseRadius, height);
+	m_shapeCollection.push_back(cone);
 
 	return true;
 }

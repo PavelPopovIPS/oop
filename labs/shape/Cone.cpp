@@ -1,4 +1,4 @@
-#include "Cone.h"
+﻿#include "Cone.h"
 
 CCone::CCone(double density, double baseRadius, double height)
 	: CBody("Cone", density)
@@ -19,7 +19,8 @@ double CCone::GetHeight() const
 
 double CCone::GetVolume() const
 {
-	return (1 / 3) * M_PI * pow(m_baseRadius, 2) * m_height;
+	// return (1 / 3) * M_PI * pow(m_baseRadius, 2) * m_height; // возвращает  0  ???
+	return (0.3333) * M_PI * pow(m_baseRadius, 2) * m_height;
 }
 
 void CCone::AppendProperties(std::ostream& strm) const
