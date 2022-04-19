@@ -51,10 +51,10 @@ void CShapeManager::PrintUsageInfo()
 	std::cout << "Usage:\n"
 			  << "\tEnter shapes with [parameters]. [Parameters] are numbers\n\n"
 			  << "\tSolid shapes:\n"
-			  << "\t\tsphere [density] [radius]\n"
-			  << "\t\tparallelepiped [density] [width] [height] [depth]\n"
-			  << "\t\tcone [base radius] [height]\n"
-			  << "\t\tcylinder [base radius] [height]\n\n";
+			  << "\t\tSphere [density] [radius]\n"
+			  << "\t\tParallelepiped [density] [width] [height] [depth]\n"
+			  << "\t\tCone [density] [base radius] [height]\n"
+			  << "\t\tCylinder [density] [base radius] [height]\n\n";
 }
 
 std::optional<double> CShapeManager::ParseDensity(std::istream& args)
