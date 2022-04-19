@@ -37,7 +37,10 @@ void CShapeManager::InitShapeManager()
 
 bool CShapeManager::Info([[maybe_unused]] std::istream&)
 {
-	std::cout << "vector size is: " << m_shapeCollection.size() << std::endl;
+	for (auto p : m_shapeCollection)
+	{
+		std::cout << p->ToString() << std::endl;
+	}
 	return true;
 }
 
