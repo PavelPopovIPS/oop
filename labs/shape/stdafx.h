@@ -14,4 +14,5 @@
 #include <functional>
 #include <map>
 #include <math.h>
+#include <optional>
 #include <vector>
