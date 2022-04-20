@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "Body.h"
 #include "Cone.h"
+#include "Cylinder.h"
 #include "Parallelepiped.h"
 #include "Sphere.h"
 
@@ -20,9 +21,12 @@ private:
 
 	void PrintUsageInfo();
 	std::optional<double> ParseDensity(std::istream& args);
+	std::optional<double> ParseBaseRadius(std::istream& args);
+	std::optional<double> ParseHeight(std::istream& args);
 
 	bool SetSphereToCollection(std::istream& args);
 	bool SetParallelepipedToCollection(std::istream& args);
 	bool SetConeToCollection(std::istream& args);
+	bool SetCylinderToCollection(std::istream& args);
 	std::vector<std::shared_ptr<CBody>> m_shapeCollection;
 };

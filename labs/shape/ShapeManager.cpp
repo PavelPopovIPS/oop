@@ -7,6 +7,7 @@ CShapeManager::CShapeManager()
 		{ "Sphere", bind(&CShapeManager::SetSphereToCollection, this, std::placeholders::_1) },
 		{ "Parallelepiped", bind(&CShapeManager::SetParallelepipedToCollection, this, std::placeholders::_1) },
 		{ "Cone", bind(&CShapeManager::SetConeToCollection, this, std::placeholders::_1) },
+		{ "Cylinder", bind(&CShapeManager::SetCylinderToCollection, this, std::placeholders::_1) },
 	})
 {
 }
@@ -79,6 +80,45 @@ std::optional<double> CShapeManager::ParseDensity(std::istream& args)
 	return density;
 }
 
+std::optional<double> CShapeManager::ParseBaseRadius(std::istream& args)
+{
+	double baseRadius;
+	args >> baseRadius;
+
+	if (!args)
+	{
+		std::cout << "BaseRadius are not number" << std::endl;
+		return std::nullopt;
+	}
+
+	if (baseRadius <= 0)
+	{
+		std::cout << "BaseRadius must be greater then 0" << std::endl;
+		return std::nullopt;
+	}
+
+	return baseRadius;
+}
+
+std::optional<double> CShapeManager::ParseHeight(std::istream& args)
+{
+	double height;
+	args >> height;
+	if (!args)
+	{
+		std::cout << "Height are not number" << std::endl;
+		return std::nullopt;
+	}
+
+	if (height <= 0)
+	{
+		std::cout << "Height must be greater then 0" << std::endl;
+		return std::nullopt;
+	}
+
+	return height;
+}
+
 bool CShapeManager::SetSphereToCollection(std::istream& args)
 {
 	auto density = ParseDensity(args);
@@ -138,26 +178,30 @@ bool CShapeManager::SetParallelepipedToCollection(std::istream& args)
 bool CShapeManager::SetConeToCollection(std::istream& args)
 {
 	auto density = ParseDensity(args);
-	if (!density)
+	auto baseRadius = ParseBaseRadius(args);
+	auto height = ParseHeight(args);
+	if (!density || !baseRadius || !height)
 	{
 		return false;
 	}
 
-	double baseRadius;
-	double height;
-	if (!(args >> baseRadius >> height))
+	auto cone = std::make_shared<CCone>(*density, *baseRadius, *height);
+	m_shapeCollection.push_back(cone);
+
+	return true;
+}
+
+bool CShapeManager::SetCylinderToCollection(std::istream& args)
+{
+	auto density = ParseDensity(args);
+	auto baseRadius = ParseBaseRadius(args);
+	auto height = ParseHeight(args);
+	if (!density || !baseRadius || !height)
 	{
-		std::cout << "BaseRadius or height are not number" << std::endl;
 		return false;
 	}
 
-	if (baseRadius <= 0 || height <= 0)
-	{
-		std::cout << "BaseRadius, height must be greater then 0" << std::endl;
-		return false;
-	}
-
-	auto cone = std::make_shared<CCone>(*density, baseRadius, height);
+	auto cone = std::make_shared<CCylinder>(*density, *baseRadius, *height);
 	m_shapeCollection.push_back(cone);
 
 	return true;
