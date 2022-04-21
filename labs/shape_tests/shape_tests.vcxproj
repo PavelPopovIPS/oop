@@ -156,12 +156,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\shape\Body.cpp" />
+    <ClCompile Include="..\shape\Cone.cpp" />
+    <ClCompile Include="..\shape\Cylinder.cpp" />
+    <ClCompile Include="..\shape\Parallelepiped.cpp" />
     <ClCompile Include="..\shape\Sphere.cpp" />
     <ClCompile Include="..\shape\stdafx.cpp" />
     <ClCompile Include="shape_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\shape\Body.h" />
+    <ClInclude Include="..\shape\Cone.h" />
+    <ClInclude Include="..\shape\Cylinder.h" />
+    <ClInclude Include="..\shape\Parallelepiped.h" />
     <ClInclude Include="..\shape\Sphere.h" />
     <ClInclude Include="..\shape\stdafx.h" />
   </ItemGroup>

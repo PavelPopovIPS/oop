@@ -13,8 +13,8 @@ double CSphere::GetRadius() const
 
 double CSphere::GetVolume() const
 {
-	// return (4 / 3) * M_PI * pow(m_radius, 3);
-	return 1.33 * M_PI * pow(GetRadius(), 3);
+	// return (4f / 3) * M_PI * pow(m_radius, 3);
+	return (4.0 / 3.0) * M_PI * pow(GetRadius(), 3);
 }
 
 void CSphere::AppendProperties(std::ostream& strm) const
