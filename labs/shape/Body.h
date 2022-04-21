@@ -12,6 +12,8 @@ public:
 	double GetMass() const;
 	std::string ToString() const;
 
+	virtual ~CBody() = default;
+
 private:
 	virtual void AppendProperties(std::ostream& strm) const = 0;
 
