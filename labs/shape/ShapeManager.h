@@ -13,6 +13,7 @@ public:
 	CShapeManager();
 	void InitShapeManager();
 	bool Info(std::istream&);
+	bool PrintHeaviestShape(std::istream&);
 
 private:
 	using Handler = std::function<bool(std::istream& args)>;
@@ -28,5 +29,8 @@ private:
 	bool SetParallelepipedToCollection(std::istream& args);
 	bool SetConeToCollection(std::istream& args);
 	bool SetCylinderToCollection(std::istream& args);
+
+	std::shared_ptr<CBody> FindHeaviestShape(std::istream& args);
+
 	std::vector<std::shared_ptr<CBody>> m_shapeCollection;
 };

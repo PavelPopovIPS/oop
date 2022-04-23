@@ -4,6 +4,7 @@ using namespace std::placeholders;
 CShapeManager::CShapeManager()
 	: m_actionMap({
 		{ "Info", bind(&CShapeManager::Info, this, std::placeholders::_1) },
+		{ "HeaviestShape", bind(&CShapeManager::PrintHeaviestShape, this, std::placeholders::_1) },
 		{ "Sphere", bind(&CShapeManager::SetSphereToCollection, this, std::placeholders::_1) },
 		{ "Parallelepiped", bind(&CShapeManager::SetParallelepipedToCollection, this, std::placeholders::_1) },
 		{ "Cone", bind(&CShapeManager::SetConeToCollection, this, std::placeholders::_1) },
@@ -51,6 +52,14 @@ bool CShapeManager::Info([[maybe_unused]] std::istream&)
 	return true;
 }
 
+bool CShapeManager::PrintHeaviestShape(std::istream& strm)
+{
+	std::shared_ptr<CBody> p_heaviestShape = FindHeaviestShape(strm);
+	std::cout << p_heaviestShape->ToString() << std::endl;
+
+	return true;
+}
+
 void CShapeManager::PrintUsageInfo()
 {
 	std::cout << "Usage:\n"
@@ -61,7 +70,8 @@ void CShapeManager::PrintUsageInfo()
 			  << "\t\tCone [density] [base radius] [height]\n"
 			  << "\t\tCylinder [density] [base radius] [height]\n\n"
 			  << "\tCommands:\n"
-			  << "\t\tInfo - get information about shapes\n\n";
+			  << "\t\tInfo - get information about shapes\n"
+			  << "\t\tHeaviestShape - print heaviest shape\n\n";
 }
 
 std::optional<double> CShapeManager::ParseDensity(std::istream& args)
@@ -208,4 +218,21 @@ bool CShapeManager::SetCylinderToCollection(std::istream& args)
 	m_shapeCollection.push_back(cone);
 
 	return true;
+}
+
+std::shared_ptr<CBody> CShapeManager::FindHeaviestShape([[maybe_unused]] std::istream&)
+{
+	double heaviestShapeMass = 0;
+	std::shared_ptr<CBody> p_heaviestShape;
+
+	for (auto p : m_shapeCollection)
+	{
+		double mass = p->GetMass();
+
+		if (mass > heaviestShapeMass)
+		{
+			p_heaviestShape = p;
+		}
+	}
+	return p_heaviestShape;
 }
