@@ -7,9 +7,9 @@ class CBody
 public:
 	CBody(const std::string& type, double density);
 
-	double GetDensity() const;
+	virtual double GetDensity() const;
 	virtual double GetVolume() const = 0;
-	double GetMass() const;
+	virtual double GetMass() const;
 	double GetWeightInWater() const;
 	std::string ToString() const;
 
