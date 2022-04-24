@@ -16,3 +16,6 @@
 #include <math.h>
 #include <optional>
 #include <vector>
+
+const double WATER_DENSITY = 1000.0;
+const double g = 10.0;

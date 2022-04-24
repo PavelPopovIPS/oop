@@ -17,6 +17,11 @@ double CBody::GetMass() const
 	return GetDensity() * GetVolume();
 }
 
+double CBody::GetWeightInWater() const
+{
+	return (GetDensity() - WATER_DENSITY) * g * GetVolume();
+}
+
 std::string CBody::ToString() const
 {
 	std::ostringstream strm;
@@ -24,7 +29,8 @@ std::string CBody::ToString() const
 		 << std::setprecision(10)
 		 << "\tdensity = " << GetDensity() << std::endl
 		 << "\tvolume = " << GetVolume() << std::endl
-		 << "\tmass = " << GetMass() << std::endl;
+		 << "\tmass = " << GetMass() << std::endl
+		 << "\tweight in water = " << GetWeightInWater() << std::endl;
 	AppendProperties(strm);
 	return strm.str();
 }

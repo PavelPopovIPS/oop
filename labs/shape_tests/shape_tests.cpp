@@ -60,9 +60,9 @@ SCENARIO("Tests for class Sphere volume and mass")
 			double result = sphere.GetVolume();
 			result = round(result * 10) / 10;
 
-			THEN("volume should be equal 113.1")
+			THEN("volume should be equal 112.8")
 			{
-				double expectedResult = 113.1;
+				double expectedResult = 112.8;
 				REQUIRE(result == expectedResult);
 			}
 		}
@@ -72,9 +72,9 @@ SCENARIO("Tests for class Sphere volume and mass")
 			double result = sphere.GetMass();
 			result = round(result * 10) / 10;
 
-			THEN("mass should be equal 339.3")
+			THEN("mass should be equal 338.4")
 			{
-				double expectedResult = 339.3;
+				double expectedResult = 338.4;
 				REQUIRE(result == expectedResult);
 			}
 		}
@@ -208,9 +208,9 @@ SCENARIO("Tests for class Cone")
 			double result = cone.GetVolume();
 			result = round(result * 10) / 10;
 
-			THEN("volume should be equal 19.8")
+			THEN("volume should be equal 19.6")
 			{
-				double expectedResult = 19.8;
+				double expectedResult = 19.6;
 				REQUIRE(result == expectedResult);
 			}
 		}
@@ -220,9 +220,9 @@ SCENARIO("Tests for class Cone")
 			double result = cone.GetMass();
 			result = round(result * 10) / 10;
 
-			THEN("mass should be equal 65.3")
+			THEN("mass should be equal 64.7")
 			{
-				double expectedResult = 65.3;
+				double expectedResult = 64.7;
 				REQUIRE(result == expectedResult);
 			}
 		}

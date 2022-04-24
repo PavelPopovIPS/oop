@@ -19,7 +19,7 @@ double CCone::GetHeight() const
 
 double CCone::GetVolume() const
 {
-	return (1.0 / 3.0) * M_PI * pow(GetBaseRadius(), 2) * GetHeight();
+	return (0.33) * M_PI * pow(GetBaseRadius(), 2) * GetHeight();
 }
 
 void CCone::AppendProperties(std::ostream& strm) const

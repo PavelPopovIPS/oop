@@ -10,6 +10,7 @@ public:
 	double GetDensity() const;
 	virtual double GetVolume() const = 0;
 	double GetMass() const;
+	double GetWeightInWater() const;
 	std::string ToString() const;
 
 	virtual ~CBody() = default;
