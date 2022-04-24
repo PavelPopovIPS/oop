@@ -10,6 +10,7 @@ CShapeManager::CShapeManager()
 		{ "Parallelepiped", bind(&CShapeManager::SetParallelepipedToCollection, this, std::placeholders::_1) },
 		{ "Cone", bind(&CShapeManager::SetConeToCollection, this, std::placeholders::_1) },
 		{ "Cylinder", bind(&CShapeManager::SetCylinderToCollection, this, std::placeholders::_1) },
+		{ "CompoundStart", bind(&CShapeManager::SetCompoundToCollection, this, std::placeholders::_1) },
 	})
 {
 }
@@ -78,6 +79,10 @@ void CShapeManager::PrintUsageInfo()
 			  << "\t\tParallelepiped [density] [width] [height] [depth]\n"
 			  << "\t\tCone [density] [base radius] [height]\n"
 			  << "\t\tCylinder [density] [base radius] [height]\n\n"
+			  << "\tCompound shapes:\n"
+			  << "\t\tCompoundStart\n"
+			  << "\t\t\tAdd solid and compound shapes\n"
+			  << "\t\tCompoundEnd\n\n"
 			  << "\tCommands:\n"
 			  << "\t\tInfo - get information about shapes\n"
 			  << "\t\tHeaviestShape - print heaviest shape\n"
@@ -232,9 +237,14 @@ bool CShapeManager::SetCylinderToCollection(std::istream& args)
 
 bool CShapeManager::SetCompoundToCollection(std::istream& args)
 {
-	// auto cone = std::make_shared<CCompound>();
-	// m_shapeCollection.push_back(cone);
-	return false;
+	auto compoundShape = std::make_shared<CCompound>();
+
+	double density = 1;
+	double radius = 2;
+	auto sphere = std::make_shared<CSphere>(density, radius);
+	compoundShape->AddChildBody(sphere);
+	m_shapeCollection.push_back(compoundShape);
+	return true;
 }
 
 std::shared_ptr<CBody> CShapeManager::FindHeaviestShape([[maybe_unused]] std::istream&)

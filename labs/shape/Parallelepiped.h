@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Body.h"
+#include "SolidBody.h"
 
-class CParalellepiped : public CBody
+class CParalellepiped : public CSolidBody
 {
 public:
 	CParalellepiped(double density, double width, double height, double depth);

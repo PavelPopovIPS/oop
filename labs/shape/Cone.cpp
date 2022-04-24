@@ -1,7 +1,7 @@
 ﻿#include "Cone.h"
 
 CCone::CCone(double density, double baseRadius, double height)
-	: CBody("Cone", density)
+	: CSolidBody("Cone", density)
 	, m_baseRadius(baseRadius)
 	, m_height(height)
 {

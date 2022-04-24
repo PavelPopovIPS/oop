@@ -1,7 +1,7 @@
 #include "Cylinder.h"
 
 CCylinder::CCylinder(double density, double baseRadius, double height)
-	: CBody("Cylinder", density)
+	: CSolidBody("Cylinder", density)
 	, m_baseRadius(baseRadius)
 	, m_height(height)
 {

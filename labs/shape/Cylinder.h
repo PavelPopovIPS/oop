@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Body.h"
+#include "SolidBody.h"
 
-class CCylinder : public CBody
+class CCylinder : public CSolidBody
 {
 public:
 	CCylinder(double density, double baseRadius, double height);

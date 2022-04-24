@@ -1,7 +1,7 @@
 #include "Parallelepiped.h"
 
 CParalellepiped::CParalellepiped(double density, double width, double height, double depth)
-	: CBody("Paralellepiped", density)
+	: CSolidBody("Paralellepiped", density)
 	, m_width(width)
 	, m_height(height)
 	, m_depth(depth)

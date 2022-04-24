@@ -150,6 +150,7 @@
     <ClCompile Include="Parallelepiped.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
+    <ClCompile Include="SolidBody.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Parallelepiped.h" />
     <ClInclude Include="ShapeManager.h" />
+    <ClInclude Include="SolidBody.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

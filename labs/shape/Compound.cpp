@@ -1,8 +1,20 @@
 #include "Compound.h"
 
+CCompound::CCompound()
+	: CBody("Compound Shape")
+{
+}
+
 double CCompound::GetDensity() const
 {
-	return GetMass() / GetVolume();
+	if (GetVolume() != 0)
+	{
+		return GetMass() / GetVolume();
+	}
+	else
+	{
+		return 0.0;
+	}
 }
 
 double CCompound::GetVolume() const
@@ -27,7 +39,21 @@ double CCompound::GetMass() const
 	return mass;
 }
 
-bool CCompound::AddChildBody(std::shared_ptr<CBody>& child)
+std::string CCompound::ToString() const
+{
+	std::string str = m_type;
+	str.append(" Start \n");
+
+	for (auto p : m_childShapeCollection)
+	{
+		str.append(p->ToString());
+	}
+	str.append("Compound Shape End \n");
+
+	return str;
+}
+
+bool CCompound::AddChildBody(std::shared_ptr<CBody> child)
 {
 	m_childShapeCollection.push_back(child);
 
