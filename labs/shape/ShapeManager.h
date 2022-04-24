@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Body.h"
+#include "Compound.h"
 #include "Cone.h"
 #include "Cylinder.h"
 #include "Parallelepiped.h"
@@ -30,6 +31,7 @@ private:
 	bool SetParallelepipedToCollection(std::istream& args);
 	bool SetConeToCollection(std::istream& args);
 	bool SetCylinderToCollection(std::istream& args);
+	bool SetCompoundToCollection(std::istream& args);
 
 	std::shared_ptr<CBody> FindHeaviestShape(std::istream& args);
 	std::shared_ptr<CBody> FindLightestShape(std::istream& args);

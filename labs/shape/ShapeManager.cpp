@@ -230,6 +230,13 @@ bool CShapeManager::SetCylinderToCollection(std::istream& args)
 	return true;
 }
 
+bool CShapeManager::SetCompoundToCollection(std::istream& args)
+{
+	// auto cone = std::make_shared<CCompound>();
+	// m_shapeCollection.push_back(cone);
+	return false;
+}
+
 std::shared_ptr<CBody> CShapeManager::FindHeaviestShape([[maybe_unused]] std::istream&)
 {
 	double heaviestShapeMass = 0;
