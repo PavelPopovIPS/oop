@@ -5,9 +5,9 @@ CLooper::CLooper(CParser& parser, CShapeManager& manager)
 	: m_parser(parser)
 	, m_shapeManager(manager)
 	, m_commonActionMap({
-		  { "Info", bind(&CShapeManager::PrintInfo, m_shapeManager, std::placeholders::_1) },
-		  { "HeaviestShape", bind(&CShapeManager::PrintHeaviestShapeInfo, m_shapeManager, std::placeholders::_1) },
-		  { "LightestShapeInWater", bind(&CShapeManager::PrintLightestShapeInfo, m_shapeManager, std::placeholders::_1) },
+		  { "Info", bind(&CShapeManager::PrintInfo, &m_shapeManager, std::placeholders::_1) },
+		  { "HeaviestShape", bind(&CShapeManager::PrintHeaviestShapeInfo, &m_shapeManager, std::placeholders::_1) },
+		  { "LightestShapeInWater", bind(&CShapeManager::PrintLightestShapeInfo, &m_shapeManager, std::placeholders::_1) },
 		  { "CompoundStart", bind(&CLooper::ReadCompoundShapeInfo, this, std::placeholders::_1) },
 	  })
 	, m_parseShapeActionMap({
@@ -18,10 +18,6 @@ CLooper::CLooper(CParser& parser, CShapeManager& manager)
 	  })
 {
 }
-//вынести парсер в отдельный класс и передавать парсер по ссылке при создании менеджера
-// хранение вектора в отдельном классе
-// переименоват в appManager или looper
-// вычисление макс массы можно вынести в отдельную функции в утилитиы или вычислять там где хранится вектор, может нет
 
 void CLooper::Init()
 {
@@ -36,18 +32,20 @@ void CLooper::Init()
 		std::string action;
 		strm >> action;
 
-		auto it = m_commonActionMap.find(action);
-		if (it != m_commonActionMap.end())
+		auto itCommonAction = m_commonActionMap.find(action);
+		if (itCommonAction != m_commonActionMap.end())
 		{
-			it->second(strm);
+			itCommonAction->second(strm);
 		}
 
-		auto it2 = m_parseShapeActionMap.find(action);
-		if (it2 != m_parseShapeActionMap.end())
+		auto itShapeAction = m_parseShapeActionMap.find(action);
+		if (itShapeAction != m_parseShapeActionMap.end())
 		{
-			it2->second(strm);
+			std::shared_ptr<CBody> shape = itShapeAction->second(strm);
+			m_shapeManager.AddShape(shape);
 		}
-		else
+
+		if (itCommonAction != m_commonActionMap.end() && itShapeAction != m_parseShapeActionMap.end())
 		{
 			std::cout << "Unknown command!" << std::endl;
 		}

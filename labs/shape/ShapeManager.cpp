@@ -22,7 +22,7 @@ bool CShapeManager::PrintLightestShapeInfo(std::istream&)
 	return true;
 }
 
-bool CShapeManager::PrintInfo(std::istream& args)
+bool CShapeManager::PrintInfo(std::istream&)
 {
 	for (auto p : m_shapeCollection)
 	{
