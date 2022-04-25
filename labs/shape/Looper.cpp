@@ -8,13 +8,13 @@ CLooper::CLooper(CParser& parser, CShapeManager& manager)
 		  { "Info", bind(&CShapeManager::PrintInfo, &m_shapeManager, std::placeholders::_1) },
 		  { "HeaviestShape", bind(&CShapeManager::PrintHeaviestShapeInfo, &m_shapeManager, std::placeholders::_1) },
 		  { "LightestShapeInWater", bind(&CShapeManager::PrintLightestShapeInfo, &m_shapeManager, std::placeholders::_1) },
-		  { "CompoundStart", bind(&CLooper::ReadCompoundShapeInfo, this, std::placeholders::_1) },
 	  })
 	, m_parseShapeActionMap({
 		  { "Sphere", bind(&CParser::ParseSphere, m_parser, std::placeholders::_1) },
 		  { "Parallelepiped", bind(&CParser::ParseParallelepiped, m_parser, std::placeholders::_1) },
 		  { "Cone", bind(&CParser::ParseCone, m_parser, std::placeholders::_1) },
 		  { "Cylinder", bind(&CParser::ParseCylinder, m_parser, std::placeholders::_1) },
+		  { "CompoundStart", bind(&CLooper::ParseCompoundShapeInfo, this, std::placeholders::_1) },
 	  })
 {
 }
@@ -45,7 +45,7 @@ void CLooper::Init()
 			m_shapeManager.AddShape(shape);
 		}
 
-		if (itCommonAction != m_commonActionMap.end() && itShapeAction != m_parseShapeActionMap.end())
+		if (itCommonAction == m_commonActionMap.end() && itShapeAction == m_parseShapeActionMap.end())
 		{
 			std::cout << "Unknown command!" << std::endl;
 		}
@@ -73,14 +73,45 @@ void CLooper::PrintUsageInfo()
 			  << "\t\tLightestShapeInWater - print lightest shape in water\n\n";
 }
 
-bool CLooper::ReadCompoundShapeInfo(std::istream& args)
+std::shared_ptr<CBody> CLooper::ParseCompoundShapeInfo(std::istream& args)
 {
-	auto compoundShape = std::make_shared<CCompound>();
+	std::shared_ptr<CCompound> compoundShape = std::make_shared<CCompound>();
 
-	double density = 1;
-	double radius = 2;
-	auto sphere = std::make_shared<CSphere>(density, radius);
-	compoundShape->AddChildBody(sphere);
-	m_shapeManager.AddShape(compoundShape);
-	return true;
+	std::cout << "Add shapes or CompoundEnd for close compound shape" << std::endl;
+	std::cout << ">>";
+
+	std::string line;
+	while (std::getline(std::cin, line))
+	{
+		std::istringstream strm(line);
+
+		std::string action;
+		strm >> action;
+
+		if (action == "CompoundStart")
+		{
+			ParseCompoundShapeInfo(strm);
+		}
+
+		auto itShapeAction = m_parseShapeActionMap.find(action);
+		if (itShapeAction != m_parseShapeActionMap.end())
+		{
+			std::shared_ptr<CBody> shape = itShapeAction->second(strm);
+			compoundShape->AddChildBody(shape);
+		}
+
+		if (action == "CompoundEnd")
+		{
+			std::cout << "Compound Shape was created" << std::endl;
+			break;
+		}
+
+		if (itShapeAction == m_parseShapeActionMap.end())
+		{
+			std::cout << "Unknown command! Add shapes or CompoundEnd for close compound shape" << std::endl;
+		}
+
+		std::cout << "\n>>";
+	}
+	return compoundShape;
 }
