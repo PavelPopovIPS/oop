@@ -147,7 +147,9 @@
     <ClCompile Include="Compound.cpp" />
     <ClCompile Include="Cone.cpp" />
     <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Looper.cpp" />
     <ClCompile Include="Parallelepiped.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="ShapeManager.cpp" />
     <ClCompile Include="SolidBody.cpp" />
@@ -159,7 +161,9 @@
     <ClInclude Include="Compound.h" />
     <ClInclude Include="Cone.h" />
     <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Looper.h" />
     <ClInclude Include="Parallelepiped.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="ShapeManager.h" />
     <ClInclude Include="SolidBody.h" />
     <ClInclude Include="Sphere.h" />

@@ -2,12 +2,16 @@
 //
 
 #include "stdafx.h"
+#include "Looper.h"
+#include "Parser.h"
 #include "ShapeManager.h"
 
 int main()
 {
-	CShapeManager ShapeManager;
-	ShapeManager.InitShapeManager();
+	CParser parser;
+	CShapeManager shapeManager;
+	CLooper looper(parser, shapeManager);
+	looper.Init();
 
 	return 0;
 }
