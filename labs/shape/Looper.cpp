@@ -40,15 +40,15 @@ void CLooper::Init()
 			{
 				m_shapeManager.AddShape(*shape);
 			}
+
+			if (itCommonAction == m_commonActionMap.end() && !shape)
+			{
+				std::cout << "Unknown command!" << std::endl;
+			}
 		}
 		catch (const std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
-		}
-
-		if (itCommonAction == m_commonActionMap.end() && !shape)
-		{
-			std::cout << "Unknown command!" << std::endl;
 		}
 
 		std::cout << "\n>>";

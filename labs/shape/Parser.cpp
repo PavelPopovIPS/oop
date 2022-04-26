@@ -158,28 +158,37 @@ std::shared_ptr<CBody> CParser::ParseCompoundShape()
 		auto itShapeAction = m_parseShapeActionMap.find(parseShapeAction);
 		if (itShapeAction != m_parseShapeActionMap.end())
 		{
-			std::shared_ptr<CBody> shape;
 			try
 			{
-				shape = itShapeAction->second(strm);
+				std::shared_ptr<CBody> shape = itShapeAction->second(strm);
+				compoundShape->AddChildBody(shape);
 			}
 			catch (const std::exception& e)
 			{
 				std::cout << e.what() << std::endl;
-				continue;
 			}
-
-			compoundShape->AddChildBody(shape);
 		}
 
 		if (parseShapeAction == "CompoundStart")
 		{
-			std::shared_ptr<CBody> shape = ParseCompoundShape();
-			compoundShape->AddChildBody(shape);
+			try
+			{
+				std::shared_ptr<CBody> shape = ParseCompoundShape();
+				compoundShape->AddChildBody(shape);
+			}
+			catch (const std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
 		}
 
 		if (parseShapeAction == "CompoundEnd")
 		{
+			if (compoundShape->IsEmpty())
+			{
+				throw std::runtime_error("Compound Shape should contain one or more solid shapes");
+			}
+
 			std::cout << "Compound Shape was created" << std::endl;
 			return compoundShape;
 		}

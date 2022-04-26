@@ -13,6 +13,7 @@ public:
 	std::string ToString() const override;
 
 	bool AddChildBody(std::shared_ptr<CBody> child);
+	bool IsEmpty() const;
 
 private:
 	std::vector<std::shared_ptr<CBody>> m_childShapeCollection;

@@ -59,3 +59,12 @@ bool CCompound::AddChildBody(std::shared_ptr<CBody> child)
 
 	return true;
 }
+
+bool CCompound::IsEmpty() const
+{
+	if (m_childShapeCollection.size() == 0)
+	{
+		return true;
+	}
+	return false;
+}
