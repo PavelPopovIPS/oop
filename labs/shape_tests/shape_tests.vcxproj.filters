@@ -36,6 +36,9 @@
     <ClCompile Include="..\shape\Parallelepiped.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\shape\SolidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\shape\Sphere.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\shape\Parallelepiped.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shape\SolidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

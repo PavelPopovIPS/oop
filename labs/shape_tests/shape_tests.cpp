@@ -7,6 +7,7 @@
 #include "../shape/Cone.h"
 #include "../shape/Cylinder.h"
 #include "../shape/Parallelepiped.h"
+#include "../shape/SolidBody.h"
 #include "../shape/Sphere.h"
 #include "../shape/stdafx.h"
 

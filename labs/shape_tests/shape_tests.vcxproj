@@ -159,6 +159,7 @@
     <ClCompile Include="..\shape\Cone.cpp" />
     <ClCompile Include="..\shape\Cylinder.cpp" />
     <ClCompile Include="..\shape\Parallelepiped.cpp" />
+    <ClCompile Include="..\shape\SolidBody.cpp" />
     <ClCompile Include="..\shape\Sphere.cpp" />
     <ClCompile Include="..\shape\stdafx.cpp" />
     <ClCompile Include="shape_tests.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="..\shape\Cone.h" />
     <ClInclude Include="..\shape\Cylinder.h" />
     <ClInclude Include="..\shape\Parallelepiped.h" />
+    <ClInclude Include="..\shape\SolidBody.h" />
     <ClInclude Include="..\shape\Sphere.h" />
     <ClInclude Include="..\shape\stdafx.h" />
   </ItemGroup>
