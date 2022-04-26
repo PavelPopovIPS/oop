@@ -1,5 +1,34 @@
 #include "Parser.h"
 
+CParser::CParser()
+	: m_parseShapeActionMap({
+		{ "Sphere", bind(&CParser::ParseSphere, this, std::placeholders::_1) },
+		{ "Parallelepiped", bind(&CParser::ParseParallelepiped, this, std::placeholders::_1) },
+		{ "Cone", bind(&CParser::ParseCone, this, std::placeholders::_1) },
+		{ "Cylinder", bind(&CParser::ParseCylinder, this, std::placeholders::_1) },
+	})
+{
+}
+
+std::optional<std::shared_ptr<CBody>> CParser::ParseShape(std::string& parseShapeAction, std::istream& args)
+{
+	auto itShapeAction = m_parseShapeActionMap.find(parseShapeAction);
+
+	if (itShapeAction != m_parseShapeActionMap.end())
+	{
+		std::shared_ptr<CBody> shape = itShapeAction->second(args);
+		return shape;
+	}
+
+	if (parseShapeAction == "CompoundStart")
+	{
+		std::shared_ptr<CBody> shape = ParseCompoundShape();
+		return shape;
+	}
+
+	return std::nullopt;
+}
+
 std::shared_ptr<CBody> CParser::ParseSphere(std::istream& args)
 {
 	auto density = ParseDensity(args);
@@ -132,4 +161,48 @@ std::optional<double> CParser::ParseHeight(std::istream& args)
 	}
 
 	return height;
+}
+
+std::shared_ptr<CBody> CParser::ParseCompoundShape()
+{
+	std::shared_ptr<CCompound> compoundShape = std::make_shared<CCompound>();
+	std::cout << "Add shapes or CompoundEnd for close compound shape\n\n"
+			  << ">>";
+
+	std::string line;
+	while (std::getline(std::cin, line))
+	{
+		std::istringstream strm(line);
+
+		std::string parseShapeAction;
+		strm >> parseShapeAction;
+
+		auto itShapeAction = m_parseShapeActionMap.find(parseShapeAction);
+		if (itShapeAction != m_parseShapeActionMap.end())
+		{
+			std::shared_ptr<CBody> shape = itShapeAction->second(strm);
+			compoundShape->AddChildBody(shape);
+		}
+
+		if (parseShapeAction == "CompoundStart")
+		{
+			std::shared_ptr<CBody> shape = ParseCompoundShape();
+			compoundShape->AddChildBody(shape);
+		}
+
+		if (parseShapeAction == "CompoundEnd")
+		{
+			std::cout << "Compound Shape was created" << std::endl;
+			return compoundShape;
+		}
+
+		if (itShapeAction == m_parseShapeActionMap.end() && parseShapeAction != "CompoundStart")
+		{
+			std::cout << "Unknown command! Add shapes or CompoundEnd for close compound shape" << std::endl;
+		}
+
+		std::cout << "\n>>";
+	}
+
+	return compoundShape;
 }
