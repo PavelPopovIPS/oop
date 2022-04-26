@@ -186,7 +186,7 @@ std::shared_ptr<CBody> CParser::ParseCompoundShape()
 		{
 			if (compoundShape->IsEmpty())
 			{
-				throw std::runtime_error("Compound Shape should contain one or more solid shapes");
+				throw std::runtime_error("Compound Shape was not created. Id should contain one or more solid shapes");
 			}
 
 			std::cout << "Compound Shape was created" << std::endl;
