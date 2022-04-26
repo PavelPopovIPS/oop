@@ -12,7 +12,7 @@ public:
 
 private:
 	void PrintUsageInfo();
-	std::shared_ptr<CBody> ParseCompoundShapeInfo(std::istream& args);
+	std::shared_ptr<CBody> ParseCompoundShape(std::istream& args);
 
 	using CommonHandler = std::function<bool(std::istream& args)>;
 	using CommonActionMap = std::map<std::string, CommonHandler>;

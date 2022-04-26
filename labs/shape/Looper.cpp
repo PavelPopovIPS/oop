@@ -14,7 +14,7 @@ CLooper::CLooper(CParser& parser, CShapeManager& manager)
 		  { "Parallelepiped", bind(&CParser::ParseParallelepiped, m_parser, std::placeholders::_1) },
 		  { "Cone", bind(&CParser::ParseCone, m_parser, std::placeholders::_1) },
 		  { "Cylinder", bind(&CParser::ParseCylinder, m_parser, std::placeholders::_1) },
-		  { "CompoundStart", bind(&CLooper::ParseCompoundShapeInfo, this, std::placeholders::_1) },
+		  { "CompoundStart", bind(&CLooper::ParseCompoundShape, this, std::placeholders::_1) },
 	  })
 {
 }
@@ -73,11 +73,12 @@ void CLooper::PrintUsageInfo()
 			  << "\t\tLightestShapeInWater - print lightest shape in water\n\n";
 }
 
-std::shared_ptr<CBody> CLooper::ParseCompoundShapeInfo(std::istream& args)
+std::shared_ptr<CBody> CLooper::ParseCompoundShape(std::istream& args)
 {
 	std::shared_ptr<CCompound> compoundShape = std::make_shared<CCompound>();
 
-	std::cout << "Add shapes or CompoundEnd for close compound shape" << std::endl;
+	std::cout << "Add shapes or CompoundEnd for close compound shape\n"
+			  << std::endl;
 	std::cout << ">>";
 
 	std::string line;
@@ -90,7 +91,8 @@ std::shared_ptr<CBody> CLooper::ParseCompoundShapeInfo(std::istream& args)
 
 		if (action == "CompoundStart")
 		{
-			ParseCompoundShapeInfo(strm);
+			std::shared_ptr<CBody> shape = ParseCompoundShape(strm);
+			compoundShape->AddChildBody(shape);
 		}
 
 		auto itShapeAction = m_parseShapeActionMap.find(action);
@@ -103,7 +105,7 @@ std::shared_ptr<CBody> CLooper::ParseCompoundShapeInfo(std::istream& args)
 		if (action == "CompoundEnd")
 		{
 			std::cout << "Compound Shape was created" << std::endl;
-			break;
+			return compoundShape;
 		}
 
 		if (itShapeAction == m_parseShapeActionMap.end())
