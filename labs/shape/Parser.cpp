@@ -36,14 +36,15 @@ std::shared_ptr<CBody> CParser::ParseSphere(std::istream& args)
 	double radius;
 	if (!(args >> radius))
 	{
-		throw std::runtime_error("Radius is not number");
+		throw std::runtime_error("Radius is not number\n");
 	}
 
 	if (radius <= 0)
 	{
-		throw std::runtime_error("Radius must be greater then 0");
+		throw std::runtime_error("Radius must be greater then 0\n");
 	}
 
+	std::cout << "Sphere was created" << std::endl;
 	return std::make_shared<CSphere>(density, radius);
 }
 
@@ -55,14 +56,15 @@ std::shared_ptr<CBody> CParser::ParseParallelepiped(std::istream& args)
 	double depth;
 	if (!(args >> width >> height >> depth))
 	{
-		throw std::runtime_error("Width or height or depth are not number");
+		throw std::runtime_error("Width or height or depth are not number\n");
 	}
 
 	if (width <= 0 || height <= 0 || depth <= 0)
 	{
-		throw std::runtime_error("Width, height and depth must be greater then 0");
+		throw std::runtime_error("Width, height and depth must be greater then 0\n");
 	}
 
+	std::cout << "Parallelepiped was created" << std::endl;
 	return std::make_shared<CParalellepiped>(density, width, height, depth);
 }
 
@@ -72,6 +74,7 @@ std::shared_ptr<CBody> CParser::ParseCone(std::istream& args)
 	double baseRadius = ParseBaseRadius(args);
 	double height = ParseHeight(args);
 
+	std::cout << "Cone was created" << std::endl;
 	return std::make_shared<CCone>(density, baseRadius, height);
 }
 
@@ -81,6 +84,7 @@ std::shared_ptr<CBody> CParser::ParseCylinder(std::istream& args)
 	double baseRadius = ParseBaseRadius(args);
 	double height = ParseHeight(args);
 
+	std::cout << "Cylinder was created" << std::endl;
 	return std::make_shared<CCylinder>(density, baseRadius, height);
 }
 
@@ -91,12 +95,12 @@ double CParser::ParseDensity(std::istream& args)
 
 	if (!args)
 	{
-		throw std::runtime_error("CParser is not number");
+		throw std::runtime_error("CParser is not number\n");
 	}
 
 	if (density <= 0)
 	{
-		throw std::runtime_error("Density can not be zero");
+		throw std::runtime_error("Density can not be zero\n");
 	}
 
 	return density;
@@ -109,12 +113,12 @@ double CParser::ParseBaseRadius(std::istream& args)
 
 	if (!args)
 	{
-		throw std::runtime_error("BaseRadius are not number");
+		throw std::runtime_error("BaseRadius are not number\n");
 	}
 
 	if (baseRadius <= 0)
 	{
-		throw std::runtime_error("BaseRadius must be greater then 0");
+		throw std::runtime_error("BaseRadius must be greater then 0\n");
 	}
 
 	return baseRadius;
@@ -126,12 +130,12 @@ double CParser::ParseHeight(std::istream& args)
 	args >> height;
 	if (!args)
 	{
-		throw std::runtime_error("Height are not number");
+		throw std::runtime_error("Height are not number\n");
 	}
 
 	if (height <= 0)
 	{
-		throw std::runtime_error("Height must be greater then 0");
+		throw std::runtime_error("Height must be greater then 0\n");
 	}
 
 	return height;
@@ -154,7 +158,17 @@ std::shared_ptr<CBody> CParser::ParseCompoundShape()
 		auto itShapeAction = m_parseShapeActionMap.find(parseShapeAction);
 		if (itShapeAction != m_parseShapeActionMap.end())
 		{
-			std::shared_ptr<CBody> shape = itShapeAction->second(strm);
+			std::shared_ptr<CBody> shape;
+			try
+			{
+				shape = itShapeAction->second(strm);
+			}
+			catch (const std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+				continue;
+			}
+
 			compoundShape->AddChildBody(shape);
 		}
 
