@@ -26,138 +26,112 @@ std::optional<std::shared_ptr<CBody>> CParser::ParseShape(std::string& parseShap
 		return shape;
 	}
 
-	return std::nullopt;
+	return std::nullopt; // Unknown command!
 }
 
 std::shared_ptr<CBody> CParser::ParseSphere(std::istream& args)
 {
-	auto density = ParseDensity(args);
-	if (!density)
-	{
-		// TODO: throw
-	}
+	double density = ParseDensity(args);
 
 	double radius;
 	if (!(args >> radius))
 	{
-		std::cout << "Radius is not number" << std::endl;
-		// TODO: throw
+		throw std::runtime_error("Radius is not number");
 	}
 
 	if (radius <= 0)
 	{
-		std::cout << "Radius must be greater then 0" << std::endl;
-		// TODO: throw
+		throw std::runtime_error("Radius must be greater then 0");
 	}
 
-	return std::make_shared<CSphere>(*density, radius);
+	return std::make_shared<CSphere>(density, radius);
 }
 
 std::shared_ptr<CBody> CParser::ParseParallelepiped(std::istream& args)
 {
-	auto density = ParseDensity(args);
-	if (!density)
-	{
-		// TODO: throw
-	}
-
+	double density = ParseDensity(args);
 	double width;
 	double height;
 	double depth;
 	if (!(args >> width >> height >> depth))
 	{
-		// TODO: throw
-		std::cout << "Width or height or depth are not number" << std::endl;
+		throw std::runtime_error("Width or height or depth are not number");
 	}
 
 	if (width <= 0 || height <= 0 || depth <= 0)
 	{
-		// TODO: throw
-		std::cout << "Width, height and depth must be greater then 0" << std::endl;
+		throw std::runtime_error("Width, height and depth must be greater then 0");
 	}
 
-	return std::make_shared<CParalellepiped>(*density, width, height, depth);
+	return std::make_shared<CParalellepiped>(density, width, height, depth);
 }
 
 std::shared_ptr<CBody> CParser::ParseCone(std::istream& args)
 {
-	auto density = ParseDensity(args);
-	auto baseRadius = ParseBaseRadius(args);
-	auto height = ParseHeight(args);
-	if (!density || !baseRadius || !height)
-	{
-		// TODO: throw
-	}
+	double density = ParseDensity(args);
+	double baseRadius = ParseBaseRadius(args);
+	double height = ParseHeight(args);
 
-	return std::make_shared<CCone>(*density, *baseRadius, *height);
+	return std::make_shared<CCone>(density, baseRadius, height);
 }
 
 std::shared_ptr<CBody> CParser::ParseCylinder(std::istream& args)
 {
-	auto density = ParseDensity(args);
-	auto baseRadius = ParseBaseRadius(args);
-	auto height = ParseHeight(args);
-	if (!density || !baseRadius || !height)
-	{
-		// TODO: throw
-	}
+	double density = ParseDensity(args);
+	double baseRadius = ParseBaseRadius(args);
+	double height = ParseHeight(args);
 
-	return std::make_shared<CCylinder>(*density, *baseRadius, *height);
+	return std::make_shared<CCylinder>(density, baseRadius, height);
 }
 
-std::optional<double> CParser::ParseDensity(std::istream& args)
+double CParser::ParseDensity(std::istream& args)
 {
 	double density;
 	args >> density;
 
 	if (!args)
 	{
-		std::cout << "CParser is not number" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("CParser is not number");
 	}
 
 	if (density <= 0)
 	{
-		std::cout << "Density can not be zero" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("Density can not be zero");
 	}
+
 	return density;
 }
 
-std::optional<double> CParser::ParseBaseRadius(std::istream& args)
+double CParser::ParseBaseRadius(std::istream& args)
 {
 	double baseRadius;
 	args >> baseRadius;
 
 	if (!args)
 	{
-		std::cout << "BaseRadius are not number" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("BaseRadius are not number");
 	}
 
 	if (baseRadius <= 0)
 	{
-		std::cout << "BaseRadius must be greater then 0" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("BaseRadius must be greater then 0");
 	}
 
 	return baseRadius;
 }
 
-std::optional<double> CParser::ParseHeight(std::istream& args)
+double CParser::ParseHeight(std::istream& args)
 {
 	double height;
 	args >> height;
 	if (!args)
 	{
-		std::cout << "Height are not number" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("Height are not number");
 	}
 
 	if (height <= 0)
 	{
-		std::cout << "Height must be greater then 0" << std::endl;
-		return std::nullopt;
+		throw std::runtime_error("Height must be greater then 0");
 	}
 
 	return height;

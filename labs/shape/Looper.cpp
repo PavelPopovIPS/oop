@@ -31,10 +31,19 @@ void CLooper::Init()
 			itCommonAction->second(strm);
 		}
 
-		auto shape = m_parser.ParseShape(action, strm);
-		if (shape)
+		std::optional<std::shared_ptr<CBody>> shape;
+
+		try
 		{
-			m_shapeManager.AddShape(*shape);
+			shape = m_parser.ParseShape(action, strm);
+			if (shape)
+			{
+				m_shapeManager.AddShape(*shape);
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
 		}
 
 		if (itCommonAction == m_commonActionMap.end() && !shape)

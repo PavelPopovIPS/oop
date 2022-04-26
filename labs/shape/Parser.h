@@ -20,9 +20,9 @@ private:
 	std::shared_ptr<CBody> ParseCone(std::istream& args);
 	std::shared_ptr<CBody> ParseCylinder(std::istream& args);
 
-	std::optional<double> ParseDensity(std::istream& args);
-	std::optional<double> ParseBaseRadius(std::istream& args);
-	std::optional<double> ParseHeight(std::istream& args);
+	double ParseDensity(std::istream& args);
+	double ParseBaseRadius(std::istream& args);
+	double ParseHeight(std::istream& args);
 
 	std::shared_ptr<CBody> ParseCompoundShape();
 
