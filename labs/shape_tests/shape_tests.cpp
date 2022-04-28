@@ -1,4 +1,4 @@
-// shape_tests.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// shape_tests.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #define CATCH_CONFIG_MAIN
@@ -16,6 +16,7 @@
 //	REQUIRE(shape.GetDensity() == expectedResult);
 // }
 
+// проверять отрицательные значения
 SCENARIO("Tests for class Sphere")
 {
 	GIVEN("sphere with radius 3 and density 13")

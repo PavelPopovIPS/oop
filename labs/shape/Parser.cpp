@@ -1,5 +1,6 @@
-#include "Parser.h"
+﻿#include "Parser.h"
 
+// можно поменять название на shape factory
 CParser::CParser()
 	: m_parseShapeActionMap({
 		{ "Sphere", bind(&CParser::ParseSphere, this, std::placeholders::_1) },
@@ -10,6 +11,7 @@ CParser::CParser()
 {
 }
 
+// create shape
 std::optional<std::shared_ptr<CBody>> CParser::ParseShape(std::string& parseShapeAction, std::istream& args)
 {
 	auto itShapeAction = m_parseShapeActionMap.find(parseShapeAction);
@@ -147,6 +149,8 @@ std::shared_ptr<CBody> CParser::ParseCompoundShape()
 	std::cout << "Add shapes or CompoundEnd for close compound shape\n\n"
 			  << ">>";
 
+	// попробовать перенести цикл в лупер, сделать его дочерним от родительского
+	// разделить метод на меньшие функции
 	std::string line;
 	while (std::getline(std::cin, line))
 	{
