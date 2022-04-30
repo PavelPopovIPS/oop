@@ -14,6 +14,7 @@ CLooper::CLooper(CShapeFactory& shapeFactory, CShapeManager& shapeManager)
 		  { "Parallelepiped", bind(&CShapeFactory::CreateParallelepiped, m_shapeFactory, std::placeholders::_1) },
 		  { "Cone", bind(&CShapeFactory::CreateCone, m_shapeFactory, std::placeholders::_1) },
 		  { "Cylinder", bind(&CShapeFactory::CreateCylinder, m_shapeFactory, std::placeholders::_1) },
+		  { "CompoundStart", bind(&CLooper::InitCompoundShapeLooper, this, std::placeholders::_1) },
 	  })
 {
 }
@@ -33,14 +34,22 @@ void CLooper::Init()
 		strm >> action;
 
 		bool stateCommonAction = FindCommonAction(action, strm);
-		std::shared_ptr<CBody> p_shape = FindCreateShapeAction(action, strm);
 
-		if (p_shape != nullptr)
+		auto createShapeActionIterator = m_createShapeActionMap.find(action);
+		try
 		{
-			m_shapeManager.AddShape(p_shape);
+			if (createShapeActionIterator != m_createShapeActionMap.end())
+			{
+				std::shared_ptr<CBody> p_shape = createShapeActionIterator->second(strm);
+				m_shapeManager.AddShape(p_shape);
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
 		}
 
-		if (!stateCommonAction && !p_shape)
+		if (!stateCommonAction && createShapeActionIterator == m_createShapeActionMap.end())
 		{
 			std::cout << "Unknown command!" << std::endl;
 		}
@@ -60,31 +69,7 @@ bool CLooper::FindCommonAction(const std::string& action, std::istream& args)
 	return false;
 }
 
-std::shared_ptr<CBody> CLooper::FindCreateShapeAction(const std::string& action, std::istream& args)
-{
-	std::shared_ptr<CBody> p_shape;
-	auto createShapeActionIterator = m_createShapeActionMap.find(action);
-	try
-	{
-		if (createShapeActionIterator != m_createShapeActionMap.end())
-		{
-			return createShapeActionIterator->second(args);
-		}
-
-		if (action == "CompoundStart")
-		{
-			return InitCompoundShapeLooper();
-		}
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-	}
-
-	return nullptr;
-}
-
-std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
+std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper([[maybe_unused]] std::istream& args)
 {
 	std::cout << "Add shapes or CompoundEnd for close compound shape\n\n"
 			  << ">>";
@@ -99,11 +84,18 @@ std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
 		std::string action;
 		strm >> action;
 
-		std::shared_ptr<CBody> p_shape = FindCreateShapeAction(action, strm);
-
-		if (p_shape != nullptr)
+		auto createShapeActionIterator = m_createShapeActionMap.find(action);
+		try
 		{
-			compoundShape->AddChildBody(p_shape);
+			if (createShapeActionIterator != m_createShapeActionMap.end())
+			{
+				std::shared_ptr<CBody> p_shape = createShapeActionIterator->second(strm);
+				compoundShape->AddChildBody(p_shape);
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
 		}
 
 		if (action == "CompoundEnd")
@@ -117,7 +109,7 @@ std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
 			return compoundShape;
 		}
 
-		if (!p_shape && action != "CompoundEnd")
+		if (createShapeActionIterator == m_createShapeActionMap.end() && action != "CompoundEnd")
 		{
 			std::cout << "Unknown command! Add shapes or CompoundEnd for close compound shape" << std::endl;
 		}
