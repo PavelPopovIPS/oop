@@ -23,8 +23,6 @@ void CLooper::Init()
 {
 	PrintUsageInfo();
 
-	std::cout << ">>";
-
 	std::string line;
 	while (std::getline(std::cin, line))
 	{
@@ -156,5 +154,6 @@ void CLooper::PrintUsageInfo()
 			  << "\tCommands:\n"
 			  << "\t\tInfo - get information about shapes\n"
 			  << "\t\tHeaviestShape - print heaviest shape\n"
-			  << "\t\tLightestShapeInWater - print lightest shape in water\n\n";
+			  << "\t\tLightestShapeInWater - print lightest shape in water\n\n"
+			  << ">>";
 }
