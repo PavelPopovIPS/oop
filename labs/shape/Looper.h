@@ -7,11 +7,13 @@
 class CLooper
 {
 public:
-	CLooper(CShapeFactory& parser, CShapeManager& manager);
+	CLooper(CShapeFactory& parser, CShapeManager& shapeManager);
 	void Init();
 
 private:
 	std::shared_ptr<CBody> InitCompoundShapeLooper();
+	bool FindCommonAction(const std::string& action, std::istream& args);
+	std::shared_ptr<CBody> FindCreateShapeAction(const std::string& action, std::istream& args);
 	void PrintUsageInfo();
 
 	using CommonHandler = std::function<bool(std::istream& args)>;
