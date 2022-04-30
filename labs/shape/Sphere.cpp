@@ -4,6 +4,15 @@ CSphere::CSphere(double density, double radius)
 	: CSolidBody("Sphere", density)
 	, m_radius(radius)
 {
+	if (density <= 0)
+	{
+		throw std::runtime_error("Density can not be less then zero");
+	}
+
+	if (radius <= 0)
+	{
+		throw std::runtime_error("Radius can not be less then zero");
+	}
 }
 
 double CSphere::GetRadius() const

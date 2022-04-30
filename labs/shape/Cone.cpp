@@ -5,6 +5,15 @@ CCone::CCone(double density, double baseRadius, double height)
 	, m_baseRadius(baseRadius)
 	, m_height(height)
 {
+	if (density <= 0)
+	{
+		throw std::runtime_error("Density can not be less then zero");
+	}
+
+	if (baseRadius <= 0 || height <= 0)
+	{
+		throw std::runtime_error("BaseRadius, height can not be less then zero");
+	}
 }
 
 double CCone::GetBaseRadius() const
