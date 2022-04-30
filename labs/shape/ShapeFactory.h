@@ -8,10 +8,10 @@
 #include "Parallelepiped.h"
 #include "Sphere.h"
 
-class CParser
+class CShapeFactory
 {
 public:
-	CParser();
+	CShapeFactory();
 	std::optional<std::shared_ptr<CBody>> ParseShape(std::string& parseShapeAction, std::istream& args);
 
 private:

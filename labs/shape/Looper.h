@@ -1,13 +1,13 @@
 #pragma once
 
 #include "stdafx.h"
-#include "Parser.h"
+#include "ShapeFactory.h"
 #include "ShapeManager.h"
 
 class CLooper
 {
 public:
-	CLooper(CParser& parser, CShapeManager& manager);
+	CLooper(CShapeFactory& parser, CShapeManager& manager);
 	void Init();
 
 private:
@@ -17,6 +17,6 @@ private:
 	using CommonActionMap = std::map<std::string, CommonHandler>;
 	CommonActionMap m_commonActionMap;
 
-	CParser m_parser;
+	CShapeFactory m_shapeFactory;
 	CShapeManager m_shapeManager;
 };

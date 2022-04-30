@@ -3,14 +3,14 @@
 
 #include "stdafx.h"
 #include "Looper.h"
-#include "Parser.h"
+#include "ShapeFactory.h"
 #include "ShapeManager.h"
 
 int main()
 {
-	CParser parser;
+	CShapeFactory shapeFactory;
 	CShapeManager shapeManager;
-	CLooper looper(parser, shapeManager);
+	CLooper looper(shapeFactory, shapeManager);
 	looper.Init();
 
 	return 0;

@@ -1,8 +1,8 @@
 #include "Looper.h"
 using namespace std::placeholders;
 
-CLooper::CLooper(CParser& parser, CShapeManager& manager)
-	: m_parser(parser)
+CLooper::CLooper(CShapeFactory& parser, CShapeManager& manager)
+	: m_shapeFactory(parser)
 	, m_shapeManager(manager)
 	, m_commonActionMap({
 		  { "Info", bind(&CShapeManager::PrintInfo, &m_shapeManager, std::placeholders::_1) },
@@ -35,7 +35,7 @@ void CLooper::Init()
 
 		try
 		{
-			shape = m_parser.ParseShape(action, strm);
+			shape = m_shapeFactory.ParseShape(action, strm);
 			if (shape)
 			{
 				m_shapeManager.AddShape(*shape);
