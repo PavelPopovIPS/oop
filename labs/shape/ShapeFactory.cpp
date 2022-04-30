@@ -71,7 +71,7 @@ double CShapeFactory::ParseDensity(std::istream& args)
 
 	if (!args)
 	{
-		throw std::runtime_error("CParser is not number\n");
+		throw std::runtime_error("Density is not number\n");
 	}
 
 	if (density <= 0)
