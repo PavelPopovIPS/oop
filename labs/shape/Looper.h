@@ -11,8 +11,10 @@ public:
 	void Init();
 
 private:
-	bool FindCommonAction(const std::string& action, std::istream& args);
+	bool IsCommonAction(const std::string& action, std::istream& args);
+	bool IsCreateShapeAction(const std::string& action, std::istream& args);
 	std::shared_ptr<CBody> InitCompoundShapeLooper(std::istream& args);
+	bool IsCompoundEndAction(const std::string& action, std::shared_ptr<CCompound>& compoundShape);
 	void PrintUsageInfo();
 
 	using CommonHandler = std::function<bool(std::istream& args)>;
