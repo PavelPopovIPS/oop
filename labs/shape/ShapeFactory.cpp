@@ -1,12 +1,11 @@
 ﻿#include "ShapeFactory.h"
 
-// можно поменять название на shape factory
 CShapeFactory::CShapeFactory()
 	: m_parseShapeActionMap({
-		{ "Sphere", bind(&CShapeFactory::ParseSphere, this, std::placeholders::_1) },
-		{ "Parallelepiped", bind(&CShapeFactory::ParseParallelepiped, this, std::placeholders::_1) },
-		{ "Cone", bind(&CShapeFactory::ParseCone, this, std::placeholders::_1) },
-		{ "Cylinder", bind(&CShapeFactory::ParseCylinder, this, std::placeholders::_1) },
+		{ "Sphere", bind(&CShapeFactory::CreateSphere, this, std::placeholders::_1) },
+		{ "Parallelepiped", bind(&CShapeFactory::CreateParallelepiped, this, std::placeholders::_1) },
+		{ "Cone", bind(&CShapeFactory::CreateCone, this, std::placeholders::_1) },
+		{ "Cylinder", bind(&CShapeFactory::CreateCylinder, this, std::placeholders::_1) },
 	})
 {
 }
@@ -24,14 +23,14 @@ std::optional<std::shared_ptr<CBody>> CShapeFactory::ParseShape(std::string& par
 
 	if (parseShapeAction == "CompoundStart")
 	{
-		std::shared_ptr<CBody> shape = ParseCompoundShape();
+		std::shared_ptr<CBody> shape = CreateCompoundShape();
 		return shape;
 	}
 
 	return std::nullopt; // Unknown command!
 }
 
-std::shared_ptr<CBody> CShapeFactory::ParseSphere(std::istream& args)
+std::shared_ptr<CBody> CShapeFactory::CreateSphere(std::istream& args)
 {
 	double density = ParseDensity(args);
 
@@ -50,7 +49,7 @@ std::shared_ptr<CBody> CShapeFactory::ParseSphere(std::istream& args)
 	return std::make_shared<CSphere>(density, radius);
 }
 
-std::shared_ptr<CBody> CShapeFactory::ParseParallelepiped(std::istream& args)
+std::shared_ptr<CBody> CShapeFactory::CreateParallelepiped(std::istream& args)
 {
 	double density = ParseDensity(args);
 	double width;
@@ -70,7 +69,7 @@ std::shared_ptr<CBody> CShapeFactory::ParseParallelepiped(std::istream& args)
 	return std::make_shared<CParalellepiped>(density, width, height, depth);
 }
 
-std::shared_ptr<CBody> CShapeFactory::ParseCone(std::istream& args)
+std::shared_ptr<CBody> CShapeFactory::CreateCone(std::istream& args)
 {
 	double density = ParseDensity(args);
 	double baseRadius = ParseBaseRadius(args);
@@ -80,7 +79,7 @@ std::shared_ptr<CBody> CShapeFactory::ParseCone(std::istream& args)
 	return std::make_shared<CCone>(density, baseRadius, height);
 }
 
-std::shared_ptr<CBody> CShapeFactory::ParseCylinder(std::istream& args)
+std::shared_ptr<CBody> CShapeFactory::CreateCylinder(std::istream& args)
 {
 	double density = ParseDensity(args);
 	double baseRadius = ParseBaseRadius(args);
@@ -143,7 +142,7 @@ double CShapeFactory::ParseHeight(std::istream& args)
 	return height;
 }
 
-std::shared_ptr<CBody> CShapeFactory::ParseCompoundShape()
+std::shared_ptr<CBody> CShapeFactory::CreateCompoundShape()
 {
 	std::shared_ptr<CCompound> compoundShape = std::make_shared<CCompound>();
 	std::cout << "Add shapes or CompoundEnd for close compound shape\n\n"
@@ -177,7 +176,7 @@ std::shared_ptr<CBody> CShapeFactory::ParseCompoundShape()
 		{
 			try
 			{
-				std::shared_ptr<CBody> shape = ParseCompoundShape();
+				std::shared_ptr<CBody> shape = CreateCompoundShape();
 				compoundShape->AddChildBody(shape);
 			}
 			catch (const std::exception& e)
