@@ -51,13 +51,11 @@ void CLooper::Init()
 
 std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
 {
-	std::shared_ptr<CCompound> compoundShape = m_shapeFactory.CreateCompoundShape();
-
 	std::cout << "Add shapes or CompoundEnd for close compound shape\n\n"
 			  << ">>";
 
-	// попробовать перенести цикл в лупер, сделать его дочерним от родительского
-	// разделить метод на меньшие функции
+	std::shared_ptr<CCompound> compoundShape = m_shapeFactory.CreateCompoundShape();
+
 	std::string line;
 	while (std::getline(std::cin, line))
 	{
@@ -66,31 +64,11 @@ std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
 		std::string action;
 		strm >> action;
 
-		auto createShapeActionIterator = m_createShapeActionMap.find(action);
-		if (createShapeActionIterator != m_createShapeActionMap.end())
-		{
-			try
-			{
-				std::shared_ptr<CBody> shape = createShapeActionIterator->second(strm);
-				compoundShape->AddChildBody(shape);
-			}
-			catch (const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
+		std::shared_ptr<CBody> p_shape = FindCreateShapeAction(action, strm);
 
-		if (action == "CompoundStart")
+		if (p_shape != nullptr)
 		{
-			try
-			{
-				std::shared_ptr<CBody> shape = InitCompoundShapeLooper();
-				compoundShape->AddChildBody(shape);
-			}
-			catch (const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
+			compoundShape->AddChildBody(p_shape);
 		}
 
 		if (action == "CompoundEnd")
@@ -104,7 +82,7 @@ std::shared_ptr<CBody> CLooper::InitCompoundShapeLooper()
 			return compoundShape;
 		}
 
-		if (createShapeActionIterator == m_createShapeActionMap.end() && action != "CompoundStart")
+		if (!p_shape && action != "CompoundEnd")
 		{
 			std::cout << "Unknown command! Add shapes or CompoundEnd for close compound shape" << std::endl;
 		}
