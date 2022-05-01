@@ -959,9 +959,10 @@ SCENARIO("Testing Compound shape")
 
 	// TODO Нужно дописать тест с вложенностью самого в себя или родителей или солид фигуру в другого родителя
 
-	GIVEN("compound shape contains solid shapes: sphere, parallelepiped, cone, cylinder")
+	GIVEN("compound shape contains solid shapes: sphere, parallelepiped, cone, cylinder, compound shape")
 	{
-		CCompound compoundShape;
+		CCompound parentCompoundShape;
+
 		double density = 1;
 		double baseRadius = 2;
 		double width = 2;
@@ -972,13 +973,59 @@ SCENARIO("Testing Compound shape")
 		std::shared_ptr<CBody> cone = std::make_shared<CCone>(density, baseRadius, height);
 		std::shared_ptr<CBody> cylinder = std::make_shared<CCylinder>(density, baseRadius, height);
 
-		compoundShape.AddChildBody(sphere);
-		compoundShape.AddChildBody(parallelepiped);
-		compoundShape.AddChildBody(cone);
-		compoundShape.AddChildBody(cylinder);
+		std::shared_ptr<CBody> childSphere = std::make_shared<CSphere>(density, baseRadius);
+		std::shared_ptr<CBody> childParallelepiped = std::make_shared<CParalellepiped>(density, width, height, depth);
+		std::shared_ptr<CBody> childCone = std::make_shared<CCone>(density, baseRadius, height);
+		std::shared_ptr<CBody> childCylinder = std::make_shared<CCylinder>(density, baseRadius, height);
 
-		THEN("compound shape density is ")
+		std::shared_ptr<CCompound> childCompoundShape = std::make_shared<CCompound>();
+		childCompoundShape->AddChildBody(childSphere);
+		childCompoundShape->AddChildBody(childParallelepiped);
+		childCompoundShape->AddChildBody(childCone);
+		childCompoundShape->AddChildBody(childCylinder);
+
+		parentCompoundShape.AddChildBody(sphere);
+		parentCompoundShape.AddChildBody(parallelepiped);
+		parentCompoundShape.AddChildBody(cone);
+		parentCompoundShape.AddChildBody(cylinder);
+		parentCompoundShape.AddChildBody(childCompoundShape);
+
+		THEN("compound shape density is 1")
 		{
+			double result = parentCompoundShape.GetDensity();
+			double expectedResult = 1.0;
+
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("compound shape volume is 215.13")
+		{
+			double result = parentCompoundShape.GetVolume();
+			result = round(result * 100) / 100;
+
+			double expectedResult = 215.13;
+
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("compound shape mass is 215.13")
+		{
+			double result = parentCompoundShape.GetMass();
+			result = round(result * 100) / 100;
+
+			double expectedResult = 215.13;
+
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("compound shape weight in water is -2149175.96")
+		{
+			double result = parentCompoundShape.GetWeightInWater();
+			result = round(result * 100) / 100;
+
+			double expectedResult = -2149175.96;
+
+			REQUIRE(result == expectedResult);
 		}
 	}
 }
