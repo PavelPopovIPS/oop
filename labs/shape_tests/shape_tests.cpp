@@ -77,6 +77,20 @@ SCENARIO("Create Sphere with valod params")
 				REQUIRE(result == expectedResult);
 			}
 		}
+
+		WHEN("get sphere weight in water")
+		{
+			double result = sphere.GetWeightInWater();
+			result = round(result * 100) / 100;
+
+			THEN("weight in water should be equal -1124761.48")
+			{
+				double expectedResult = -1124761.48;
+				expectedResult = round(expectedResult * 100) / 100;
+
+				REQUIRE(result == expectedResult);
+			}
+		}
 	}
 }
 
@@ -232,6 +246,17 @@ SCENARIO("Creat Parallelepiped with valid parameters")
 			THEN("mass should be equal ")
 			{
 				double expectedResult = 24.0;
+				REQUIRE(result == expectedResult);
+			}
+		}
+
+		WHEN("get parallelepiped weight in water")
+		{
+			double result = parallelepiped.GetWeightInWater();
+
+			THEN("weight in water should be equal -119760")
+			{
+				double expectedResult = -119760;
 				REQUIRE(result == expectedResult);
 			}
 		}
@@ -475,6 +500,20 @@ SCENARIO("Creat Cone with valid parameters")
 				REQUIRE(result == expectedResult);
 			}
 		}
+
+		WHEN("get cone weight in water")
+		{
+			double result = cone.GetWeightInWater();
+			result = round(result * 100) / 100;
+
+			THEN("weight in water should be equal -195294.53")
+			{
+				double expectedResult = -195294.53;
+				expectedResult = round(expectedResult * 100) / 100;
+
+				REQUIRE(result == expectedResult);
+			}
+		}
 	}
 }
 SCENARIO("Creat Cone with invalid parameters")
@@ -663,6 +702,20 @@ SCENARIO("Creat Cylinder with valid parameters")
 			THEN("mass should be equal 1.8")
 			{
 				double expectedResult = 1.8;
+				REQUIRE(result == expectedResult);
+			}
+		}
+
+		WHEN("get cylinder weight in water")
+		{
+			double result = cylinder.GetWeightInWater();
+			result = round(result * 100) / 100;
+
+			THEN("weight in water should be equal -15187.06")
+			{
+				double expectedResult = -15187.06;
+				expectedResult = round(expectedResult * 100) / 100;
+
 				REQUIRE(result == expectedResult);
 			}
 		}
@@ -904,13 +957,27 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// TODO Нужно дописать тест с вложенностью самого в себя или родителей
+	// TODO Нужно дописать тест с вложенностью самого в себя или родителей или солид фигуру в другого родителя
 
-	GIVEN("")
+	GIVEN("compound shape contains solid shapes: sphere, parallelepiped, cone, cylinder")
 	{
 		CCompound compoundShape;
+		double density = 1;
+		double baseRadius = 2;
+		double width = 2;
+		double height = 3;
+		double depth = 4;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+		std::shared_ptr<CBody> parallelepiped = std::make_shared<CParalellepiped>(density, width, height, depth);
+		std::shared_ptr<CBody> cone = std::make_shared<CCone>(density, baseRadius, height);
+		std::shared_ptr<CBody> cylinder = std::make_shared<CCylinder>(density, baseRadius, height);
 
-		WHEN("compound shape contain two solid shapes")
+		compoundShape.AddChildBody(sphere);
+		compoundShape.AddChildBody(parallelepiped);
+		compoundShape.AddChildBody(cone);
+		compoundShape.AddChildBody(cylinder);
+
+		THEN("compound shape density is ")
 		{
 		}
 	}
