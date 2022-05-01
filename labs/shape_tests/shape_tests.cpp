@@ -4,6 +4,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../../catch2/catch.hpp"
 #include "../shape/Body.h"
+#include "../shape/Compound.h"
 #include "../shape/Cone.h"
 #include "../shape/Cylinder.h"
 #include "../shape/Parallelepiped.h"
@@ -787,6 +788,130 @@ SCENARIO("Creat Cylinder with invalid parameters")
 				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
 				REQUIRE(e.what() == expectedResult);
 			}
+		}
+	}
+}
+
+SCENARIO("Testing Compound shape")
+{
+	WHEN("combound shape is created")
+	{
+		CCompound compoundShape;
+
+		THEN("it should be empty")
+		{
+			REQUIRE(compoundShape.IsEmpty());
+		}
+	}
+
+	GIVEN("Sphere with density is 1 and radius is 2")
+	{
+		CCompound compoundShape;
+		double density = 1;
+		double radius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, radius);
+
+		WHEN("some shape was added to combound shape")
+		{
+			compoundShape.AddChildBody(sphere);
+
+			THEN("compound shape should not be empty")
+			{
+				REQUIRE(!compoundShape.IsEmpty());
+			}
+		}
+	}
+
+	GIVEN("Sphere with density is 1 and radius is 2")
+	{
+		double density = 1;
+		double radius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, radius);
+		CCompound compoundShape;
+
+		THEN("sphere can be added to compound shape")
+		{
+			REQUIRE(compoundShape.AddChildBody(sphere));
+		}
+	}
+
+	GIVEN("parallelepiped with density is 1, width is 2, height is 3 and depth is 4")
+	{
+		double density = 1;
+		double width = 2;
+		double height = 3;
+		double depth = 4;
+		std::shared_ptr<CBody> parallelepiped = std::make_shared<CParalellepiped>(density, width, height, depth);
+		CCompound compoundShape;
+
+		THEN("parallelepiped can be added to compound shape")
+		{
+			REQUIRE(compoundShape.AddChildBody(parallelepiped));
+		}
+	}
+
+	GIVEN("cone with density is 1, baseRadius is 2, height is 3")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		double height = 3;
+		std::shared_ptr<CBody> cone = std::make_shared<CCone>(density, baseRadius, height);
+		CCompound compoundShape;
+
+		THEN("cone can be added to compound shape")
+		{
+			REQUIRE(compoundShape.AddChildBody(cone));
+		}
+	}
+
+	GIVEN("cylinder with density is 1, baseRadius is 2, height is 3")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		double height = 3;
+		std::shared_ptr<CBody> cylinder = std::make_shared<CCylinder>(density, baseRadius, height);
+		CCompound compoundShape;
+
+		THEN("cylinder can be added to compound shape")
+		{
+			REQUIRE(compoundShape.AddChildBody(cylinder));
+		}
+	}
+
+	GIVEN("child compound shape contains sphere, parallelepiped, cone, cylinder")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		double width = 2;
+		double height = 3;
+		double depth = 4;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+		std::shared_ptr<CBody> parallelepiped = std::make_shared<CParalellepiped>(density, width, height, depth);
+		std::shared_ptr<CBody> cone = std::make_shared<CCone>(density, baseRadius, height);
+		std::shared_ptr<CBody> cylinder = std::make_shared<CCylinder>(density, baseRadius, height);
+
+		std::shared_ptr<CCompound> chiledCompoundShape = std::make_shared<CCompound>();
+		chiledCompoundShape->AddChildBody(sphere);
+		chiledCompoundShape->AddChildBody(parallelepiped);
+		chiledCompoundShape->AddChildBody(cone);
+		chiledCompoundShape->AddChildBody(cylinder);
+
+		CCompound parentCompoundShape;
+
+		THEN("child compound shape can be added to parent compound shape")
+		{
+			REQUIRE(parentCompoundShape.AddChildBody(chiledCompoundShape));
+		}
+	}
+
+	// TODO Нужно дописать тест с вложенностью самого в себя или родителей
+
+	GIVEN("")
+	{
+		CCompound compoundShape;
+
+		WHEN("compound shape contain two solid shapes")
+		{
 		}
 	}
 }
