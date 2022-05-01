@@ -43,12 +43,25 @@ std::string CCompound::ToString() const
 {
 	std::string str = m_type;
 	str.append(" Start \n");
+	str.append("Contain:\n");
 
 	for (auto p : m_childShapeCollection)
 	{
 		str.append(p->ToString());
 	}
-	str.append("Compound Shape End \n");
+
+	std::ostringstream strm;
+	strm << "Summary:" << std::endl
+		 << std::setprecision(10)
+		 << "\tdensity = " << GetDensity() << std::endl
+		 << "\tvolume = " << GetVolume() << std::endl
+		 << "\tmass = " << GetMass() << std::endl
+		 << "\tweight in water = " << GetWeightInWater() << std::endl;
+
+	str.append(strm.str());
+
+	str.append(m_type);
+	str.append(" End \n");
 
 	return str;
 }
