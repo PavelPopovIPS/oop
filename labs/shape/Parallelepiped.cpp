@@ -8,12 +8,12 @@ CParalellepiped::CParalellepiped(double density, double width, double height, do
 {
 	if (density <= 0)
 	{
-		throw std::runtime_error("Density can not be less then zero");
+		throw std::runtime_error("Density can not be equal zero or less then zero");
 	}
 
 	if (width <= 0 || height <= 0 || depth <= 0)
 	{
-		throw std::runtime_error("Width, height and depth can not be less then zero");
+		throw std::runtime_error("Width, height and depth can not be equal zero or less then zero");
 	}
 }
 

@@ -7,12 +7,12 @@ CCylinder::CCylinder(double density, double baseRadius, double height)
 {
 	if (density <= 0)
 	{
-		throw std::runtime_error("Density can not be less then zero");
+		throw std::runtime_error("Density can not be equal zero or less then zero");
 	}
 
 	if (baseRadius <= 0 || height <= 0)
 	{
-		throw std::runtime_error("BaseRadius, height can not be less then zero");
+		throw std::runtime_error("BaseRadius, height can not be equal zero or less then zero");
 	}
 }
 

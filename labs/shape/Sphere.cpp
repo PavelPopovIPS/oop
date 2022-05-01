@@ -6,12 +6,12 @@ CSphere::CSphere(double density, double radius)
 {
 	if (density <= 0)
 	{
-		throw std::runtime_error("Density can not be less then zero");
+		throw std::runtime_error("Density can not be equal zero or less then zero");
 	}
 
 	if (radius <= 0)
 	{
-		throw std::runtime_error("Radius can not be less then zero");
+		throw std::runtime_error("Radius can not be equal zero or less then zero");
 	}
 }
 

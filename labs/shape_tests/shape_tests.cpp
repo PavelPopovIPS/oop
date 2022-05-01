@@ -16,8 +16,7 @@
 //	REQUIRE(shape.GetDensity() == expectedResult);
 // }
 
-// проверять отрицательные значения
-SCENARIO("Tests for class Sphere")
+SCENARIO("Create Sphere with valod params")
 {
 	GIVEN("sphere with radius 3 and density 13")
 	{
@@ -47,10 +46,7 @@ SCENARIO("Tests for class Sphere")
 			}
 		}
 	}
-}
 
-SCENARIO("Tests for class Sphere volume and mass")
-{
 	GIVEN("sphere with radius 3 and density 3")
 	{
 		double density = 3;
@@ -83,7 +79,86 @@ SCENARIO("Tests for class Sphere volume and mass")
 	}
 }
 
-SCENARIO("Tests for class Parallelepiped")
+SCENARIO("Creat Sphere with invalid parameters")
+{
+	WHEN("density is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.0;
+				double radius = 0.1;
+				CSphere sphere(density, radius);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("density less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = -0.1;
+				double radius = 0.1;
+				CSphere sphere(density, radius);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("radius is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double radius = 0;
+				CSphere sphere(density, radius);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Radius can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("radius less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double radius = -0.1;
+				CSphere sphere(density, radius);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Radius can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("Creat Parallelepiped with valid parameters")
 {
 	GIVEN("parallelepiped with density is 2, width is 1, height is 4, depth is 3")
 	{
@@ -162,7 +237,178 @@ SCENARIO("Tests for class Parallelepiped")
 	}
 }
 
-SCENARIO("Tests for class Cone")
+SCENARIO("Creat Parallelepiped with invalid parameters")
+{
+	WHEN("density is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.0;
+				double width = 0.1;
+				double height = 0.1;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("density less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = -0.1;
+				double width = 0.1;
+				double height = 0.1;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("width is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = 0.0;
+				double height = 0.1;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("width less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = -0.1;
+				double height = 0.1;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = 0.1;
+				double height = 0.0;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = 0.1;
+				double height = -0.1;
+				double depth = 0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("depth is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = 0.1;
+				double height = 0.1;
+				double depth = 0.0;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("depth less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double width = 0.1;
+				double height = 0.1;
+				double depth = -0.1;
+				CParalellepiped paralellepiped(density, width, height, depth);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Width, height and depth can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("Creat Cone with valid parameters")
 {
 	GIVEN("cone with density is 3.3, base radius is 3 and height is 2.1")
 	{
@@ -230,8 +476,130 @@ SCENARIO("Tests for class Cone")
 		}
 	}
 }
+SCENARIO("Creat Cone with invalid parameters")
+{
+	WHEN("density is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.0;
+				double baseRadius = 0.1;
+				double height = 0.1;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
 
-SCENARIO("Tests for class Cylinder")
+	WHEN("density less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = -0.1;
+				double baseRadius = 0.1;
+				double height = 0.1;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("baseRadius is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.0;
+				double height = 0.1;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("baseRadius less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = -0.1;
+				double height = 0.1;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.1;
+				double height = 0.0;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.1;
+				double height = -0.1;
+				CCone cone(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("Creat Cylinder with valid parameters")
 {
 	GIVEN("cylinder with density is 1.2, base radius is 2.2 and height is 0.1")
 	{
@@ -295,6 +663,129 @@ SCENARIO("Tests for class Cylinder")
 			{
 				double expectedResult = 1.8;
 				REQUIRE(result == expectedResult);
+			}
+		}
+	}
+}
+
+SCENARIO("Creat Cylinder with invalid parameters")
+{
+	WHEN("density is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.0;
+				double baseRadius = 0.1;
+				double height = 0.1;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("density less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = -0.1;
+				double baseRadius = 0.1;
+				double height = 0.1;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "Density can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("baseRadius is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.0;
+				double height = 0.1;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("baseRadius less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = -0.1;
+				double height = 0.1;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height is 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.1;
+				double height = 0.0;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("height less then 0")
+	{
+		THEN("should be exception with masages")
+		{
+			try
+			{
+				double density = 0.1;
+				double baseRadius = 0.1;
+				double height = -0.1;
+				CCylinder cylinder(density, baseRadius, height);
+				REQUIRE(FALSE);
+			}
+			catch (const std::exception& e)
+			{
+				std::string expectedResult = "BaseRadius, height can not be equal zero or less then zero";
+				REQUIRE(e.what() == expectedResult);
 			}
 		}
 	}
