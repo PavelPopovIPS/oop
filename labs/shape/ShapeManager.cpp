@@ -14,6 +14,12 @@ bool CShapeManager::AddShape(std::shared_ptr<CBody> shape)
 bool CShapeManager::PrintHeaviestShapeInfo(std::istream&)
 {
 	std::shared_ptr<CBody> p_heaviestShape = FindHeaviestShape();
+
+	if (p_heaviestShape == nullptr)
+	{
+		throw std::runtime_error("There are no shapes in collection");
+	}
+
 	std::cout << p_heaviestShape->ToString() << std::endl;
 
 	return true;
@@ -22,6 +28,12 @@ bool CShapeManager::PrintHeaviestShapeInfo(std::istream&)
 bool CShapeManager::PrintLightestShapeInWaterInfo(std::istream&)
 {
 	std::shared_ptr<CBody> p_lightestShape = FindLightestShapeInWater();
+
+	if (p_lightestShape == nullptr)
+	{
+		throw std::runtime_error("There are no shapes in collection");
+	}
+
 	std::cout << p_lightestShape->ToString() << std::endl;
 
 	return true;
@@ -29,6 +41,11 @@ bool CShapeManager::PrintLightestShapeInWaterInfo(std::istream&)
 
 bool CShapeManager::PrintInfo(std::istream&)
 {
+	if (m_shapeCollection.size() == 0)
+	{
+		throw std::runtime_error("There are no shapes in collection");
+	}
+
 	for (auto p : m_shapeCollection)
 	{
 		std::cout << p->ToString() << std::endl;

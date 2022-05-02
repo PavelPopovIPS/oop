@@ -33,8 +33,15 @@ void CLooper::Init()
 
 		if (IsCommonAction(action, strm))
 		{
-			auto commonActionIterator = m_commonActionMap.find(action);
-			commonActionIterator->second(strm);
+			try
+			{
+				auto commonActionIterator = m_commonActionMap.find(action);
+				commonActionIterator->second(strm);
+			}
+			catch (const std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
 		}
 
 		if (IsCreateShapeAction(action, strm))
