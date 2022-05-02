@@ -68,6 +68,11 @@ std::string CCompound::ToString() const
 
 bool CCompound::AddChildBody(std::shared_ptr<CBody> child)
 {
+	if (child == nullptr)
+	{
+		throw std::runtime_error("Shape can not be nullptr");
+	}
+
 	if (child->HasParent())
 	{
 		throw std::runtime_error("Added shape can not have parent");

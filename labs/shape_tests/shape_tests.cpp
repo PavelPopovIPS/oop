@@ -1076,6 +1076,30 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
+	// Передаю пустой объект в составную фигуру
+	GIVEN("compound shape")
+	{
+		std::shared_ptr<CCompound> chiledCompoundShape = std::make_shared<CCompound>();
+		std::shared_ptr<CBody> someShape;
+
+		WHEN("add nullptr to compound shape as cbody")
+		{
+			THEN("should be exception")
+			{
+				try
+				{
+					chiledCompoundShape->AddChildBody(someShape);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Shape can not be nullptr";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+
 	GIVEN("compound shape contains solid shapes: sphere, parallelepiped, cone, cylinder, compound shape")
 	{
 		CCompound parentCompoundShape;
