@@ -9,6 +9,7 @@
 #include "../shape/Cylinder.h"
 #include "../shape/Parallelepiped.h"
 #include "../shape/ShapeFactory.h"
+#include "../shape/ShapeManager.h"
 #include "../shape/SolidBody.h"
 #include "../shape/Sphere.h"
 #include "../shape/stdafx.h"
@@ -1529,6 +1530,90 @@ SCENARIO("Use Shape Factory for creating compound shape")
 			THEN("pointer should not equal nullptr")
 			{
 				REQUIRE(compoundShape != nullptr);
+			}
+		}
+	}
+}
+
+SCENARIO("Check exception in shape manager")
+{
+	GIVEN("shape manager")
+	{
+		CShapeManager shapeManager;
+
+		WHEN("add nullptr as shape")
+		{
+			std::shared_ptr<CBody> someShape;
+
+			THEN("should be exception")
+			{
+				try
+				{
+					shapeManager.AddShape(someShape);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Shape can not be nullptr";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("Print Heaviest Shape Info when collection is empty")
+		{
+			std::istringstream strm("");
+
+			THEN("should be exception")
+			{
+				try
+				{
+					shapeManager.PrintHeaviestShapeInfo(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "There are no shapes in collection";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("Print Lightest Shape In Water Info when collection is empty")
+		{
+			std::istringstream strm("");
+
+			THEN("should be exception")
+			{
+				try
+				{
+					shapeManager.PrintLightestShapeInWaterInfo(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "There are no shapes in collection";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("Print Info when collection is empty")
+		{
+			std::istringstream strm("");
+
+			THEN("should be exception")
+			{
+				try
+				{
+					shapeManager.PrintLightestShapeInWaterInfo(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "There are no shapes in collection";
+					REQUIRE(e.what() == expectedResult);
+				}
 			}
 		}
 	}
