@@ -13,12 +13,12 @@ class CShapeManager
 public:
 	bool AddShape(std::shared_ptr<CBody> shape);
 	bool PrintHeaviestShapeInfo(std::istream& args);
-	bool PrintLightestShapeInfo(std::istream& args);
+	bool PrintLightestShapeInWaterInfo(std::istream& args);
 	bool PrintInfo(std::istream& args);
 
 private:
 	std::shared_ptr<CBody> FindHeaviestShape();
-	std::shared_ptr<CBody> FindLightestShape();
+	std::shared_ptr<CBody> FindLightestShapeInWater();
 
 	std::vector<std::shared_ptr<CBody>> m_shapeCollection;
 };

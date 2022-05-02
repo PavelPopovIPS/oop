@@ -14,9 +14,9 @@ bool CShapeManager::PrintHeaviestShapeInfo(std::istream&)
 	return true;
 }
 
-bool CShapeManager::PrintLightestShapeInfo(std::istream&)
+bool CShapeManager::PrintLightestShapeInWaterInfo(std::istream&)
 {
-	std::shared_ptr<CBody> p_lightestShape = FindLightestShape();
+	std::shared_ptr<CBody> p_lightestShape = FindLightestShapeInWater();
 	std::cout << p_lightestShape->ToString() << std::endl;
 
 	return true;
@@ -49,7 +49,7 @@ std::shared_ptr<CBody> CShapeManager::FindHeaviestShape()
 	return p_heaviestShape;
 }
 
-std::shared_ptr<CBody> CShapeManager::FindLightestShape()
+std::shared_ptr<CBody> CShapeManager::FindLightestShapeInWater()
 {
 	double lightestShapeWeightInWater = 0;
 	std::shared_ptr<CBody> p_lightestShape;

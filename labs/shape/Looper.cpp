@@ -7,7 +7,7 @@ CLooper::CLooper(CShapeFactory& shapeFactory, CShapeManager& shapeManager)
 	, m_commonActionMap({
 		  { "Info", bind(&CShapeManager::PrintInfo, &m_shapeManager, std::placeholders::_1) },
 		  { "HeaviestShape", bind(&CShapeManager::PrintHeaviestShapeInfo, &m_shapeManager, std::placeholders::_1) },
-		  { "LightestShapeInWater", bind(&CShapeManager::PrintLightestShapeInfo, &m_shapeManager, std::placeholders::_1) },
+		  { "LightestShapeInWater", bind(&CShapeManager::PrintLightestShapeInWaterInfo, &m_shapeManager, std::placeholders::_1) },
 	  })
 	, m_createShapeActionMap({
 		  { "Sphere", bind(&CShapeFactory::CreateSphere, m_shapeFactory, std::placeholders::_1) },
