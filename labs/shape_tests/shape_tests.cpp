@@ -8,6 +8,7 @@
 #include "../shape/Cone.h"
 #include "../shape/Cylinder.h"
 #include "../shape/Parallelepiped.h"
+#include "../shape/ShapeFactory.h"
 #include "../shape/SolidBody.h"
 #include "../shape/Sphere.h"
 #include "../shape/stdafx.h"
@@ -1167,6 +1168,368 @@ SCENARIO("Testing Compound shape")
 			double expectedResult = -2149175.96;
 
 			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+SCENARIO("Use Shape Factory for creating sphere")
+{
+	GIVEN("shape factory")
+	{
+		CShapeFactory shapeFactory;
+
+		WHEN("sphere is created with correct arguments")
+		{
+			std::string args = "1 2";
+			std::istringstream strm(args);
+
+			std::shared_ptr<CBody> sphere = shapeFactory.CreateSphere(strm);
+
+			THEN("shape should be created")
+			{
+				REQUIRE(sphere != nullptr);
+			}
+		}
+
+		WHEN("sphere is created with incorrect first argument")
+		{
+			std::string args = "a 2";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> sphere = shapeFactory.CreateSphere(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Density is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("sphere is created with incorrect second argument")
+		{
+			std::string args = "1 a";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> sphere = shapeFactory.CreateSphere(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Radius is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("sphere is created without arguments")
+		{
+			std::string args = "";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> sphere = shapeFactory.CreateSphere(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Density is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+}
+
+SCENARIO("Use Shape Factory for creating parallelepiped")
+{
+	GIVEN("shape factory")
+	{
+		CShapeFactory shapeFactory;
+
+		WHEN("parallelepiped is created with correct arguments")
+		{
+			std::string args = "1 2 3 4";
+			std::istringstream strm(args);
+
+			std::shared_ptr<CBody> parallelepiped = shapeFactory.CreateParallelepiped(strm);
+
+			THEN("shape should be created")
+			{
+				REQUIRE(parallelepiped != nullptr);
+			}
+		}
+
+		WHEN("parallelepiped is created with incorrect second argument")
+		{
+			std::string args = "1 a 3 4";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> parallelepiped = shapeFactory.CreateParallelepiped(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Width or height or depth are not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("parallelepiped is created with incorrect third argument")
+		{
+			std::string args = "1 2 a 4";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> parallelepiped = shapeFactory.CreateParallelepiped(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Width or height or depth are not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("parallelepiped is created with incorrect fourth argument")
+		{
+			std::string args = "1 2 3 a";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> parallelepiped = shapeFactory.CreateParallelepiped(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Width or height or depth are not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("parallelepiped is created without arguments")
+		{
+			std::string args = "";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> parallelepiped = shapeFactory.CreateParallelepiped(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Density is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+}
+
+SCENARIO("Use Shape Factory for creating cone")
+{
+	GIVEN("shape factory")
+	{
+		CShapeFactory shapeFactory;
+
+		WHEN("cone is created with correct arguments")
+		{
+			std::string args = "1 2 3";
+			std::istringstream strm(args);
+
+			std::shared_ptr<CBody> cone = shapeFactory.CreateCone(strm);
+
+			THEN("shape should be created")
+			{
+				REQUIRE(cone != nullptr);
+			}
+		}
+
+		WHEN("cone is created with incorrect second argument")
+		{
+			std::string args = "1 a 3";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cone = shapeFactory.CreateCone(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "BaseRadius is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("cone is created with incorrect third argument")
+		{
+			std::string args = "1 2 a";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cone = shapeFactory.CreateCone(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Height are not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("cone is created without arguments")
+		{
+			std::string args = "";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cone = shapeFactory.CreateCone(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Density is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+}
+
+SCENARIO("Use Shape Factory for creating cylinder")
+{
+	GIVEN("shape factory")
+	{
+		CShapeFactory shapeFactory;
+
+		WHEN("cylinder is created with correct arguments")
+		{
+			std::string args = "1 2 3";
+			std::istringstream strm(args);
+
+			std::shared_ptr<CBody> cylinder = shapeFactory.CreateCylinder(strm);
+
+			THEN("shape should be created")
+			{
+				REQUIRE(cylinder != nullptr);
+			}
+		}
+
+		WHEN("cylinder is created with incorrect second argument")
+		{
+			std::string args = "1 a 3";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cylinder = shapeFactory.CreateCylinder(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "BaseRadius is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("cylinder is created with incorrect third argument")
+		{
+			std::string args = "1 2 a";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cylinder = shapeFactory.CreateCylinder(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Height are not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+
+		WHEN("cylinder is created without arguments")
+		{
+			std::string args = "";
+			std::istringstream strm(args);
+
+			THEN("should be exception")
+			{
+				try
+				{
+					std::shared_ptr<CBody> cylinder = shapeFactory.CreateCylinder(strm);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Density is not number\n";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+}
+
+SCENARIO("Use Shape Factory for creating compound shape")
+{
+	GIVEN("shape factory")
+	{
+		CShapeFactory shapeFactory;
+
+		WHEN("compound shape is created")
+		{
+			std::shared_ptr<CBody> compoundShape = shapeFactory.CreateCompoundShape();
+
+			THEN("pointer should not equal nullptr")
+			{
+				REQUIRE(compoundShape != nullptr);
+			}
 		}
 	}
 }

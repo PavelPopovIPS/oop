@@ -89,7 +89,7 @@ double CShapeFactory::ParseBaseRadius(std::istream& args)
 
 	if (!args)
 	{
-		throw std::runtime_error("BaseRadius are not number\n");
+		throw std::runtime_error("BaseRadius is not number\n");
 	}
 
 	if (baseRadius <= 0)

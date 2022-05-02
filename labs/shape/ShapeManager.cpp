@@ -2,6 +2,11 @@
 
 bool CShapeManager::AddShape(std::shared_ptr<CBody> shape)
 {
+	if (shape == nullptr)
+	{
+		throw std::runtime_error("Shape can not be nullptr");
+	}
+
 	m_shapeCollection.push_back(shape);
 	return true;
 }
