@@ -1,4 +1,4 @@
-#include "Compound.h"
+﻿#include "Compound.h"
 
 CCompound::CCompound()
 	: CBody("Compound Shape")
@@ -68,6 +68,13 @@ std::string CCompound::ToString() const
 
 bool CCompound::AddChildBody(std::shared_ptr<CBody> child)
 {
+	if (child->HasParent())
+	{
+		throw std::runtime_error("Added shape can not have parent");
+	}
+
+	// не получается передать this как shared_ptr
+	child->SetParent(this);
 	m_childShapeCollection.push_back(child);
 
 	return true;

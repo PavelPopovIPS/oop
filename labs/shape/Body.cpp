@@ -13,14 +13,15 @@ double CBody::GetWeightInWater() const
 
 bool CBody::HasParent() const
 {
-	if (m_pParent == nullptr)
+	if (m_pParent != nullptr)
 	{
 		return true;
 	}
 	return false;
 }
 
-bool CBody::SetParent(std::shared_ptr<CBody> shape)
+bool CBody::SetParent(CBody* parentShape)
 {
-	m_pParent = shape;
+	m_pParent = parentShape;
+	return true;
 }

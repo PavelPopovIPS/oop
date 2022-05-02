@@ -957,7 +957,55 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// TODO Нужно дописать тест с вложенностью самого в себя или родителей или солид фигуру в другого родителя
+	// Тест проверки добавления солид фигуры в две составные
+	GIVEN("two compound shapes and one solid shape")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+
+		std::shared_ptr<CCompound> compoundShapeOne = std::make_shared<CCompound>();
+		std::shared_ptr<CCompound> compoundShapeTwo = std::make_shared<CCompound>();
+		WHEN("add solid shape to compoundShapeOne")
+		{
+			compoundShapeOne->AddChildBody(sphere);
+
+			THEN("can not add this solid shape to compoundShapeTwo")
+			{
+				try
+				{
+					compoundShapeTwo->AddChildBody(sphere);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Added shape can not have parent";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+
+	// TODO Нужно дописать тест с вложенностью самого в себя или родителей
+	GIVEN("two compound shapes, chiled compound shape is added to parent compound shape")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+
+		std::shared_ptr<CCompound> chiledCompoundShape = std::make_shared<CCompound>();
+		chiledCompoundShape->AddChildBody(sphere);
+
+		std::shared_ptr<CCompound> parentCompoundShape = std::make_shared<CCompound>();
+		chiledCompoundShape->AddChildBody(chiledCompoundShape);
+
+		WHEN("add parent to child")
+		{
+			THEN("should be exception")
+			{
+			}
+		}
+	}
 
 	GIVEN("compound shape contains solid shapes: sphere, parallelepiped, cone, cylinder, compound shape")
 	{
