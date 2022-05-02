@@ -1017,7 +1017,7 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// TODO Нужно дописать тест с вложенностью самого в себя или родителей
+	// TODO Нужно дописать тест с вложенностью составной фигуры саму в себя и родителя в дочерний объект
 	GIVEN("two compound shapes, chiled compound shape is added to parent compound shape")
 	{
 		double density = 1;
