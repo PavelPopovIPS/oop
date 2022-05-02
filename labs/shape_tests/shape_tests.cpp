@@ -957,7 +957,7 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// Тест проверки добавления солид фигуры в две составные
+	// Тест проверки добавления одной фигуры в две составные
 	GIVEN("two compound shapes and one solid shape")
 	{
 		double density = 1;
@@ -975,6 +975,37 @@ SCENARIO("Testing Compound shape")
 				try
 				{
 					compoundShapeTwo->AddChildBody(sphere);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Added shape can not have parent";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+
+	GIVEN("two parent compound shapes and one child compound shape")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+		std::shared_ptr<CCompound> childcompoundShape = std::make_shared<CCompound>();
+		childcompoundShape->AddChildBody(sphere);
+
+		std::shared_ptr<CCompound> parentCompoundShapeOne = std::make_shared<CCompound>();
+		std::shared_ptr<CCompound> parentCompoundShapeTwo = std::make_shared<CCompound>();
+
+		WHEN("add child compound shape to parentCompoundShapeOne")
+		{
+			parentCompoundShapeOne->AddChildBody(childcompoundShape);
+
+			THEN("can not add child compound shape to parentCompoundShapeTwo")
+			{
+				try
+				{
+					parentCompoundShapeTwo->AddChildBody(childcompoundShape);
 					REQUIRE(FALSE);
 				}
 				catch (const std::exception& e)
