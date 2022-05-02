@@ -15,6 +15,8 @@ public:
 	bool AddChildBody(std::shared_ptr<CBody> child);
 	bool IsEmpty() const;
 
+	bool IsParent(std::shared_ptr<CBody> shape) const override;
+
 private:
 	std::vector<std::shared_ptr<CBody>> m_childShapeCollection;
 };

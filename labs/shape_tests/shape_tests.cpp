@@ -957,7 +957,7 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// Тест проверки добавления одной фигуры в две составные
+	// Тесты проверки добавления одной фигуры в две составные
 	GIVEN("two compound shapes and one solid shape")
 	{
 		double density = 1;
@@ -1017,8 +1017,36 @@ SCENARIO("Testing Compound shape")
 		}
 	}
 
-	// TODO Нужно дописать тест с вложенностью составной фигуры саму в себя и родителя в дочерний объект
-	GIVEN("two compound shapes, chiled compound shape is added to parent compound shape")
+	// Проверка вложенности составной фигуры саму в себя
+	GIVEN("compound shapes")
+	{
+		double density = 1;
+		double baseRadius = 2;
+		std::shared_ptr<CBody> sphere = std::make_shared<CSphere>(density, baseRadius);
+
+		std::shared_ptr<CCompound> compoundShape = std::make_shared<CCompound>();
+		compoundShape->AddChildBody(sphere);
+
+		WHEN("add compaund shape in itself")
+		{
+			THEN("should be exception")
+			{
+				try
+				{
+					compoundShape->AddChildBody(compoundShape);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Compound shape can not be added in itself";
+					REQUIRE(e.what() == expectedResult);
+				}
+			}
+		}
+	}
+
+	// TODO Проверка вложения родителя в дочерний объект
+	GIVEN("two compound shapes")
 	{
 		double density = 1;
 		double baseRadius = 2;
@@ -1028,12 +1056,22 @@ SCENARIO("Testing Compound shape")
 		chiledCompoundShape->AddChildBody(sphere);
 
 		std::shared_ptr<CCompound> parentCompoundShape = std::make_shared<CCompound>();
-		chiledCompoundShape->AddChildBody(chiledCompoundShape);
+		parentCompoundShape->AddChildBody(chiledCompoundShape);
 
 		WHEN("add parent to child")
 		{
 			THEN("should be exception")
 			{
+				try
+				{
+					chiledCompoundShape->AddChildBody(parentCompoundShape);
+					REQUIRE(FALSE);
+				}
+				catch (const std::exception& e)
+				{
+					std::string expectedResult = "Compound shape can not be added in itself";
+					REQUIRE(e.what() == expectedResult);
+				}
 			}
 		}
 	}

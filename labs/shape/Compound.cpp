@@ -73,8 +73,14 @@ bool CCompound::AddChildBody(std::shared_ptr<CBody> child)
 		throw std::runtime_error("Added shape can not have parent");
 	}
 
+	if (this->IsParent(child))
+	{
+		throw std::runtime_error("Compound shape can not be added in itself");
+	}
+
 	// не получается передать this как shared_ptr
 	child->SetParent(this);
+
 	m_childShapeCollection.push_back(child);
 
 	return true;
@@ -87,4 +93,19 @@ bool CCompound::IsEmpty() const
 		return true;
 	}
 	return false;
+}
+
+bool CCompound::IsParent(std::shared_ptr<CBody> shape) const
+{
+	if (this == shape.get())
+	{
+		return true;
+	}
+
+	if (this->m_pParent == nullptr)
+	{
+		return false;
+	}
+
+	return m_pParent->IsParent(shape);
 }

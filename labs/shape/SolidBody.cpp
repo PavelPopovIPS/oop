@@ -28,3 +28,8 @@ std::string CSolidBody::ToString() const
 	AppendProperties(strm);
 	return strm.str();
 }
+
+bool CSolidBody::IsParent([[maybe_unused]] std::shared_ptr<CBody>) const
+{
+	return false;
+}

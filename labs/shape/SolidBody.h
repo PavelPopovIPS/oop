@@ -12,6 +12,8 @@ public:
 	double GetMass() const override;
 	std::string ToString() const override;
 
+	bool IsParent(std::shared_ptr<CBody> shape) const override;
+
 private:
 	virtual void AppendProperties(std::ostream& strm) const = 0;
 

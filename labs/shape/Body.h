@@ -17,6 +17,8 @@ public:
 	bool SetParent(CBody* parentShape);
 	virtual ~CBody() = default;
 
+	virtual bool IsParent(std::shared_ptr<CBody> shape) const = 0;
+
 protected:
 	std::string m_type;
 	CBody* m_pParent = nullptr;
