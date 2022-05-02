@@ -13,9 +13,10 @@ public:
 	virtual std::string ToString() const = 0;
 
 	double GetWeightInWater() const;
-
+	bool HasParent() const;
 	virtual ~CBody() = default;
 
 protected:
 	std::string m_type;
+	std::shared_ptr<CBody> m_pParent = nullptr;
 };

@@ -10,3 +10,12 @@ double CBody::GetWeightInWater() const
 {
 	return (GetDensity() - WATER_DENSITY) * g * GetVolume();
 }
+
+bool CBody::HasParent() const
+{
+	if (m_pParent == nullptr)
+	{
+		return true;
+	}
+	return false;
+}
