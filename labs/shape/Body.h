@@ -14,6 +14,7 @@ public:
 
 	double GetWeightInWater() const;
 	bool HasParent() const;
+	bool SetParent(std::shared_ptr<CBody> shape);
 	virtual ~CBody() = default;
 
 protected:

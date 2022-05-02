@@ -19,3 +19,8 @@ bool CBody::HasParent() const
 	}
 	return false;
 }
+
+bool CBody::SetParent(std::shared_ptr<CBody> shape)
+{
+	m_pParent = shape;
+}
