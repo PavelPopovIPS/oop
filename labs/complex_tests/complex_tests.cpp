@@ -62,7 +62,7 @@ TEST_CASE("Creating complex number with args not equal zero")
 	}
 }
 
-TEST_CASE("Get modul of complex number")
+TEST_CASE("Modul of complex number")
 {
 	WHEN("complex number is 3+4i")
 	{
@@ -72,6 +72,45 @@ TEST_CASE("Get modul of complex number")
 		{
 			double expectedResult = 5.0;
 			REQUIRE(complex.GetMagnitude() == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Argument for zero can not be define")
+{
+	WHEN("complex number is 0")
+	{
+		CComplex complex;
+
+		THEN("argument can not be exist")
+		{
+			try
+			{
+				complex.GetArgument();
+				REQUIRE(FALSE);
+			}
+			catch (std::exception& e)
+			{
+				std::string expectedResult = "Complex number can not be 0\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
+
+TEST_CASE("Argument for complex number in first quarter")
+{
+	WHEN("complex number is 1+1i")
+	{
+		CComplex complex(1, 1);
+
+		THEN("argument should be equal 0.785")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 0.785;
+			REQUIRE(result == expectedResult);
 		}
 	}
 }

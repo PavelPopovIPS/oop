@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <cmath>
+#include <iostream>
 #include <math.h>
 
 class CComplex
@@ -20,6 +21,8 @@ public:
 
 	// возвращает аргумент комплексного числа
 	double GetArgument() const;
+
+	bool operator==(int n) const;
 
 private:
 	double m_real;
