@@ -33,7 +33,7 @@ double CComplex::GetArgument() const
 		return atan(Im() / Re());
 	}
 
-	return 0.0;
+	throw std::runtime_error("Complex number position was not define\n");
 }
 
 bool CComplex::operator==(int n) const
