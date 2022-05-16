@@ -136,7 +136,7 @@ TEST_CASE("Adding complex numbers")
 			REQUIRE(result.Im() == expectedResult);
 		}
 	}
-	
+
 	WHEN("adding complex number and real number")
 	{
 		CComplex complex(1, 1);
@@ -155,7 +155,7 @@ TEST_CASE("Adding complex numbers")
 			double expectedResult = 1;
 			REQUIRE(result.Im() == expectedResult);
 		}
-	}	
+	}
 
 	WHEN("adding real number and complex number")
 	{
@@ -173,6 +173,69 @@ TEST_CASE("Adding complex numbers")
 		THEN("image part should be equal 0.1")
 		{
 			double expectedResult = 0.1;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Subtraction complex numbers")
+{
+	WHEN("subtraction two complex numbers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+
+		CComplex result = complex1 - complex2;
+
+		THEN("real part should be equal -2")
+		{
+			double expectedResult = -2;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal -3")
+		{
+			double expectedResult = -3;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("subtraction complex number and real number")
+	{
+		CComplex complex(1, 1);
+		double n = 3.1;
+
+		CComplex result = complex - n;
+
+		THEN("real part should be equal -2.1")
+		{
+			double expectedResult = -2.1;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 1")
+		{
+			double expectedResult = 1;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("subtraction real number and complex number")
+	{
+		double n = 5;
+		CComplex complex(1, 0.1);
+
+		CComplex result = n - complex;
+
+		THEN("real part should be equal 4")
+		{
+			double expectedResult = 4;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal -0.1")
+		{
+			double expectedResult = -0.1;
 			REQUIRE(result.Im() == expectedResult);
 		}
 	}
