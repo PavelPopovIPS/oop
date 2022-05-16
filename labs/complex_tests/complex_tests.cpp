@@ -114,3 +114,22 @@ TEST_CASE("Argument for complex number in first quarter")
 		}
 	}
 }
+
+TEST_CASE("Adding complex number")
+{
+	WHEN("adding two numbers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+
+		CComplex result = complex1 + complex2;
+
+		THEN("real part should be equal 4")
+		{
+			double expectedResult = 4;
+			REQUIRE(result.Re() == expectedResult);
+		}
+	}
+}
+
+

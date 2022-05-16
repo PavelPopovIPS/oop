@@ -36,6 +36,11 @@ double CComplex::GetArgument() const
 	throw std::runtime_error("Complex number position was not define\n");
 }
 
+CComplex CComplex::operator+(const CComplex& complex) const
+{
+	return CComplex(Re() + complex.Re(), Im() + complex.Im());
+}
+
 bool CComplex::operator==(int n) const
 {
 	return (Re() == n) && (Im() == n);

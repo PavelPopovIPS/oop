@@ -22,6 +22,7 @@ public:
 	// возвращает аргумент комплексного числа
 	double GetArgument() const;
 
+	CComplex operator+(const CComplex& complex) const;
 	bool operator==(int n) const;
 
 private:
