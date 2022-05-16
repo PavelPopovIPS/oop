@@ -304,6 +304,121 @@ TEST_CASE("Multiplication complex numbers")
 	}
 }
 
+TEST_CASE("Division complex numbers")
+{
+	WHEN("division two complex numbers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+
+		CComplex result = complex1 / complex2;
+
+		THEN("real part should be equal 0.28")
+		{
+			double expectedResult = 0.28;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal -0.04")
+		{
+			double expectedResult = -0.04;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("division two complex numbers and numerator is 0")
+	{
+		CComplex complex1;
+		CComplex complex2(3, 4);
+
+		CComplex result = complex1 / complex2;
+
+		THEN("real part should be equal 0")
+		{
+			double expectedResult = 0;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 0")
+		{
+			double expectedResult = 0;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("division two complex numbers and denominator is 0")
+	{
+		CComplex complex1(3, 4);
+		CComplex complex2;
+
+		try
+		{
+			CComplex result = complex1 / complex2;
+			REQUIRE(FALSE);
+		}
+		catch (std::exception& e)
+		{
+			THEN("should be eception")
+			{
+				std::string expectedResult = "Denominator can not be zero\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("division complex number and real number")
+	{
+		CComplex complex(1, 2);
+		double n = 3.1;
+
+		CComplex result = complex / n;
+
+		THEN("real part should be equal 0.323")
+		{
+			double resultRe = result.Re();
+			resultRe = round(resultRe * 1000) / 1000;
+
+			double expectedResult = 0.323;
+			REQUIRE(resultRe == expectedResult);
+		}
+
+		THEN("image part should be equal 0.645")
+		{
+			double resultIm = result.Im();
+			resultIm = round(resultIm * 1000) / 1000;
+
+			double expectedResult = 0.645;
+			REQUIRE(resultIm == expectedResult);
+		}
+	}
+
+	WHEN("division real number and complex number")
+	{
+		double n = 5;
+		CComplex complex(1, 0.1);
+
+		CComplex result = n / complex;
+
+		THEN("real part should be equal 4.950")
+		{
+			double resultRe = result.Re();
+			resultRe = round(resultRe * 1000) / 1000;
+
+			double expectedResult = 4.950;
+			REQUIRE(resultRe == expectedResult);
+		}
+
+		THEN("image part should be equal -0.495")
+		{
+			double resultIm = result.Im();
+			resultIm = round(resultIm * 1000) / 1000;
+
+			double expectedResult = -0.495;
+			REQUIRE(resultIm == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")

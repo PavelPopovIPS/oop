@@ -52,6 +52,20 @@ CComplex CComplex::operator*(const CComplex& complex) const
 	return CComplex(Re() * complex.Re() - Im() * complex.Im(), Im() * complex.Re() + Re() * complex.Im());
 }
 
+CComplex CComplex::operator/(const CComplex& complex) const
+{
+	if (complex == 0)
+	{
+		throw std::runtime_error("Denominator can not be zero\n");
+	}
+
+	double tmpDenominator = pow(complex.Re(), 2) + pow(complex.Im(), 2);
+	double tmpRe = (Re() * complex.Re() + Im() * complex.Im()) / tmpDenominator;
+	double tmpIm = (Im() * complex.Re() - Re() * complex.Im()) / tmpDenominator;
+
+	return CComplex(tmpRe, tmpIm);
+}
+
 bool CComplex::operator==(const CComplex& complex) const
 {
 	return (Re() == complex.Re()) && (Im() == complex.Im());
@@ -73,4 +87,10 @@ CComplex operator*(double number, const CComplex& complex)
 {
 	CComplex n(number);
 	return n * complex;
+}
+
+CComplex operator/(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	return n / complex;
 }
