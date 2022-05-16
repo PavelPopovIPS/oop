@@ -23,7 +23,7 @@ public:
 	double GetArgument() const;
 
 	CComplex operator+(const CComplex& complex) const;
-	bool operator==(int n) const;
+	bool operator==(const CComplex& complex) const;
 
 private:
 	double m_real;

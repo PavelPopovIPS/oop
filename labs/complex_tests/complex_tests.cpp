@@ -117,7 +117,7 @@ TEST_CASE("Argument for complex number in first quarter")
 
 TEST_CASE("Adding complex number")
 {
-	WHEN("adding two numbers")
+	WHEN("adding two complex numbers")
 	{
 		CComplex complex1(1, 1);
 		CComplex complex2(3, 4);
@@ -133,3 +133,47 @@ TEST_CASE("Adding complex number")
 }
 
 
+TEST_CASE("Compair complex numbers")
+{
+	WHEN("compair two equal complex numbers")
+	{
+		CComplex complex1(1, 3);
+		CComplex complex2(1, 3);
+
+		bool result = (complex1 == complex2);
+
+		THEN("return true")
+		{
+			bool expectedResult = true;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair two NOT equal complex numbers by real part")
+	{
+		CComplex complex1(1, 3);
+		CComplex complex2(2, 3);
+
+		bool result = (complex1 == complex2);
+
+		THEN("compair should return false")
+		{
+			bool expectedResult = false;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair two NOT equal complex numbers by image part")
+	{
+		CComplex complex1(2, 4);
+		CComplex complex2(2, 3);
+
+		bool result = (complex1 == complex2);
+
+		THEN("compair should return false")
+		{
+			bool expectedResult = false;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}

@@ -41,7 +41,7 @@ CComplex CComplex::operator+(const CComplex& complex) const
 	return CComplex(Re() + complex.Re(), Im() + complex.Im());
 }
 
-bool CComplex::operator==(int n) const
+bool CComplex::operator==(const CComplex& complex) const
 {
-	return (Re() == n) && (Im() == n);
+	return (Re() == complex.Re()) && (Im() == complex.Im());
 }
