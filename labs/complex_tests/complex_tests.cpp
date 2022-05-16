@@ -115,7 +115,7 @@ TEST_CASE("Argument for complex number in first quarter")
 	}
 }
 
-TEST_CASE("Adding complex number")
+TEST_CASE("Adding complex numbers")
 {
 	WHEN("adding two complex numbers")
 	{
@@ -129,9 +129,34 @@ TEST_CASE("Adding complex number")
 			double expectedResult = 4;
 			REQUIRE(result.Re() == expectedResult);
 		}
+
+		THEN("image part should be equal 5")
+		{
+			double expectedResult = 5;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+	
+	WHEN("adding complex number and real number")
+	{
+		CComplex complex(1, 1);
+		double n = 3.1;
+
+		CComplex result = complex + n;
+
+		THEN("real part should be equal 4.1")
+		{
+			double expectedResult = 4.1;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 1")
+		{
+			double expectedResult = 1;
+			REQUIRE(result.Im() == expectedResult);
+		}
 	}
 }
-
 
 TEST_CASE("Compair complex numbers")
 {
