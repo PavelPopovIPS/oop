@@ -1,4 +1,4 @@
-#include "Complex.h"
+﻿#include "Complex.h"
 
 CComplex::CComplex(double real, double image)
 	: m_real(real)
@@ -21,6 +21,7 @@ double CComplex::GetMagnitude() const
 	return sqrt(pow(Re(), 2) + pow(Im(), 2));
 }
 
+// TODO доделать высчитывание аргумента
 double CComplex::GetArgument() const
 {
 	if (Re() == 0 && Im() == 0)
@@ -41,22 +42,35 @@ CComplex CComplex::operator+(const CComplex& complex) const
 	return CComplex(Re() + complex.Re(), Im() + complex.Im());
 }
 
-CComplex operator+(double number, const CComplex& complex)
-{
-	return CComplex(number + complex.Re(), complex.Im());
-}
-
 CComplex CComplex::operator-(const CComplex& complex) const
 {
 	return CComplex(Re() - complex.Re(), Im() - complex.Im());
 }
 
-CComplex operator-(double number, const CComplex& complex)
+CComplex CComplex::operator*(const CComplex& complex) const
 {
-	return CComplex(number - complex.Re(), -complex.Im());
+	return CComplex(Re() * complex.Re() - Im() * complex.Im(), Im() * complex.Re() + Re() * complex.Im());
 }
 
 bool CComplex::operator==(const CComplex& complex) const
 {
 	return (Re() == complex.Re()) && (Im() == complex.Im());
+}
+
+CComplex operator+(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	return n + complex;
+}
+
+CComplex operator-(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	return n - complex;
+}
+
+CComplex operator*(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	return n * complex;
 }

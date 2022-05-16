@@ -24,6 +24,7 @@ public:
 
 	CComplex operator+(const CComplex& complex) const;
 	CComplex operator-(const CComplex& complex) const;
+	CComplex operator*(const CComplex& complex) const;
 	bool operator==(const CComplex& complex) const;
 
 private:
@@ -33,3 +34,4 @@ private:
 
 CComplex operator+(double number, const CComplex& complex);
 CComplex operator-(double number, const CComplex& complex);
+CComplex operator*(double number, const CComplex& complex);

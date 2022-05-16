@@ -241,6 +241,69 @@ TEST_CASE("Subtraction complex numbers")
 	}
 }
 
+TEST_CASE("Multiplication complex numbers")
+{
+	WHEN("multiplication two complex numbers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+
+		CComplex result = complex1 * complex2;
+
+		THEN("real part should be equal -1")
+		{
+			double expectedResult = -1;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 7")
+		{
+			double expectedResult = 7;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("multiplication complex number and real number")
+	{
+		CComplex complex(1, 2);
+		double n = 3.1;
+
+		CComplex result = complex * n;
+
+		THEN("real part should be equal 3.1")
+		{
+			double expectedResult = 3.1;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 6.2")
+		{
+			double expectedResult = 6.2;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+
+	WHEN("multiplication real number and complex number")
+	{
+		double n = 5;
+		CComplex complex(1, 0.1);
+
+		CComplex result = n * complex;
+
+		THEN("real part should be equal 5")
+		{
+			double expectedResult = 5;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 0.5")
+		{
+			double expectedResult = 0.5;
+			REQUIRE(result.Im() == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")
