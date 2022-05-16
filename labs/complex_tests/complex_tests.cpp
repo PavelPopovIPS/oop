@@ -155,6 +155,26 @@ TEST_CASE("Adding complex numbers")
 			double expectedResult = 1;
 			REQUIRE(result.Im() == expectedResult);
 		}
+	}	
+
+	WHEN("adding real number and complex number")
+	{
+		double n = 5;
+		CComplex complex(1, 0.1);
+
+		CComplex result = n + complex;
+
+		THEN("real part should be equal 6")
+		{
+			double expectedResult = 6;
+			REQUIRE(result.Re() == expectedResult);
+		}
+
+		THEN("image part should be equal 0.1")
+		{
+			double expectedResult = 0.1;
+			REQUIRE(result.Im() == expectedResult);
+		}
 	}
 }
 

@@ -29,3 +29,5 @@ private:
 	double m_real;
 	double m_image;
 };
+
+CComplex operator+(double number, const CComplex& complex);
