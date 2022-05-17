@@ -113,6 +113,11 @@ bool CComplex::operator==(const CComplex& complex) const
 	return (reAreEqual && imAreEqual);
 }
 
+bool CComplex::operator!=(const CComplex& complex) const
+{
+	return !(*this == complex);
+}
+
 CComplex operator+(double number, const CComplex& complex)
 {
 	CComplex n(number);
@@ -135,4 +140,22 @@ CComplex operator/(double number, const CComplex& complex)
 {
 	CComplex n(number);
 	return n / complex;
+}
+
+bool operator==(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	bool reAreEqual = (fabs(n.Re() - complex.Re()) < DBL_EPSILON);
+	bool imAreEqual = (fabs(n.Im() - complex.Im()) < DBL_EPSILON);
+
+	return (reAreEqual && imAreEqual);
+}
+
+bool operator!=(double number, const CComplex& complex)
+{
+	CComplex n(number);
+	bool reAreEqual = (fabs(n.Re() - complex.Re()) < DBL_EPSILON);
+	bool imAreEqual = (fabs(n.Im() - complex.Im()) < DBL_EPSILON);
+
+	return !(reAreEqual && imAreEqual);
 }

@@ -638,4 +638,105 @@ TEST_CASE("Compair complex numbers")
 			REQUIRE(result == expectedResult);
 		}
 	}
+
+	WHEN("compair complex numbers is zero and real number is zero")
+	{
+		CComplex complex;
+		double n = 0;
+
+		bool result = (complex == n);
+
+		THEN("compair should return true")
+		{
+			bool expectedResult = true;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair real number 2 and complex numbers 2+0i")
+	{
+		double n = 2;
+		CComplex complex(2, 0);
+
+		bool result = (n == complex);
+
+		THEN("compair should return true")
+		{
+			bool expectedResult = true;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Not equal complex numbers")
+{
+	WHEN("compair two equal complex numbers")
+	{
+		CComplex complex1(1, 3);
+		CComplex complex2(1, 3);
+
+		bool result = complex1 != complex2;
+
+		THEN("return false")
+		{
+			bool expectedResult = false;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair two NOT equal complex numbers by real part")
+	{
+		CComplex complex1(1, 3);
+		CComplex complex2(2, 3);
+
+		bool result = (complex1 != complex2);
+
+		THEN("compair should return true")
+		{
+			bool expectedResult = true;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair two NOT equal complex numbers by image part")
+	{
+		CComplex complex1(2, 4);
+		CComplex complex2(2, 3);
+
+		bool result = (complex1 != complex2);
+
+		THEN("compair should return true")
+		{
+			bool expectedResult = true;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair complex numbers is zero and real number is zero")
+	{
+		CComplex complex;
+		double n = 0;
+
+		bool result = (complex != n);
+
+		THEN("compair should return false")
+		{
+			bool expectedResult = false;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("compair real number 2 and complex numbers 2+0i")
+	{
+		double n = 2;
+		CComplex complex(2, 0);
+
+		bool result = (n != complex);
+
+		THEN("compair should return false")
+		{
+			bool expectedResult = false;
+			REQUIRE(result == expectedResult);
+		}
+	}
 }

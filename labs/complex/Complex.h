@@ -35,6 +35,7 @@ public:
 	CComplex& operator*=(const CComplex& complex);
 	CComplex& operator/=(const CComplex& complex);
 	bool operator==(const CComplex& complex) const;
+	bool operator!=(const CComplex& complex) const;
 
 private:
 	double m_real;
@@ -45,3 +46,5 @@ CComplex operator+(double number, const CComplex& complex);
 CComplex operator-(double number, const CComplex& complex);
 CComplex operator*(double number, const CComplex& complex);
 CComplex operator/(double number, const CComplex& complex);
+bool operator==(double number, const CComplex& complex);
+bool operator!=(double number, const CComplex& complex);
