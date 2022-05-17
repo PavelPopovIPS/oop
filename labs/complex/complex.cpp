@@ -108,7 +108,9 @@ CComplex& CComplex::operator/=(const CComplex& complex)
 
 bool CComplex::operator==(const CComplex& complex) const
 {
-	return (Re() == complex.Re()) && (Im() == complex.Im());
+	bool reAreEqual = (fabs(Re() - complex.Re()) < DBL_EPSILON);
+	bool imAreEqual = (fabs(Im() - complex.Im()) < DBL_EPSILON);
+	return (reAreEqual && imAreEqual);
 }
 
 CComplex operator+(double number, const CComplex& complex)

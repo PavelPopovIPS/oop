@@ -555,11 +555,22 @@ TEST_CASE("Assignment expression /=")
 		double n = 3.1;
 		complex1 /= n;
 
-		THEN("number should be equal 0.323+0.645i")
+		THEN("real part should be equal 0.323")
 		{
-			CComplex expectedResult(0.323, 0.645);
-			// TODO сделать после равенства
-			// REQUIRE(complex1 == expectedResult);
+			double resultRe = complex1.Re();
+			resultRe = round(resultRe * 1000) / 1000;
+
+			double expectedResult = 0.323;
+			REQUIRE(resultRe == expectedResult);
+		}
+
+		THEN("image part should be equal 0.645")
+		{
+			double resultIm = complex1.Im();
+			resultIm = round(resultIm * 1000) / 1000;
+
+			double expectedResult = 0.645;
+			REQUIRE(resultIm == expectedResult);
 		}
 	}
 
