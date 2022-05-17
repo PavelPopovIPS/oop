@@ -447,6 +447,35 @@ TEST_CASE("Unary mines")
 	}
 }
 
+TEST_CASE("Assignment expression +=")
+{
+	WHEN("assignment expression for two complex numpers")
+	{
+		CComplex complex1(1, 2);
+		CComplex complex2(3, 4);
+		complex1 += complex2;
+
+		THEN("number should be equal 4+6i")
+		{
+			CComplex expectedResult(4, 6);
+			REQUIRE(complex1 == expectedResult);
+		}
+	}
+
+	WHEN("assignment expression for complex numper and real numer")
+	{
+		CComplex complex1(1, 2);
+		double n = 3;
+		complex1 += n;
+
+		THEN("number should be equal 4+2i")
+		{
+			CComplex expectedResult(4, 2);
+			REQUIRE(complex1 == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")
