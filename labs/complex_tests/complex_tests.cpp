@@ -433,6 +433,20 @@ TEST_CASE("Unary plus")
 	}
 }
 
+TEST_CASE("Unary mines")
+{
+	WHEN("unary mines with complex numper")
+	{
+		CComplex complex(1, 2);
+
+		THEN("number should be opposit")
+		{
+			CComplex expectedResult(-1, -2);
+			REQUIRE(-complex == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")
