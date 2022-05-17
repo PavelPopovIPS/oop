@@ -419,6 +419,20 @@ TEST_CASE("Division complex numbers")
 	}
 }
 
+TEST_CASE("Unary plus")
+{
+	WHEN("unary plus with complex numper")
+	{
+		CComplex complex(1, 2);
+
+		THEN("number should be the same")
+		{
+			CComplex expectedResult(1, 2);
+			REQUIRE(+complex == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")

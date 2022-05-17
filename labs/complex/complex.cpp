@@ -66,6 +66,11 @@ CComplex CComplex::operator/(const CComplex& complex) const
 	return CComplex(tmpRe, tmpIm);
 }
 
+CComplex const CComplex::operator+() const
+{
+	return *this;
+}
+
 bool CComplex::operator==(const CComplex& complex) const
 {
 	return (Re() == complex.Re()) && (Im() == complex.Im());
