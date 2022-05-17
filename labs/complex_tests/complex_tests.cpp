@@ -505,6 +505,35 @@ TEST_CASE("Assignment expression -=")
 	}
 }
 
+TEST_CASE("Assignment expression *=")
+{
+	WHEN("assignment expression for two complex numpers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+		complex1 *= complex2;
+
+		THEN("number should be equal -1+7i")
+		{
+			CComplex expectedResult(-1, 7);
+			REQUIRE(complex1 == expectedResult);
+		}
+	}
+
+	WHEN("assignment expression for complex numper and real numer")
+	{
+		CComplex complex1(1, 2);
+		double n = 3.1;
+		complex1 *= n;
+
+		THEN("number should be equal 3.1+6.2i")
+		{
+			CComplex expectedResult(3.1, 6.2);
+			REQUIRE(complex1 == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")

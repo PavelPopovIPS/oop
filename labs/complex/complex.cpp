@@ -86,10 +86,15 @@ CComplex& CComplex::operator+=(const CComplex& complex)
 
 CComplex& CComplex::operator-=(const CComplex& complex)
 {
-
 	m_real -= complex.m_real;
 	m_image -= complex.m_image;
 
+	return *this;
+}
+
+CComplex& CComplex::operator*=(const CComplex& complex)
+{
+	*this = *this * complex;
 	return *this;
 }
 

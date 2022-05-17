@@ -26,10 +26,13 @@ public:
 	CComplex operator-(const CComplex& complex) const;
 	CComplex operator*(const CComplex& complex) const;
 	CComplex operator/(const CComplex& complex) const;
+
+	//Почему const после типа?
 	CComplex const operator+() const;
 	CComplex const operator-() const;
 	CComplex& operator+=(const CComplex& complex);
 	CComplex& operator-=(const CComplex& complex);
+	CComplex& operator*=(const CComplex& complex);
 	bool operator==(const CComplex& complex) const;
 
 private:
