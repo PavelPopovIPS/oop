@@ -172,3 +172,61 @@ std::ostream& operator<<(std::ostream& stream, const CComplex& complex)
 
 	return stream;
 }
+
+std::istream& operator>>(std::istream& stream, CComplex& complex)
+{
+	double re = 0;
+	double im = 0;
+	std::string a = "";
+
+	stream >> a;
+
+	if (a.length() == 0)
+	{
+		throw std::runtime_error("String can not be empty\n");
+	}
+
+	size_t lastCh = a.length() - 1;
+	if (a[lastCh] != 'i')
+	{
+		throw std::runtime_error("Complex number should have i at the end and looks like a+bi\n");
+	}
+
+	a.erase(lastCh);
+
+	size_t pos = 0;
+	if (a[0] == '-')
+	{
+		pos++;
+	}
+
+	size_t center = a.find("+", pos);
+	if (center == std::string::npos)
+	{
+		center = a.find("-", pos);
+		if (center == std::string::npos)
+		{
+			throw std::runtime_error("There is no center. Complex number should look like a+bi\n");
+		}
+	}
+
+	std::string re_str = a.substr(0, center);
+	std::string im_str = a.substr(center);
+
+	try
+	{
+		re = std::stod(re_str);
+		im = std::stod(im_str);
+	}
+	catch (const std::invalid_argument& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	catch (const std::out_of_range& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+
+	complex = CComplex(re, im);
+	return stream;
+}

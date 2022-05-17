@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <math.h>
+#include <string>
 
 class CComplex
 {
@@ -49,3 +50,4 @@ CComplex operator/(double number, const CComplex& complex);
 bool operator==(double number, const CComplex& complex);
 bool operator!=(double number, const CComplex& complex);
 std::ostream& operator<<(std::ostream& stream, const CComplex& complex);
+std::istream& operator>>(std::istream& stream, CComplex& complex);

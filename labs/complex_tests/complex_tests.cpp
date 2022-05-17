@@ -775,3 +775,66 @@ TEST_CASE("Output to stream")
 		}
 	}
 }
+
+TEST_CASE("Read from stream")
+{
+	WHEN("read complex number from stream, positive real and image parts")
+	{
+		CComplex complex(1, 1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be the same number")
+		{
+			CComplex result;
+			strm >> result;
+
+			REQUIRE(result == complex);
+		}
+	}
+
+	WHEN("read complex number from stream, negative real and image parts")
+	{
+		CComplex complex(-1.2, -0.1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be -1.2-0.1i")
+		{
+			CComplex result;
+			strm >> result;
+
+			REQUIRE(result == complex);
+		}
+	}
+
+	WHEN("read complex number from stream, negative real and positive image")
+	{
+		CComplex complex(-1.2, 0.1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be -1.2+0.1i")
+		{
+			CComplex result;
+			strm >> result;
+
+			REQUIRE(result == complex);
+		}
+	}
+
+	WHEN("read complex number from stream, positive real and negative image")
+	{
+		CComplex complex(1.2, -0.1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be 1.2-0.1i")
+		{
+			CComplex result;
+			strm >> result;
+
+			REQUIRE(result == complex);
+		}
+	}
+}
