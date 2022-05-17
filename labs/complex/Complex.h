@@ -29,6 +29,7 @@ public:
 	CComplex const operator+() const;
 	CComplex const operator-() const;
 	CComplex& operator+=(const CComplex& complex);
+	CComplex& operator-=(const CComplex& complex);
 	bool operator==(const CComplex& complex) const;
 
 private:

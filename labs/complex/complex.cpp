@@ -84,6 +84,15 @@ CComplex& CComplex::operator+=(const CComplex& complex)
 	return *this;
 }
 
+CComplex& CComplex::operator-=(const CComplex& complex)
+{
+
+	m_real -= complex.m_real;
+	m_image -= complex.m_image;
+
+	return *this;
+}
+
 bool CComplex::operator==(const CComplex& complex) const
 {
 	return (Re() == complex.Re()) && (Im() == complex.Im());
