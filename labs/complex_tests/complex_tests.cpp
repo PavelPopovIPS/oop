@@ -740,3 +740,38 @@ TEST_CASE("Not equal complex numbers")
 		}
 	}
 }
+
+TEST_CASE("Output to stream")
+{
+	WHEN("output positive complex number to stream")
+	{
+		CComplex complex(1, 1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be the same number")
+		{
+			std::string result;
+			strm >> result;
+
+			std::string expectedResult = "1+1i";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("output negative complex number to stream")
+	{
+		CComplex complex(-1.2, -0.1);
+		std::stringstream strm;
+		strm << complex;
+
+		THEN("should be -1.2-0.1i")
+		{
+			std::string result;
+			strm >> result;
+
+			std::string expectedResult = "-1.2-0.1i";
+			REQUIRE(result == expectedResult);
+		}
+	}
+}

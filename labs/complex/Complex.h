@@ -48,3 +48,4 @@ CComplex operator*(double number, const CComplex& complex);
 CComplex operator/(double number, const CComplex& complex);
 bool operator==(double number, const CComplex& complex);
 bool operator!=(double number, const CComplex& complex);
+std::ostream& operator<<(std::ostream& stream, const CComplex& complex);

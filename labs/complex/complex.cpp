@@ -159,3 +159,16 @@ bool operator!=(double number, const CComplex& complex)
 
 	return !(reAreEqual && imAreEqual);
 }
+
+std::ostream& operator<<(std::ostream& stream, const CComplex& complex)
+{
+	stream << complex.Re();
+
+	if (complex.Im() >= 0)
+	{
+		stream << "+";
+	}
+	stream << complex.Im() << "i" << std::endl;
+
+	return stream;
+}
