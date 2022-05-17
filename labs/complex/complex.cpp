@@ -95,6 +95,14 @@ CComplex& CComplex::operator-=(const CComplex& complex)
 CComplex& CComplex::operator*=(const CComplex& complex)
 {
 	*this = *this * complex;
+
+	return *this;
+}
+
+CComplex& CComplex::operator/=(const CComplex& complex)
+{
+	*this = *this / complex;
+
 	return *this;
 }
 

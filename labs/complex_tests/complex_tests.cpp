@@ -534,6 +534,56 @@ TEST_CASE("Assignment expression *=")
 	}
 }
 
+TEST_CASE("Assignment expression /=")
+{
+	WHEN("assignment expression for two complex numpers")
+	{
+		CComplex complex1(1, 1);
+		CComplex complex2(3, 4);
+		complex1 /= complex2;
+
+		THEN("number should be equal 0.28-0.04i")
+		{
+			CComplex expectedResult(0.28, -0.04);
+			REQUIRE(complex1 == expectedResult);
+		}
+	}
+
+	WHEN("assignment expression for complex numper and real numer")
+	{
+		CComplex complex1(1, 2);
+		double n = 3.1;
+		complex1 /= n;
+
+		THEN("number should be equal 0.323+0.645i")
+		{
+			CComplex expectedResult(0.323, 0.645);
+			// TODO сделать после равенства
+			// REQUIRE(complex1 == expectedResult);
+		}
+	}
+
+	WHEN("division two complex numbers and denominator is 0")
+	{
+		CComplex complex1(3, 4);
+		CComplex complex2;
+
+		try
+		{
+			complex1 /= complex2;
+			REQUIRE(FALSE);
+		}
+		catch (std::exception& e)
+		{
+			THEN("should be exception")
+			{
+				std::string expectedResult = "Denominator can not be zero\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
+
 TEST_CASE("Compair complex numbers")
 {
 	WHEN("compair two equal complex numbers")
