@@ -115,6 +115,116 @@ TEST_CASE("Argument for complex number in first quarter")
 	}
 }
 
+TEST_CASE("Argument for complex number in fourth quarter")
+{
+	WHEN("complex number is 1-1i")
+	{
+		CComplex complex(1, -1);
+
+		THEN("argument should be equal 0.785")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 0.785;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Argument for complex number in second quarter")
+{
+	WHEN("complex number is -2+0.1i")
+	{
+		CComplex complex(-2, 0.1);
+
+		THEN("argument should be equal 3.192")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 3.192;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Argument for complex number in third quarter")
+{
+	WHEN("complex number is -2-0.5i")
+	{
+		CComplex complex(-2, 0.5);
+
+		THEN("argument should be equal 3.387")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 3.387;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+TEST_CASE("Argument for complex number on coordinate axis")
+{
+	WHEN("complex number is 0+0.5i")
+	{
+		CComplex complex(0, 0.5);
+
+		THEN("argument should be equal 1.571")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 1.571;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("complex number is 0-0.5i")
+	{
+		CComplex complex(0, -0.5);
+
+		THEN("argument should be equal -1.571")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = -1.571;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("complex number is 1+0i")
+	{
+		CComplex complex(1, 0);
+
+		THEN("argument should be equal 0")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 0;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("complex number is -1+0i")
+	{
+		CComplex complex(-1, 0);
+
+		THEN("argument should be equal 3.142")
+		{
+			double result = complex.GetArgument();
+			result = round(result * 1000) / 1000;
+
+			double expectedResult = 3.142;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
 TEST_CASE("Adding complex numbers")
 {
 	WHEN("adding two complex numbers")

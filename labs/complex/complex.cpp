@@ -21,7 +21,6 @@ double CComplex::GetMagnitude() const
 	return sqrt(pow(Re(), 2) + pow(Im(), 2));
 }
 
-// TODO доделать высчитывание аргумента
 double CComplex::GetArgument() const
 {
 	if (Re() == 0 && Im() == 0)
@@ -32,6 +31,41 @@ double CComplex::GetArgument() const
 	if (Re() > 0 && Im() > 0)
 	{
 		return atan(Im() / Re());
+	}
+
+	if (Re() > 0 && Im() < 0)
+	{
+		return -atan(Im() / Re());
+	}
+
+	if (Re() < 0 && Im() > 0)
+	{
+		return M_PI - atan(Im() / Re());
+	}
+
+	if (Re() < 0 && Im() < 0)
+	{
+		return -M_PI + atan(Im() / Re());
+	}
+
+	if (Re() == 0 && Im() > 0)
+	{
+		return M_PI / 2;
+	}
+
+	if (Re() == 0 && Im() < 0)
+	{
+		return -M_PI / 2;
+	}
+
+	if (Re() > 0 && Im() == 0)
+	{
+		return 0;
+	}
+
+	if (Re() < 0 && Im() == 0)
+	{
+		return M_PI;
 	}
 
 	throw std::runtime_error("Complex number position was not define\n");
