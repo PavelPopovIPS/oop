@@ -100,6 +100,7 @@ CComplex CComplex::operator/(const CComplex& complex) const
 	return CComplex(tmpRe, tmpIm);
 }
 
+//Тут точно вернет ссылку на тот же объект?
 CComplex const CComplex::operator+() const
 {
 	return *this;
