@@ -12,6 +12,10 @@ int main()
 	while (std::getline(std::cin, url))
 	{
 		ParseProtocol(url);
+		ParseDocument(url);
+
+		std::cout << "url: " << url << std::endl;
+		std::cout << std::endl;
 	}
 
 	return 0;

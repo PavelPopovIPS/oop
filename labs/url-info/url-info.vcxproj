@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="HttpUrl.cpp" />
     <ClCompile Include="url-info.cpp" />
+    <ClCompile Include="UrlParsingError.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HttpUrl.h" />

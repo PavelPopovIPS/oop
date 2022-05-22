@@ -11,6 +11,7 @@ enum class Protocol
 };
 
 Protocol ParseProtocol(std::string& url);
+std::string ParseDocument(std::string& url);
 
 class CHttpUrl
 {
