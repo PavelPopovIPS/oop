@@ -18,7 +18,7 @@
     <ClCompile Include="Complex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="complex_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
