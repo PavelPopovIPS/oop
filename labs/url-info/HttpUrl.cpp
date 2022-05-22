@@ -36,7 +36,7 @@ std::string ParseDocument(std::string& url)
 	}
 
 	std::cout << "docement: " << std::endl; // debug
-	return "";
+	return "/";
 }
 
 CHttpUrl::CHttpUrl(std::string const& url)
