@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HttpUrl.cpp" />
     <ClCompile Include="url-info.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HttpUrl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
