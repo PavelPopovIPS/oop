@@ -26,5 +26,8 @@
     <ClInclude Include="HttpUrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UrlParsingError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
