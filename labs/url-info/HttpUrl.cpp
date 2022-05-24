@@ -31,11 +31,9 @@ std::string ParseDocument(std::string& url)
 		std::string document = url.substr(found);
 		url.erase(found);
 
-		std::cout << "docement: " << document << std::endl; // debug
 		return document;
 	}
 
-	std::cout << "docement: " << std::endl; // debug
 	return "/";
 }
 
@@ -45,34 +43,32 @@ unsigned short ParsePort(std::string& url, Protocol& protocol)
 
 	if (found != std::string::npos)
 	{
+		std::string portStr = url.substr(found).erase(0, 1);
+		if (portStr == "")
+		{
+			return 0;
+		}
+
 		int portTmp;
 		try
 		{
-			portTmp = std::stoi(url.substr(found).erase(0, 1));
+			portTmp = std::stoi(portStr);
 		}
 		catch (std::exception&)
 		{
 			throw CUrlParsingError("Port was not correct");
 		}
 
-		if (portTmp < 0 || portTmp > 65536)
+		if (portTmp < 1 || portTmp > 65536)
 		{
-			throw CUrlParsingError("Port should be between 0 and 65536");
+			throw CUrlParsingError("Port should be between 1 and 65536");
 		}
 
 		url.erase(found);
-		std::cout << "port: " << portTmp << std::endl; // debug
 		return static_cast<unsigned short>(portTmp);
 	}
 
-	if (protocol == Protocol::HTTPS)
-	{
-		std::cout << "port: " << 443 << std::endl; // debug
-		return 443;
-	}
-
-	std::cout << "port: " << 80 << std::endl; // debug
-	return 80;
+	return 0;
 }
 
 CHttpUrl::CHttpUrl(std::string const& url)
@@ -82,4 +78,39 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	m_document = ParseDocument(tmpUrl);
 	m_port = ParsePort(tmpUrl, m_protocol);
 	m_domain = tmpUrl;
+}
+
+std::string CHttpUrl::GetURL() const
+{
+	return std::string();
+}
+
+std::string CHttpUrl::GetDomain() const
+{
+	return m_domain;
+}
+
+std::string CHttpUrl::GetDocument() const
+{
+	return m_document;
+}
+
+Protocol CHttpUrl::GetProtocol() const
+{
+	return m_protocol;
+}
+
+unsigned short CHttpUrl::GetPort() const
+{
+	if (m_port != 0)
+	{
+		return m_port;
+	}
+
+	if (m_protocol == Protocol::HTTPS)
+	{
+		return 443;
+	}
+
+	return 80;
 }
