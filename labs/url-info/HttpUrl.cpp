@@ -44,6 +44,8 @@ unsigned short ParsePort(std::string& url, Protocol& protocol)
 	if (found != std::string::npos)
 	{
 		std::string portStr = url.substr(found).erase(0, 1);
+		url.erase(found);
+
 		if (portStr == "")
 		{
 			return 0;
@@ -64,11 +66,20 @@ unsigned short ParsePort(std::string& url, Protocol& protocol)
 			throw CUrlParsingError("Port should be between 1 and 65536");
 		}
 
-		url.erase(found);
 		return static_cast<unsigned short>(portTmp);
 	}
 
 	return 0;
+}
+
+std::string CheckDomain(std::string& url)
+{
+	if (url.find_first_of(SPECIFIC_SYMBLES) != std::string::npos)
+	{
+		throw CUrlParsingError("Domain contains incorrect symbols");
+	}
+
+	return url;
 }
 
 CHttpUrl::CHttpUrl(std::string const& url)
@@ -77,7 +88,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	m_protocol = ParseProtocol(tmpUrl);
 	m_document = ParseDocument(tmpUrl);
 	m_port = ParsePort(tmpUrl, m_protocol);
-	m_domain = tmpUrl;
+	m_domain = CheckDomain(tmpUrl);
 }
 
 std::string CHttpUrl::GetURL() const
@@ -94,7 +105,9 @@ std::string CHttpUrl::GetURL() const
 	}
 
 	url.append(m_domain);
-	if ((m_protocol == Protocol::HTTP && m_port == 80) || (m_protocol == Protocol::HTTPS && m_port == 443))
+	if ((m_protocol == Protocol::HTTP && m_port == 80)
+		|| (m_protocol == Protocol::HTTPS && m_port == 443)
+		|| m_port == 0)
 	{
 		url.append("");
 	}
