@@ -15,6 +15,8 @@ int main()
 		{
 			CHttpUrl httpUrl(url);
 
+			std::cout << "URL is: " << httpUrl.GetURL() << std::endl;
+
 			std::cout << "Protocol is: ";
 
 			if (httpUrl.GetProtocol() == Protocol::HTTP)

@@ -82,7 +82,31 @@ CHttpUrl::CHttpUrl(std::string const& url)
 
 std::string CHttpUrl::GetURL() const
 {
-	return std::string();
+	std::string url;
+	if (m_protocol == Protocol::HTTP)
+	{
+		url.append("http://");
+	}
+
+	if (m_protocol == Protocol::HTTPS)
+	{
+		url.append("https://");
+	}
+
+	url.append(m_domain);
+	if ((m_protocol == Protocol::HTTP && m_port == 80) || (m_protocol == Protocol::HTTPS && m_port == 443))
+	{
+		url.append("");
+	}
+	else
+	{
+		url.append(":");
+		url.append(std::to_string(m_port));
+	}
+
+	url.append(m_document);
+
+	return url;
 }
 
 std::string CHttpUrl::GetDomain() const
