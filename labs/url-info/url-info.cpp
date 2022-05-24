@@ -11,8 +11,9 @@ int main()
 
 	while (std::getline(std::cin, url))
 	{
-		ParseProtocol(url);
+		Protocol protocol = ParseProtocol(url);
 		ParseDocument(url);
+		ParsePort(url, protocol);
 
 		std::cout << "url: " << url << std::endl;
 		std::cout << std::endl;

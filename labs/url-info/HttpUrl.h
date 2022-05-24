@@ -12,6 +12,7 @@ enum class Protocol
 
 Protocol ParseProtocol(std::string& url);
 std::string ParseDocument(std::string& url);
+unsigned short ParsePort(std::string& url, Protocol& protocol);
 
 class CHttpUrl
 {
