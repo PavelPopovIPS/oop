@@ -19,7 +19,7 @@ Protocol ParseProtocol(std::string& url)
 		return Protocol::HTTPS;
 	}
 
-	throw CUrlParsingError("Protocol was not defined");
+	throw CUrlParsingError("Protocol was not defined\n");
 }
 
 std::string ParseDocument(std::string& url)
@@ -37,7 +37,7 @@ std::string ParseDocument(std::string& url)
 	return "/";
 }
 
-unsigned short ParsePort(std::string& url, Protocol& protocol)
+unsigned short ParsePort(std::string& url)
 {
 	std::size_t found = url.find(':');
 
@@ -87,7 +87,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	std::string tmpUrl = url;
 	m_protocol = ParseProtocol(tmpUrl);
 	m_document = ParseDocument(tmpUrl);
-	m_port = ParsePort(tmpUrl, m_protocol);
+	m_port = ParsePort(tmpUrl);
 	m_domain = CheckDomain(tmpUrl);
 }
 
