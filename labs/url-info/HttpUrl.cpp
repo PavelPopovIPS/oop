@@ -58,12 +58,12 @@ unsigned short ParsePort(std::string& url)
 		}
 		catch (std::exception&)
 		{
-			throw CUrlParsingError("Port was not correct");
+			throw CUrlParsingError("Port was not correct\n");
 		}
 
-		if (portTmp < 1 || portTmp > 65536)
+		if (portTmp < 1 || portTmp > 65535)
 		{
-			throw CUrlParsingError("Port should be between 1 and 65536");
+			throw CUrlParsingError("Port should be between 1 and 65535\n");
 		}
 
 		return static_cast<unsigned short>(portTmp);

@@ -3,6 +3,7 @@
 #include "../url-info/HttpUrl.h"
 #include "../url-info/UrlParsingError.h"
 
+//	CHttpUrl(std::string const& url);
 SCENARIO("Protocol should be define")
 {
 	WHEN("protocol is http://")
@@ -114,6 +115,137 @@ SCENARIO("Document should be define")
 		{
 			std::string expectedResult = "/";
 			REQUIRE(httpUrl.GetDocument() == expectedResult);
+		}
+	}
+}
+
+SCENARIO("Define port")
+{
+	WHEN("there is port and no document")
+	{
+		CHttpUrl httpUrl("http://ispring.ru:1");
+
+		THEN("port is 1")
+		{
+			unsigned short expectedResult = 1;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+	}
+
+	WHEN("there are port and  document")
+	{
+		CHttpUrl httpUrl("http://ispring.ru:65535/index.html");
+
+		THEN("port is 65536")
+		{
+			unsigned short expectedResult = 65535;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+	}
+
+	WHEN("port is not exist")
+	{
+		THEN("for http port is 80")
+		{
+			CHttpUrl httpUrl("http://ispring.ru/index.html");
+
+			unsigned short expectedResult = 80;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+
+		THEN("for https port is 443")
+		{
+			CHttpUrl httpUrl("https://ispring.ru/index.html");
+
+			unsigned short expectedResult = 443;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+	}
+
+	WHEN("port is not exist, only symbol :,it means that port not exist")
+	{
+		THEN("for http port is 80")
+		{
+			CHttpUrl httpUrl("http://ispring.ru:/index.html");
+
+			unsigned short expectedResult = 80;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+
+		THEN("for https port is 443")
+		{
+			CHttpUrl httpUrl("https://ispring.ru:/index.html");
+
+			unsigned short expectedResult = 443;
+			REQUIRE(httpUrl.GetPort() == expectedResult);
+		}
+	}
+
+	WHEN("port is 0")
+	{
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://ispring.ru:0/index.html");
+				REQUIRE(FALSE);
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Port should be between 1 and 65535\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("port is 65536")
+	{
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://ispring.ru:65536");
+				REQUIRE(FALSE);
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Port should be between 1 and 65535\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("port is alphabet")
+	{
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://ispring.ru:abc");
+				REQUIRE(FALSE);
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Port was not correct\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("port is too long")
+	{
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://ispring.ru:99999999999999999999999999999999999999");
+				REQUIRE(FALSE);
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Port was not correct\n";
+				REQUIRE(e.what() == expectedResult);
+			}
 		}
 	}
 }
