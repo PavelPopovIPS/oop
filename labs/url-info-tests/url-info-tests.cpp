@@ -16,6 +16,14 @@ SCENARIO("Protocol should be define")
 			Protocol expectedResult = Protocol::HTTP;
 			REQUIRE(result == expectedResult);
 		}
+
+		THEN("url should be without protocol")
+		{
+			Protocol result = ParseProtocol(url);
+
+			std::string expectedResult = "ispring.ru";
+			REQUIRE(url == expectedResult);
+		}
 	}
 
 	WHEN("protocol is https://")
@@ -28,6 +36,14 @@ SCENARIO("Protocol should be define")
 
 			Protocol expectedResult = Protocol::HTTPS;
 			REQUIRE(result == expectedResult);
+		}
+
+		THEN("url should be without protocol")
+		{
+			Protocol result = ParseProtocol(url);
+
+			std::string expectedResult = "ispring.ru";
+			REQUIRE(url == expectedResult);
 		}
 	}
 }
@@ -56,6 +72,25 @@ SCENARIO("Try parse incorrect protocol")
 	WHEN("there is incorrect protocol")
 	{
 		std::string url = "http:ispring.ru";
+
+		THEN("it should throw exception CUrlParsingError")
+		{
+			try
+			{
+				Protocol result = ParseProtocol(url);
+				REQUIRE(FALSE);
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Protocol was not defined\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("url is empty")
+	{
+		std::string url = "";
 
 		THEN("it should throw exception CUrlParsingError")
 		{
