@@ -306,6 +306,14 @@ SCENARIO("Define domain")
 		}
 	}
 }
+// CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol)
+SCENARIO("Construct object by args")
+{
+	WHEN("there are correct domain, document and port")
+	{
+		// TODO
+	}
+}
 
 // methods
 SCENARIO("Object should return url correct url")

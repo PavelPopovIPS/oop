@@ -11,7 +11,7 @@ enum class Protocol
 	HTTP,
 	HTTPS
 };
-
+//возможно это приватные поля
 Protocol ParseProtocol(std::string& url);
 std::string ParseDocument(std::string& url);
 unsigned short ParsePort(std::string& url);

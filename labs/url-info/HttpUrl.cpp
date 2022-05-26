@@ -141,6 +141,8 @@ std::string CHttpUrl::GetURL() const
 		url.append("http://");
 	}
 
+	//url.append(m_protocol.value)
+
 	if (m_protocol == Protocol::HTTPS)
 	{
 		url.append("https://");
