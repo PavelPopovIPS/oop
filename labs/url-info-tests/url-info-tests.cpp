@@ -306,3 +306,91 @@ SCENARIO("Define domain")
 		}
 	}
 }
+
+// methods
+SCENARIO("Object should return url correct url")
+{
+	WHEN("url is long http://www.ispring.ru:31/document/index.html")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:31/document/index.html");
+
+		THEN("url should be same")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://www.ispring.ru:31/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("url is short with symbol / at the end http://www.ispring.ru")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru");
+
+		THEN("url should be with symbol / at the end http://www.ispring.ru/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://www.ispring.ru/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port has : http://www.ispring.ru:")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:");
+
+		THEN("url should be with symbol / at the end http://www.ispring.ru/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://www.ispring.ru/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is standard 80 for http protocol http://www.ispring.ru:80/")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:80/");
+
+		THEN("url should be without standard port http://www.ispring.ru/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://www.ispring.ru/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is standard 443 for https protocol https://www.ispring.ru:443/")
+	{
+		CHttpUrl httpUrl("https://www.ispring.ru:443/");
+
+		THEN("url should be without standard port https://www.ispring.ru/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "https://www.ispring.ru/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is not standard for https protocol https://www.ispring.ru:80")
+	{
+		CHttpUrl httpUrl("https://www.ispring.ru:80");
+
+		THEN("url should containe port https://www.ispring.ru:80/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "https://www.ispring.ru:80/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is not standard for http protocol http://www.ispring.ru:443")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:443");
+
+		THEN("url should containe port http://www.ispring.ru:443/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://www.ispring.ru:443/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
