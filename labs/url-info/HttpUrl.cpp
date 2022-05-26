@@ -76,7 +76,12 @@ std::string CheckDomain(std::string& url)
 {
 	if (url.find_first_of(SPECIFIC_SYMBLES) != std::string::npos)
 	{
-		throw CUrlParsingError("Domain contains incorrect symbols");
+		throw CUrlParsingError("Domain contains incorrect symbols\n");
+	}
+
+	if (url == "")
+	{
+		throw CUrlParsingError("Domain can not be empty\n");
 	}
 
 	return url;

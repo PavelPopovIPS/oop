@@ -249,3 +249,60 @@ SCENARIO("Define port")
 		}
 	}
 }
+
+SCENARIO("Define domain")
+{
+	WHEN("domain is correct whithout document and port")
+	{
+		CHttpUrl httpUrl("http://ispring.ru");
+
+		THEN("domain is ispring.ru")
+		{
+			std::string expectedResult = "ispring.ru";
+			REQUIRE(httpUrl.GetDomain() == expectedResult);
+		}
+	}
+
+	WHEN("domain is correct whith document and port")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:50/document/index.html");
+
+		THEN("domain is www.ispring.ru")
+		{
+			std::string expectedResult = "www.ispring.ru";
+			REQUIRE(httpUrl.GetDomain() == expectedResult);
+		}
+	}
+
+	WHEN("domain does not exist")
+	{
+		THEN("should be throw error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://:50/document/index.html");
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Domain can not be empty\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("domain contains reserved symbols")
+	{
+		THEN("should be throw error")
+		{
+			try
+			{
+				CHttpUrl httpUrl("http://www.ispring>ru");
+			}
+			catch (CUrlParsingError& e)
+			{
+				std::string expectedResult = "Domain contains incorrect symbols\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+}
