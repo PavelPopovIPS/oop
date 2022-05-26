@@ -72,7 +72,7 @@ unsigned short ParsePort(std::string& url)
 	return 0;
 }
 
-std::string CheckDomain(std::string& url)
+std::string CheckDomain(const std::string& url)
 {
 	if (url.find_first_of(SPECIFIC_SYMBLES) != std::string::npos)
 	{
@@ -87,6 +87,29 @@ std::string CheckDomain(std::string& url)
 	return url;
 }
 
+std::string CheckDocument(const std::string& document)
+{
+	if (document.find_first_of(":") != std::string::npos)
+	{
+		throw CUrlParsingError("Document contains incorrect symbols\n");
+	}
+
+	if (document == "")
+	{
+		return "/";
+	}
+
+	if (document[0] != '/')
+	{
+		std::string tmpstr;
+		tmpstr.append("/");
+		tmpstr.append(document);
+		return tmpstr;
+	}
+
+	return document;
+}
+
 CHttpUrl::CHttpUrl(std::string const& url)
 {
 	std::string tmpUrl = url;
@@ -94,6 +117,20 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	m_document = ParseDocument(tmpUrl);
 	m_port = ParsePort(tmpUrl);
 	m_domain = CheckDomain(tmpUrl);
+}
+
+CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol)
+{
+	try
+	{
+		m_domain = CheckDomain(domain);
+		m_document = CheckDocument(document);
+	}
+	catch (std::exception&)
+	{
+		throw std::invalid_argument("Argument is not correct\n");
+	}
+	m_port = 0;
 }
 
 std::string CHttpUrl::GetURL() const

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-const std::string SPECIFIC_SYMBLES = "<>\"\'&\\";
+const std::string SPECIFIC_SYMBLES = ":?<>\"\'&\\";
 
 enum class Protocol
 {
@@ -15,7 +15,8 @@ enum class Protocol
 Protocol ParseProtocol(std::string& url);
 std::string ParseDocument(std::string& url);
 unsigned short ParsePort(std::string& url);
-std::string CheckDomain(std::string& url);
+std::string CheckDomain(const std::string& url);
+std::string CheckDocument(const std::string& document);
 
 class CHttpUrl
 {
