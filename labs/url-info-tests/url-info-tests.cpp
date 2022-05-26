@@ -394,3 +394,144 @@ SCENARIO("Object should return url correct url")
 		}
 	}
 }
+
+TEST_CASE("Object should return correct domain")
+{
+	CHttpUrl httpUrl("http://www.ispring.ru:443");
+
+	THEN("url should be www.ispring.ru")
+	{
+		std::string result = httpUrl.GetDomain();
+		std::string expectedResult = "www.ispring.ru";
+		REQUIRE(result == expectedResult);
+	}
+}
+
+TEST_CASE("Object should return correct document")
+{
+	CHttpUrl httpUrl("http://www.ispring.ru:443/document");
+
+	THEN("document should be /document")
+	{
+		std::string result = httpUrl.GetDocument();
+		std::string expectedResult = "/document";
+		REQUIRE(result == expectedResult);
+	}
+}
+
+SCENARIO("Object should return correct document")
+{
+	WHEN("document is exist")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:443/document");
+
+		THEN("document should be /document")
+		{
+			std::string result = httpUrl.GetDocument();
+			std::string expectedResult = "/document";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("document is not exist")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:443");
+
+		THEN("document should be /")
+		{
+			std::string result = httpUrl.GetDocument();
+			std::string expectedResult = "/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+SCENARIO("Object should return correct protocol")
+{
+	WHEN("protocol is http")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:443/document");
+
+		THEN("protocol should be http")
+		{
+			Protocol result = httpUrl.GetProtocol();
+			Protocol expectedResult = Protocol::HTTP;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("protocol is https")
+	{
+		CHttpUrl httpUrl("https://www.ispring.ru:443/document");
+
+		THEN("protocol should be https")
+		{
+			Protocol result = httpUrl.GetProtocol();
+			Protocol expectedResult = Protocol::HTTPS;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+SCENARIO("Object should return correct port")
+{
+	WHEN("port is define")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:50/document");
+
+		THEN("port should be 50")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 50;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is 80 for http")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru:80/document");
+
+		THEN("port should be 80")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 80;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port is 443 for https")
+	{
+		CHttpUrl httpUrl("https://www.ispring.ru:443/document");
+
+		THEN("port should be 443")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 443;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port does not exist for http")
+	{
+		CHttpUrl httpUrl("http://www.ispring.ru/document");
+
+		THEN("for http port should be 80")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 80;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port does not exist for https")
+	{
+		CHttpUrl httpUrl("https://www.ispring.ru/document");
+
+		THEN("for http port should be 443")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 443;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
