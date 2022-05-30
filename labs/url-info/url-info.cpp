@@ -4,6 +4,7 @@
 #include "HttpUrl.h"
 #include <iostream>
 #include <string>
+
 void PrintUrl(const CHttpUrl& httpUrl)
 {
 	std::cout << "URL is: " << httpUrl.GetURL() << std::endl;
@@ -35,6 +36,7 @@ int main()
 		try
 		{
 			CHttpUrl httpUrl(url);
+			PrintUrl(httpUrl);
 		}
 		catch (std::exception& e)
 		{
