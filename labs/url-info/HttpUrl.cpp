@@ -134,6 +134,21 @@ CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Proto
 	m_port = 0;
 }
 
+CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port)
+{
+	try
+	{
+		m_domain = CheckDomain(domain);
+		m_document = CheckDocument(document);
+		m_port = port;
+	}
+	catch (std::exception& e)
+	{
+		throw std::invalid_argument(e.what());
+	}
+	m_protocol = protocol;
+}
+
 std::string CHttpUrl::GetURL() const
 {
 	std::string url;

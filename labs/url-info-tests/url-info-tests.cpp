@@ -463,6 +463,57 @@ SCENARIO("Construct object by args")
 	}
 }
 
+//  CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port)
+SCENARIO("Construct object by args with port")
+{
+	WHEN("there are correct domain, document, protocol and port")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTP;
+		unsigned short port = 81;
+		CHttpUrl httpUrl(domain, document, protocol, port);
+
+		THEN("url should be http://ispring.ru:81/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru:81/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("port default for http")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTP;
+		unsigned short port = 80;
+		CHttpUrl httpUrl(domain, document, protocol, port);
+
+		THEN("url should be without port http://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+	WHEN("port default for https")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTPS;
+		unsigned short port = 443;
+		CHttpUrl httpUrl(domain, document, protocol, port);
+
+		THEN("url should be without port https://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "https://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
 // methods
 SCENARIO("Object should return url correct url")
 {
