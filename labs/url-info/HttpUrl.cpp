@@ -126,10 +126,11 @@ CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Proto
 		m_domain = CheckDomain(domain);
 		m_document = CheckDocument(document);
 	}
-	catch (std::exception&)
+	catch (std::exception& e)
 	{
-		throw std::invalid_argument("Argument is not correct\n");
+		throw std::invalid_argument(e.what());
 	}
+	m_protocol = protocol;
 	m_port = 0;
 }
 
@@ -141,7 +142,7 @@ std::string CHttpUrl::GetURL() const
 		url.append("http://");
 	}
 
-	//url.append(m_protocol.value)
+	// url.append(m_protocol.value)
 
 	if (m_protocol == Protocol::HTTPS)
 	{

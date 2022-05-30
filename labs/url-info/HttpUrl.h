@@ -11,23 +11,11 @@ enum class Protocol
 	HTTP,
 	HTTPS
 };
-//возможно это приватные поля
-Protocol ParseProtocol(std::string& url);
-std::string ParseDocument(std::string& url);
-unsigned short ParsePort(std::string& url);
-std::string CheckDomain(const std::string& url);
-std::string CheckDocument(const std::string& document);
 
 class CHttpUrl
 {
 public:
 	CHttpUrl(std::string const& url);
-
-	/* инициализирует URL на основе переданных параметров.
-		При недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		Если имя документа не начинается с символа /, то добавляет / к имени документа
-	*/
 	CHttpUrl(
 		std::string const& domain,
 		std::string const& document,

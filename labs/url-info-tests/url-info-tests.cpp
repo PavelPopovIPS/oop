@@ -281,6 +281,7 @@ SCENARIO("Define domain")
 			try
 			{
 				CHttpUrl httpUrl("http://:50/document/index.html");
+				REQUIRE(FALSE);
 			}
 			catch (CUrlParsingError& e)
 			{
@@ -297,6 +298,7 @@ SCENARIO("Define domain")
 			try
 			{
 				CHttpUrl httpUrl("http://www.ispring>ru");
+				REQUIRE(FALSE);
 			}
 			catch (CUrlParsingError& e)
 			{
@@ -309,9 +311,155 @@ SCENARIO("Define domain")
 // CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol)
 SCENARIO("Construct object by args")
 {
-	WHEN("there are correct domain, document and port")
+	WHEN("there are correct domain, document and protocol")
 	{
-		// TODO
+		std::string domain = "ispring.ru";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTP;
+		CHttpUrl httpUrl(domain, document, protocol);
+
+		THEN("url should be http://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("domain contain specific symbols")
+	{
+		std::string domain = "ispring:ru";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTP;
+
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl(domain, document, protocol);
+				REQUIRE(FALSE);
+			}
+			catch (std::invalid_argument& e)
+			{
+				std::string expectedResult = "Domain contains incorrect symbols\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("domain is empty")
+	{
+		std::string domain = "";
+		std::string document = "/document/index.html";
+		Protocol protocol = Protocol::HTTP;
+
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl(domain, document, protocol);
+				REQUIRE(FALSE);
+			}
+			catch (std::invalid_argument& e)
+			{
+				std::string expectedResult = "Domain can not be empty\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("document is empty")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "";
+		Protocol protocol = Protocol::HTTP;
+		CHttpUrl httpUrl(domain, document, protocol);
+
+		THEN("url should be http://ispring.ru/")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru/";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("document degin without /")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "document/index.html";
+		Protocol protocol = Protocol::HTTP;
+		CHttpUrl httpUrl(domain, document, protocol);
+
+		THEN("url should be http://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("document contains specific symbol")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "/documen:t/index.html";
+		Protocol protocol = Protocol::HTTP;
+
+		THEN("should be error")
+		{
+			try
+			{
+				CHttpUrl httpUrl(domain, document, protocol);
+				REQUIRE(FALSE);
+			}
+			catch (std::invalid_argument& e)
+			{
+				std::string expectedResult = "Document contains incorrect symbols\n";
+				REQUIRE(e.what() == expectedResult);
+			}
+		}
+	}
+
+	WHEN("protocol https")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "document/index.html";
+		Protocol protocol = Protocol::HTTPS;
+		CHttpUrl httpUrl(domain, document, protocol);
+
+		THEN("url should be https://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "https://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("port should be 443")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 443;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("default protocol is http")
+	{
+		std::string domain = "ispring.ru";
+		std::string document = "document/index.html";
+		CHttpUrl httpUrl(domain, document);
+
+		THEN("url should be http://ispring.ru/document/index.html")
+		{
+			std::string result = httpUrl.GetURL();
+			std::string expectedResult = "http://ispring.ru/document/index.html";
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("port should be 80")
+		{
+			unsigned short result = httpUrl.GetPort();
+			unsigned short expectedResult = 80;
+			REQUIRE(result == expectedResult);
+		}
 	}
 }
 
