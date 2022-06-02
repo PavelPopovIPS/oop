@@ -47,7 +47,7 @@ unsigned short GetStandartPort(const Protocol& protocol)
 	return 80;
 }
 
-unsigned short ParsePort(std::string& url)
+unsigned short ParsePort(std::string& url, const Protocol& protocol)
 {
 	std::size_t found = url.find(':');
 
@@ -58,7 +58,7 @@ unsigned short ParsePort(std::string& url)
 
 		if (portStr == "")
 		{
-			return 0;
+			return GetStandartPort(protocol);
 		}
 
 		int portTmp;
@@ -79,7 +79,7 @@ unsigned short ParsePort(std::string& url)
 		return static_cast<unsigned short>(portTmp);
 	}
 
-	return 0;
+	return GetStandartPort(protocol);
 }
 
 std::string CheckDomain(const std::string& url)
@@ -125,7 +125,7 @@ CHttpUrl::CHttpUrl(std::string const& url)
 	std::string tmpUrl = url;
 	m_protocol = ParseProtocol(tmpUrl);
 	m_document = ParseDocument(tmpUrl);
-	m_port = ParsePort(tmpUrl);
+	m_port = ParsePort(tmpUrl, m_protocol);
 	m_domain = CheckDomain(tmpUrl);
 }
 
@@ -211,15 +211,5 @@ Protocol CHttpUrl::GetProtocol() const
 
 unsigned short CHttpUrl::GetPort() const
 {
-	if (m_port != 0)
-	{
-		return m_port;
-	}
-
-	if (m_protocol == Protocol::HTTPS)
-	{
-		return 443;
-	}
-
-	return 80;
+	return m_port;
 }
