@@ -21,11 +21,6 @@ public:
 		std::string const& document,
 		Protocol protocol = Protocol::HTTP);
 
-	/* инициализирует URL на основе переданных параметров.
-		При недопустимости входных параметров выбрасывает исключение
-		std::invalid_argument
-		Если имя документа не начинается с символа /, то добавляет / к имени документа
-	*/
 	CHttpUrl(
 		std::string const& domain,
 		std::string const& document,
