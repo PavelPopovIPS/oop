@@ -13,19 +13,19 @@ struct Athlete
 	size_t weight;
 };
 
-using LessFn = std::function<bool(const Athlete&, const Athlete&)>;
+// using LessFn = std::function<bool(const Athlete&, const Athlete&)>;
 
-template <typename T, typename Less>
-bool FindMax(std::vector<T> const& arr, T& maxValue, Less const& less)
+template <typename T, typename Less = std::less<T>>
+bool FindMax(std::vector<T> const& arr, T& maxValue, Less const& less = Less())
 {
-	if (arr.size() == 0)
+	if (arr.size() == 0) // empty()
 	{
 		return false;
 	}
 
 	maxValue = arr[0];
 
-	for (auto item : arr)
+	for (auto& item : arr)
 	{
 		if (less(item, maxValue))
 		{
@@ -36,7 +36,7 @@ bool FindMax(std::vector<T> const& arr, T& maxValue, Less const& less)
 	return true;
 }
 
-bool CompairAthletes(const Athlete& a1, const Athlete& a2)
+bool CompareAthletes(const Athlete& a1, const Athlete& a2)
 {
 	if (a1.name < a2.name)
 	{
@@ -67,6 +67,12 @@ int main()
 
 	Athlete maxAthlete;
 
-	std::cout << FindMax<Athlete, LessFn>(athletes, maxAthlete, CompairAthletes) << std::endl;
+	std::cout << FindMax(athletes, maxAthlete, CompareAthletes) << std::endl;
 	std::cout << maxAthlete.name;
+
+	std::vector<int> numbers;
+	int number;
+	if (FindMax(numbers, number, std::greater<int>()))
+	{
+	}
 }
