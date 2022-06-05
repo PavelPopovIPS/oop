@@ -11,68 +11,73 @@ struct Athlete
 	std::string name;
 	size_t tall;
 	size_t weight;
-};
 
-// using LessFn = std::function<bool(const Athlete&, const Athlete&)>;
+	bool operator<(const Athlete& athlete) const
+	{
+		return std::tie(name, tall, weight) < std::tie(athlete.name, athlete.tall, athlete.weight);
+	}
+};
 
 template <typename T, typename Less = std::less<T>>
 bool FindMax(std::vector<T> const& arr, T& maxValue, Less const& less = Less())
 {
-	if (arr.size() == 0) // empty()
+	if (arr.empty())
 	{
 		return false;
 	}
 
-	maxValue = arr[0];
+	auto pmaxValue = &arr[0];
 
 	for (auto& item : arr)
 	{
-		if (less(item, maxValue))
+		if (less(*pmaxValue, item))
 		{
-			maxValue = item;
+			pmaxValue = &item;
 		}
 	}
 
+	maxValue = *pmaxValue;
 	return true;
 }
 
-bool CompareAthletes(const Athlete& a1, const Athlete& a2)
+bool CompairAthletes(const Athlete& a1, const Athlete& a2)
 {
-	if (a1.name < a2.name)
-	{
-		return true;
-	}
+	return (a1 < a2);
+}
 
-	if (a1.tall < a2.tall)
-	{
-		return true;
-	}
+bool CompareTall(const Athlete& a1, const Athlete& a2)
+{
+	return (a1.tall < a2.tall);
+}
 
-	if (a1.weight < a2.weight)
-	{
-		return true;
-	}
-
-	return false;
+bool CompareWeight(const Athlete& a1, const Athlete& a2)
+{
+	return (a1.weight < a2.weight);
 }
 
 int main()
 {
 	std::vector<Athlete> athletes = {
 		{ "Ivan", 180, 80 },
-		{ "Peter", 161, 50 },
+		{ "Elly", 161, 50 },
 		{ "Paul", 170, 100 },
-		{ "John", 175, 75 },
+		{ "John", 195, 75 },
 	};
 
 	Athlete maxAthlete;
 
-	std::cout << FindMax(athletes, maxAthlete, CompareAthletes) << std::endl;
-	std::cout << maxAthlete.name;
+	FindMax(athletes, maxAthlete, CompareTall);
+	std::cout << "The highest athlete is " << maxAthlete.name << std::endl;
+	std::cout << "Tall is " << maxAthlete.tall << std::endl;
+	std::cout << std::endl;
 
-	std::vector<int> numbers;
-	int number;
-	if (FindMax(numbers, number, std::greater<int>()))
-	{
-	}
+	FindMax(athletes, maxAthlete, CompareWeight);
+	std::cout << "The heaviest athlete is " << maxAthlete.name << std::endl;
+	std::cout << "Weight is " << maxAthlete.weight << std::endl;
+
+	// std::vector<int> numbers = { 1, 2, 3 };
+	// int number;
+
+	// FindMax(numbers, number);
+	// std::cout << number << std::endl;
 }
