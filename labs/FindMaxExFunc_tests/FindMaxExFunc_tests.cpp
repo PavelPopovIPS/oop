@@ -24,9 +24,24 @@ TEST_CASE("Find max athlete by tall")
 	};
 
 	Athlete maxAthlete;
-
 	FindMax(athletes, maxAthlete, CompareTall);
 	Athlete expectedResult = { "John", 195, 75 };
+
+	REQUIRE(maxAthlete == expectedResult);
+}
+
+TEST_CASE("Find max athlete by weight")
+{
+	std::vector<Athlete> athletes = {
+		{ "Ivan", 180, 80 },
+		{ "Elly", 161, 50 },
+		{ "Paul", 170, 100 },
+		{ "John", 195, 75 },
+	};
+
+	Athlete maxAthlete;
+	FindMax(athletes, maxAthlete, CompareWeight);
+	Athlete expectedResult = { "Paul", 170, 100 };
 
 	REQUIRE(maxAthlete == expectedResult);
 }
