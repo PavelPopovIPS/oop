@@ -23,10 +23,4 @@ int main()
 	FindMax(athletes, maxAthlete, CompareWeight);
 	std::cout << "The heaviest athlete is " << maxAthlete.name << std::endl;
 	std::cout << "Weight is " << maxAthlete.weight << std::endl;
-
-	// std::vector<int> numbers = { 1, 2, 3 };
-	// int number;
-
-	// FindMax(numbers, number);
-	// std::cout << number << std::endl;
 }

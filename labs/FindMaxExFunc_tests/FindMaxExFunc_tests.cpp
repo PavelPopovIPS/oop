@@ -45,3 +45,80 @@ TEST_CASE("Find max athlete by weight")
 
 	REQUIRE(maxAthlete == expectedResult);
 }
+
+TEST_CASE("Search does not work in empty array")
+{
+	std::vector<Athlete> athletes;
+	Athlete maxAthlete;
+	bool result = FindMax(athletes, maxAthlete, CompareWeight);
+	bool expectedResult = FALSE;
+
+	REQUIRE(result == expectedResult);
+}
+
+TEST_CASE("Search athlete in array with one item")
+{
+	std::vector<Athlete> athletes = {
+		{ "Ivan", 180, 80 },
+	};
+
+	Athlete maxAthlete;
+	FindMax(athletes, maxAthlete, CompareWeight);
+
+	THEN("it should be the only one")
+	{
+		Athlete expectedResult = { "Ivan", 180, 80 };
+
+		REQUIRE(maxAthlete == expectedResult);
+	}
+}
+
+TEST_CASE("Search among athletes of the same tall")
+{
+	std::vector<Athlete> athletes = {
+		{ "Ivan0", 180, 80 },
+		{ "Ivan1", 180, 81 },
+		{ "Ivan2", 180, 82 },
+		{ "Ivan3", 180, 83 },
+	};
+
+	Athlete maxAthlete;
+	FindMax(athletes, maxAthlete, CompareTall);
+	THEN("it should be first athlete with max tall")
+	{
+		Athlete expectedResult = { "Ivan0", 180, 80 };
+
+		REQUIRE(maxAthlete == expectedResult);
+	}
+}
+
+TEST_CASE("Search among athletes of the same weight")
+{
+	std::vector<Athlete> athletes = {
+		{ "Ivan0", 180, 80 },
+		{ "Ivan1", 180, 80 },
+		{ "Ivan2", 180, 80 },
+		{ "Ivan3", 180, 80 },
+	};
+
+	Athlete maxAthlete;
+	FindMax(athletes, maxAthlete, CompareWeight);
+
+	THEN("it should be first athlete with max weight")
+	{
+		Athlete expectedResult = { "Ivan0", 180, 80 };
+
+		REQUIRE(maxAthlete == expectedResult);
+	}
+}
+
+TEST_CASE("Search work with numbers by default")
+{
+	std::vector<int> numbers = { 1, 2, 3 };
+
+	int number;
+	FindMax(numbers, number);
+	int expectedResult = 3;
+
+	REQUIRE(number == expectedResult);
+}
