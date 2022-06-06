@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "task1-3", "task1-3", "{6655
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMaxExFunc", "FindMaxExFunc\FindMaxExFunc.vcxproj", "{3C41EFE9-B67D-4E05-B996-8BA1AF1CBB80}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FindMaxExFunc_tests", "FindMaxExFunc_tests\FindMaxExFunc_tests.vcxproj", "{C61C84A7-8430-4029-8E1A-C8BBD7C37803}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -131,6 +133,14 @@ Global
 		{3C41EFE9-B67D-4E05-B996-8BA1AF1CBB80}.Release|x64.Build.0 = Release|x64
 		{3C41EFE9-B67D-4E05-B996-8BA1AF1CBB80}.Release|x86.ActiveCfg = Release|Win32
 		{3C41EFE9-B67D-4E05-B996-8BA1AF1CBB80}.Release|x86.Build.0 = Release|Win32
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Debug|x64.ActiveCfg = Debug|x64
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Debug|x64.Build.0 = Debug|x64
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Debug|x86.ActiveCfg = Debug|Win32
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Debug|x86.Build.0 = Debug|Win32
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Release|x64.ActiveCfg = Release|x64
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Release|x64.Build.0 = Release|x64
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Release|x86.ActiveCfg = Release|Win32
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +161,7 @@ Global
 		{B4355A80-7540-4FA7-A75B-6C668D5650C9} = {B8ED4EC9-7414-438F-8794-541C22AECC43}
 		{6655622F-FED4-4D35-83EC-F1F0BF38A195} = {EBAD51DD-5CAD-43ED-AD8C-034E7367D39B}
 		{3C41EFE9-B67D-4E05-B996-8BA1AF1CBB80} = {6655622F-FED4-4D35-83EC-F1F0BF38A195}
+		{C61C84A7-8430-4029-8E1A-C8BBD7C37803} = {6655622F-FED4-4D35-83EC-F1F0BF38A195}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3EC57E93-BCAE-4F5F-B02B-24AEDC807B5B}
