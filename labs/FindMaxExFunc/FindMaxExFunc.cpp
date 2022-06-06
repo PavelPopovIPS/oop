@@ -1,6 +1,7 @@
 // FindMaxExFunc.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "Athlete.h"
 #include "FindMaxEx.h"
 
 int main()

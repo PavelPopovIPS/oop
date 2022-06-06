@@ -139,11 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Athlete.cpp" />
     <ClCompile Include="FindMaxEx.cpp" />
     <ClCompile Include="FindMaxExFunc.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Athlete.h" />
     <ClInclude Include="FindMaxEx.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
