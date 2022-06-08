@@ -11,5 +11,9 @@ int main()
 	list.Push_front(1);
 	list.Push_front(5);
 
+	CMyList<int> list2 = list;
+	list2.Push_front(4);
+
 	std::cout << list;
+	std::cout << list2;
 }

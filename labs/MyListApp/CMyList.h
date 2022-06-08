@@ -19,6 +19,9 @@ template <class T>
 class CMyList
 {
 public:
+	CMyList() = default;
+	CMyList(CMyList const& other) = default;
+
 	bool Push_front(const T& elem)
 	{
 		std::shared_ptr<Node<T>> node = std::make_shared<Node<T>>(elem);
@@ -47,6 +50,11 @@ public:
 	std::shared_ptr<Node<T>> Begin() const
 	{
 		return m_pHead;
+	}
+
+	CMyList<T> const operator=(const CMyList<T>& list) const
+	{
+		return *this;
 	}
 
 private:
