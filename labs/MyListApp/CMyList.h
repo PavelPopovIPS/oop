@@ -76,8 +76,8 @@ std::ostream& operator<<(std::ostream& stream, CMyList<T> const& list)
 	while (it)
 	{
 		stream << it->m_elem;
-		it = it->next;
 		stream << std::endl;
+		it = it->next;
 	}
 
 	return stream;
