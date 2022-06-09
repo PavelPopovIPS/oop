@@ -195,6 +195,29 @@ public:
 		return true;
 	}
 
+	bool Erase(BaseIterator<T>& it)
+	{
+		std::shared_ptr<Node<T>> curNode = it.GetNode();
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			auto prevNode = curNode->prev;
+			auto nextNode = curNode->next;
+
+			prevNode->next = nextNode;
+			nextNode->prev = prevNode;
+
+			curNode->next = nullptr;
+			curNode->prev = nullptr;
+		}
+		// TODO не работает с  пограничными знаениями
+		--m_count;
+		return true;
+	}
+
 	CMyList<T> const operator=(const CMyList<T>& list) const
 	{
 		return *this;

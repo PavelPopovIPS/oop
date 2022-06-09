@@ -47,4 +47,9 @@ int main()
 	itstr.Next();
 	strList.Insert(itstr, "xyz");
 	std::cout << strList;
+	std::cout << std::endl
+			  << std::endl;
+
+	strList.Erase(itstr);
+	std::cout << strList;
 }
