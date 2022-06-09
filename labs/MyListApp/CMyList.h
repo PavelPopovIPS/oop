@@ -15,6 +15,43 @@ struct Node
 	std::shared_ptr<Node<T>> prev = nullptr;
 };
 
+template <typename T>
+struct Iterator
+{
+	Iterator(std::shared_ptr<Node<T>> node)
+		: m_pNode(node)
+	{
+	}
+
+	bool Next()
+	{
+		if (!hasNext())
+		{
+			return false;
+		}
+
+		m_pNode = m_pNode->next;
+		return true;
+	}
+
+	bool hasNext() const
+	{
+		if (m_pNode->next == nullptr)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	std::shared_ptr<Node<T>> GetNode() const
+	{
+		return m_pNode;
+	}
+
+private:
+	std::shared_ptr<Node<T>> m_pNode = nullptr;
+};
+
 template <class T>
 class CMyList
 {
@@ -42,14 +79,41 @@ public:
 		return true;
 	}
 
+	bool Push_back(const T& elem)
+	{
+		std::shared_ptr<Node<T>> node = std::make_shared<Node<T>>(elem);
+
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			m_pHead = node;
+			m_pTail = node;
+		}
+		else
+		{
+			m_pTail->next = node;
+			node->prev = m_pTail;
+			m_pTail = node;
+		}
+
+		++m_count;
+		return true;
+	}
+
+	Iterator<T> Begin() const
+	{
+		Iterator<T> it(m_pHead);
+		return it;
+	}
+
+	Iterator<T> End() const
+	{
+		Iterator<T> it(m_pTail);
+		return it;
+	}
+
 	size_t Size() const
 	{
 		return m_count;
-	}
-
-	std::shared_ptr<Node<T>> Begin() const
-	{
-		return m_pHead;
 	}
 
 	CMyList<T> const operator=(const CMyList<T>& list) const
@@ -66,19 +130,19 @@ private:
 template <class T>
 std::ostream& operator<<(std::ostream& stream, CMyList<T> const& list)
 {
-	auto it = list.Begin();
-
-	if (it == nullptr)
+	Iterator<T> it = list.Begin();
+	if (it.GetNode() == nullptr)
 	{
 		return stream;
 	}
 
-	while (it)
+	while (it.hasNext())
 	{
-		stream << it->m_elem;
+		stream << it.GetNode()->m_elem;
 		stream << std::endl;
-		it = it->next;
+		it.Next();
 	}
+	stream << it.GetNode()->m_elem;
 
 	return stream;
 }
