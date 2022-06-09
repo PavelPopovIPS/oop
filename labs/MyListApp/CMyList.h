@@ -52,6 +52,43 @@ private:
 	std::shared_ptr<Node<T>> m_pNode = nullptr;
 };
 
+template <typename T>
+struct RIterator
+{
+	RIterator(std::shared_ptr<Node<T>> node)
+		: m_pNode(node)
+	{
+	}
+
+	bool Prev()
+	{
+		if (!hasPrev())
+		{
+			return false;
+		}
+
+		m_pNode = m_pNode->prev;
+		return true;
+	}
+
+	bool hasPrev() const
+	{
+		if (m_pNode->prev == nullptr)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	std::shared_ptr<Node<T>> GetNode() const
+	{
+		return m_pNode;
+	}
+
+private:
+	std::shared_ptr<Node<T>> m_pNode = nullptr;
+};
+
 template <class T>
 class CMyList
 {
@@ -108,6 +145,18 @@ public:
 	Iterator<T> End() const
 	{
 		Iterator<T> it(m_pTail);
+		return it;
+	}
+
+	RIterator<T> RBegin() const
+	{
+		RIterator<T> it(m_pTail);
+		return it;
+	}
+
+	Iterator<T> REnd() const
+	{
+		Iterator<T> it(m_pHead);
 		return it;
 	}
 

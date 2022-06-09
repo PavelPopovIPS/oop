@@ -4,6 +4,7 @@
 #include "CMyList.h"
 #include <iostream>
 #include <sstream>
+#include <string>
 
 int main()
 {
@@ -17,9 +18,8 @@ int main()
 	std::cout << std::endl
 			  << std::endl;
 
-	auto it = list.Begin();
-	std::cout << it.GetNode()->m_elem;
-	it.Next();
-	std::cout << it.GetNode()->m_elem;
-	std::cout << list.End().GetNode()->m_elem;
+	CMyList<const char*> strList;
+	strList.Push_front("ab");
+	strList.Push_back("cd");
+	std::cout << strList;
 }
