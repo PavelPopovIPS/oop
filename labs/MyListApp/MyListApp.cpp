@@ -37,11 +37,13 @@ int main()
 	CMyList<const char*> strList;
 	strList.Push_front("ab");
 	strList.Push_back("cd");
+	strList.Push_back("ef");
 	std::cout << strList;
 	std::cout << std::endl
 			  << std::endl;
 
 	auto itstr = strList.Begin();
+	itstr.Next();
 	itstr.Next();
 	strList.Insert(itstr, "xyz");
 	std::cout << strList;

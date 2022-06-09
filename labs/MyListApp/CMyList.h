@@ -190,7 +190,7 @@ public:
 			curNode->prev = newNode;
 			prevNode->next = newNode;
 		}
-
+		// TODO не работает с  пограничными знаениями
 		++m_count;
 		return true;
 	}
