@@ -16,7 +16,14 @@ struct Node
 };
 
 template <typename T>
-struct Iterator
+struct BaseIterator
+{
+	~BaseIterator() = default;
+	virtual std::shared_ptr<Node<T>> GetNode() const = 0;
+};
+
+template <typename T>
+struct Iterator : public BaseIterator<T>
 {
 	Iterator(std::shared_ptr<Node<T>> node)
 		: m_pNode(node)
@@ -43,7 +50,7 @@ struct Iterator
 		return true;
 	}
 
-	std::shared_ptr<Node<T>> GetNode() const
+	std::shared_ptr<Node<T>> GetNode() const override
 	{
 		return m_pNode;
 	}
@@ -53,7 +60,7 @@ private:
 };
 
 template <typename T>
-struct RIterator
+struct RIterator : public BaseIterator<T>
 {
 	RIterator(std::shared_ptr<Node<T>> node)
 		: m_pNode(node)
@@ -80,7 +87,7 @@ struct RIterator
 		return true;
 	}
 
-	std::shared_ptr<Node<T>> GetNode() const
+	std::shared_ptr<Node<T>> GetNode() const override
 	{
 		return m_pNode;
 	}
