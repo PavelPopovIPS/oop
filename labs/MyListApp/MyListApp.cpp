@@ -38,4 +38,11 @@ int main()
 	strList.Push_front("ab");
 	strList.Push_back("cd");
 	std::cout << strList;
+	std::cout << std::endl
+			  << std::endl;
+
+	auto itstr = strList.Begin();
+	itstr.Next();
+	strList.Insert(itstr, "xyz");
+	std::cout << strList;
 }

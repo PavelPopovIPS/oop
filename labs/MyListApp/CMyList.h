@@ -172,6 +172,29 @@ public:
 		return m_count;
 	}
 
+	bool Insert(BaseIterator<T>& it, const T& elem)
+	{
+		std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(elem);
+		std::shared_ptr<Node<T>> curNode = it.GetNode();
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			m_pHead = newNode;
+			m_pTail = newNode;
+		}
+		else
+		{
+			auto prevNode = curNode->prev;
+
+			newNode->prev = prevNode;
+			newNode->next = curNode;
+			curNode->prev = newNode;
+			prevNode->next = newNode;
+		}
+
+		++m_count;
+		return true;
+	}
+
 	CMyList<T> const operator=(const CMyList<T>& list) const
 	{
 		return *this;
