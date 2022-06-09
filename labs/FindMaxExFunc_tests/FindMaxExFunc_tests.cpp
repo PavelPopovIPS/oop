@@ -6,6 +6,7 @@
 #include "../FindMaxExFunc/Athlete.h"
 #include "../FindMaxExFunc/FindMaxEx.h"
 
+/*
 bool operator==(const Athlete& a1, const Athlete& a2)
 {
 	bool isName = a1.name == a2.name;
@@ -13,6 +14,7 @@ bool operator==(const Athlete& a1, const Athlete& a2)
 	bool isWeight = a1.weight == a2.weight;
 	return (isName && isTall && isWeight);
 }
+*/
 
 TEST_CASE("Find max athlete by tall")
 {

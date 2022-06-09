@@ -18,9 +18,6 @@
     <ClCompile Include="FindMaxExFunc_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\FindMaxExFunc\FindMaxEx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\FindMaxExFunc\Athlete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

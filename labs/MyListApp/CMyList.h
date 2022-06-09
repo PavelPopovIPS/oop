@@ -5,20 +5,47 @@
 template <typename T>
 struct Node
 {
+	Node(T&& elem)
+		: m_elem(std::move(elem))
+	{
+	}
 	Node(const T& elem)
 		: m_elem(elem)
 	{
 	}
 
+	// использовать обычные указател
 	T m_elem;
 	std::shared_ptr<Node<T>> next = nullptr;
 	std::shared_ptr<Node<T>> prev = nullptr;
 };
 
 template <typename T>
+class ListConstIterator
+{
+public:
+	using iterator_category = std::bidirectional_iterator_tag;
+
+	const T& operator*() const; //
+
+protected:
+	Node* m_node;
+};
+
+template <typename T>
+class ListIterator : public ListConstIterator
+{
+};
+
+// для rbegin нужно оборачивать в почитать.double linked list with iterators
+// revers increment adapter/ std::revers iterator - make revers iterator
+// должен быть один итератор
+//
+template <typename T>
 struct BaseIterator
 {
 	~BaseIterator() = default;
+	//
 	virtual std::shared_ptr<Node<T>> GetNode() const = 0;
 };
 
