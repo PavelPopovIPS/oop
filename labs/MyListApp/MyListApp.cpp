@@ -11,13 +11,13 @@ int main()
 {
 	CMyList<int> list;
 	list.push_front(5);
+	list.push_front(3);
 	auto it = list.begin();
-	auto x = *it;
-	auto x2 = *it;
 
-	std::cout << "Main x is " << x << std::endl;
-	std::cout << "Main x2 is " << x2 << std::endl;
 	std::cout << "Main *it is " << *it << std::endl;
+	++it;
+	std::cout << "Main *it is " << *it << std::endl;
+	std::cout << "size " << list.size() << std::endl;
 
 	// std::list<int> stdlist;
 	// stdlist.push_front(1);

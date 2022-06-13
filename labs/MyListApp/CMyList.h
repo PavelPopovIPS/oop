@@ -66,6 +66,12 @@ public:
 			return m_pNode->m_elem;
 		}
 
+		Iterator<T>& operator++()
+		{
+			m_pNode = m_pNode->next;
+			return *this;
+		}
+
 	private:
 		Node<T>* m_pNode = nullptr;
 	};
@@ -74,20 +80,18 @@ public:
 	{
 		Node<T>* node = new Node<T>(elem);
 
+		if (m_pHead != nullptr)
+		{
+			m_pHead->prev = node;
+			node->next = m_pHead;
+			m_pHead = node;
+		}
+
 		if (m_pHead == nullptr && m_pTail == nullptr)
 		{
 			m_pHead = node;
 			m_pTail = node;
-
-			// std::cout << "push_front Heat ref to " << m_pHead->m_elem << std::endl;
-			// std::cout << "push_front Tail ref to " << m_pTail->m_elem << std::endl;
 		}
-		// else
-		//{
-		//	m_pHead->prev = &node;
-		//	node.next = m_pHead;
-		//	m_pHead = &node;
-		// }
 
 		++m_count;
 		return true;
@@ -99,7 +103,7 @@ public:
 		return it;
 	}
 
-	size_t Size() const
+	size_t size() const
 	{
 		return m_count;
 	}
