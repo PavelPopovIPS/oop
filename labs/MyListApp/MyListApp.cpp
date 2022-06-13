@@ -13,19 +13,16 @@ int main()
 	list.push_front(3);
 	list.push_back(5);
 	list.push_back(7);
+	list.push_back(10);
+
 	auto it = list.begin();
-	auto it2 = list.end();
-
-	std::cout << "Main *it is " << *it << std::endl;
-	std::cout << "Main *it2 is " << *it2 << std::endl;
-	--it2;
-	std::cout << "Main *it2 is " << *it2 << std::endl;
+	++it;
+	++it;
+	list.insert(it, 4);
+	for (it = list.begin(); it != list.end(); ++it)
+	{
+		std::cout << "Main *it2 is " << *it << std::endl;
+	}
+	std::cout << "Main *it2 is " << *it << std::endl;
 	std::cout << "size " << list.size() << std::endl;
-
-	// std::list<int> stdlist;
-	// stdlist.push_front(1);
-	// stdlist.push_front(2);
-	// auto stdit = stdlist.begin();
-	// stdit++;
-	// std::cout << *stdit;
 }

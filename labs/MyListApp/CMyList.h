@@ -37,8 +37,20 @@ public:
 		}
 	}
 
+	template <typename T>
+	class ListConstIterator
+	{
+	public:
+		// так стандартные библиотеки смогут работать с итераторами
+		using iterator_category = std::bidirectional_iterator_tag;
+
+		// const T& operator*() const;
+
+	protected:
+	};
+
 	template <class T>
-	class Iterator
+	class Iterator : public ListConstIterator<T>
 	{
 	public:
 		Iterator(Node<T>* node)
@@ -48,11 +60,10 @@ public:
 
 		Iterator(const Iterator<T>&) = default;
 
-		// Iterator(Iterator<T>&& other)
-		//	: m_pNode(other.m_pNode)
-		//{
-		//	other.m_pNode = nullptr;
-		// }
+		Node<T>* GetNode() const
+		{
+			return m_pNode;
+		}
 
 		T& operator*() const
 		{
@@ -69,6 +80,11 @@ public:
 		{
 			m_pNode = m_pNode->prev;
 			return *this;
+		}
+
+		bool operator!=(const Iterator<T>& iterator) const
+		{
+			return m_pNode != iterator.m_pNode;
 		}
 
 	private:
@@ -131,6 +147,31 @@ public:
 	size_t size() const
 	{
 		return m_count;
+	}
+
+	bool insert(Iterator<T>& it, const T& elem)
+	{
+		Node<T>* newNode = new Node<T>(elem);
+		Node<T>* curNode = it.GetNode();
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			m_pHead = newNode;
+			m_pTail = newNode;
+		}
+		else
+		{
+			auto prevNode = curNode->prev;
+
+			newNode->prev = prevNode;
+			newNode->next = curNode;
+			curNode->prev = newNode;
+			prevNode->next = newNode;
+		}
+
+		// TODO не работает с  пограничными знаениями
+
+		++m_count;
+		return true;
 	}
 
 	CMyList<T> const operator=(const CMyList<T>& list) const
