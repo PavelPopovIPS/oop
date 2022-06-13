@@ -17,7 +17,7 @@ int main()
 
 	std::cout << "Main x is " << x << std::endl;
 	std::cout << "Main x2 is " << x2 << std::endl;
-	// std::cout << "Main *it is " << *it << std::endl;
+	std::cout << "Main *it is " << *it << std::endl;
 
 	// std::list<int> stdlist;
 	// stdlist.push_front(1);
