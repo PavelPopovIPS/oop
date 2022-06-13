@@ -48,11 +48,11 @@ public:
 
 		Iterator(const Iterator<T>&) = default;
 
-		Iterator(Iterator<T>&& other)
-			: m_pNode(other.m_pNode)
-		{
-			other.m_pNode = nullptr;
-		}
+		// Iterator(Iterator<T>&& other)
+		//	: m_pNode(other.m_pNode)
+		//{
+		//	other.m_pNode = nullptr;
+		// }
 
 		T& operator*() const
 		{
@@ -62,6 +62,12 @@ public:
 		Iterator<T>& operator++()
 		{
 			m_pNode = m_pNode->next;
+			return *this;
+		}
+
+		Iterator<T>& operator--()
+		{
+			m_pNode = m_pNode->prev;
 			return *this;
 		}
 
@@ -89,6 +95,7 @@ public:
 		++m_count;
 		return true;
 	}
+
 	bool push_back(const T& elem)
 	{
 		Node<T>* node = new Node<T>(elem);

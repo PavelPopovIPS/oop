@@ -18,6 +18,8 @@ int main()
 
 	std::cout << "Main *it is " << *it << std::endl;
 	std::cout << "Main *it2 is " << *it2 << std::endl;
+	--it2;
+	std::cout << "Main *it2 is " << *it2 << std::endl;
 	std::cout << "size " << list.size() << std::endl;
 
 	// std::list<int> stdlist;
