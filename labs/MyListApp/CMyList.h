@@ -29,35 +29,48 @@ public:
 	CMyList() = default;
 	CMyList(CMyList const& other) = default;
 
+	template <class T>
 	class Iterator
 	{
 	public:
 		Iterator(Node<T>* node)
 			: m_pNode(node)
 		{
+			std::cout << "Iterator(Node<T>* node)\n ";
 		}
 
-		Iterator(const Iterator& other) = default;
+		Iterator(const Iterator<T>&) = default;
 
-		Iterator(Iterator&& other)
+		Iterator<T>(Iterator<T>&& other)
 			: m_pNode(other.m_pNode)
 		{
+			std::cout << "Iterator<T>(Iterator<T>&& other)\n";
 			other.m_pNode = nullptr;
-		};
+		}
 
-		T getValue() const
+		Iterator<T>& operator=(Iterator<T>&&)
+		{
+			std::cout << "Iterator<T> & operator=(Iterator<T>&&)\n ";
+			return *this;
+		}
+
+		~Iterator<T>()
+		{
+			std::cout << "~Iterator<T>() \n ";
+		}
+
+		void update(Node<T>* node)
+		{
+			m_pNode = node;
+		}
+
+		const T& operator*() const
 		{
 			return m_pNode->m_elem;
 		}
-
-		T& operator*() const
-		{
-			return m_pNode->m_elem;
-		}
-
-		Node<T>* m_pNode = nullptr;
 
 	private:
+		Node<T>* m_pNode = nullptr;
 	};
 
 	bool push_front(const T& elem)
@@ -67,10 +80,11 @@ public:
 		if (m_pHead == nullptr && m_pTail == nullptr)
 		{
 			m_pHead = &node;
+			// bg->update(m_pHead);
 			m_pTail = &node;
 
-			std::cout << "push_front Heat ref to " << m_pHead->m_elem << std::endl;
-			std::cout << "push_front Tail ref to " << m_pTail->m_elem << std::endl;
+			// std::cout << "push_front Heat ref to " << m_pHead->m_elem << std::endl;
+			// std::cout << "push_front Tail ref to " << m_pTail->m_elem << std::endl;
 		}
 		// else
 		//{
@@ -83,13 +97,12 @@ public:
 		return true;
 	}
 
-	CMyList::Iterator& begin() const
+	Iterator<T> begin() const
 	{
-		CMyList::Iterator* it = new CMyList::Iterator(m_pHead);
-		// CMyList::Iterator it(m_pHead);
-		//  std::cout << "get value Begin is " << it.getValue() << std::endl;
-		//  std::cout << "Begin *it is " << *it << std::endl;
-		return *it;
+		Iterator<T> it = Iterator<T>(m_pHead);
+		return it;
+		//  return *new Iterator<T>(m_pHead);
+		// return *bg;
 	}
 
 	size_t Size() const
@@ -105,6 +118,7 @@ public:
 private:
 	Node<T>* m_pHead = nullptr;
 	Node<T>* m_pTail = nullptr;
+	// Iterator<T>* bg = new Iterator<T>(m_pHead);
 	size_t m_count = 0;
 };
 //
