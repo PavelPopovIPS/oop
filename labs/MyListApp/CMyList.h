@@ -15,11 +15,6 @@ struct Node
 	{
 	}
 
-	//~Node()
-	//{
-	//	std::cout << "~Node()\n ";
-	//}
-
 	T m_elem;
 	Node<T>* next = nullptr;
 	Node<T>* prev = nullptr;
@@ -53,13 +48,11 @@ public:
 
 		Iterator(const Iterator<T>&) = default;
 
-		Iterator<T>(Iterator<T>&& other)
+		Iterator(Iterator<T>&& other)
 			: m_pNode(other.m_pNode)
 		{
 			other.m_pNode = nullptr;
 		}
-
-		~Iterator<T>() {}
 
 		T& operator*() const
 		{
@@ -96,10 +89,35 @@ public:
 		++m_count;
 		return true;
 	}
+	bool push_back(const T& elem)
+	{
+		Node<T>* node = new Node<T>(elem);
+
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			m_pHead = node;
+			m_pTail = node;
+		}
+		else
+		{
+			m_pTail->next = node;
+			node->prev = m_pTail;
+			m_pTail = node;
+		}
+
+		++m_count;
+		return true;
+	}
 
 	Iterator<T> begin() const
 	{
 		Iterator<T> it = Iterator<T>(m_pHead);
+		return it;
+	}
+
+	Iterator<T> end() const
+	{
+		Iterator<T> it = Iterator<T>(m_pTail);
 		return it;
 	}
 
