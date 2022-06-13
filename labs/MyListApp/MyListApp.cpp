@@ -3,53 +3,30 @@
 
 #include "CMyList.h"
 #include <iostream>
+#include <list>
 #include <sstream>
 #include <string>
 
 int main()
 {
 	CMyList<int> list;
-	list.Push_front(5);
-	list.Push_front(3);
-	list.Push_front(1);
-	list.Push_back(7);
-	list.Push_back(8);
-	std::cout << list;
-	std::cout << std::endl
-			  << std::endl;
+	list.push_front(5);
+	// list.push_front(3);
+	auto it = list.begin();
+	int x = *it;
+	int x2 = *it;
+	// std::cout << "Main get value1 is " << it.getValue() << std::endl;
+	// std::cout << "Main get value2 is " << it.getValue() << std::endl;
+	std::cout << "Main x is " << x << std::endl;
+	std::cout << "Main x2 is " << x2 << std::endl;
+	std::cout << "Main *it is " << (*it) << std::endl;
+	std::cout << "Main Size is " << list.Size() << std::endl;
 
-	auto it = list.Begin();
-	std::cout << it.GetNode()->m_elem;
-	it.Next();
-	std::cout << it.GetNode()->m_elem;
-	std::cout << list.End().GetNode()->m_elem;
-	std::cout << std::endl
-			  << std::endl;
-
-	auto rit = list.RBegin();
-	std::cout << rit.GetNode()->m_elem;
-	rit.Prev();
-	std::cout << rit.GetNode()->m_elem;
-	std::cout << list.REnd().GetNode()->m_elem;
-	std::cout << std::endl
-			  << std::endl;
-
-	CMyList<const char*> strList;
-	strList.Push_front("ab");
-	strList.Push_back("cd");
-	strList.Push_back("ef");
-	std::cout << strList;
-	std::cout << std::endl
-			  << std::endl;
-
-	auto itstr = strList.Begin();
-	itstr.Next();
-	itstr.Next();
-	strList.Insert(itstr, "xyz");
-	std::cout << strList;
-	std::cout << std::endl
-			  << std::endl;
-
-	strList.Erase(itstr);
-	std::cout << strList;
+	// std::list<int> stdlist;
+	// stdlist.push_front(1);
+	// stdlist.push_front(2);
+	// auto it = stdlist.begin();
+	// it++;
+	// it++;
+	// std::cout << *it;
 }
