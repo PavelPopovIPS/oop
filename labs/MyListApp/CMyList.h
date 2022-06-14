@@ -38,6 +38,7 @@ public:
 	{
 		while (m_pHead)
 		{
+			m_pTail->next = nullptr;
 			Node<T>* tmp = m_pHead;
 			m_pHead = m_pHead->next;
 			delete tmp;
@@ -114,12 +115,13 @@ public:
 
 		if (m_pHead == m_pTail)
 		{
+			newNode->next = m_pTail;
+			newNode->prev = m_pTail;
+
+			m_pTail->next = newNode;
+			m_pTail->prev = newNode;
+
 			m_pHead = newNode;
-
-			m_pHead->next = m_pTail;
-			m_pHead->prev = m_pTail;
-
-			m_pTail->prev = m_pHead;
 		}
 		else
 		{
@@ -139,12 +141,13 @@ public:
 
 		if (m_pHead == m_pTail)
 		{
+			newNode->next = m_pTail;
+			newNode->prev = m_pTail;
+
+			m_pTail->next = newNode;
+			m_pTail->prev = newNode;
+
 			m_pHead = newNode;
-
-			m_pHead->next = m_pTail;
-			m_pHead->prev = m_pTail;
-
-			m_pTail->prev = m_pHead;
 		}
 		else
 		{
@@ -183,12 +186,13 @@ public:
 		Node<T>* curNode = it.GetNode();
 		if (m_pHead == m_pTail)
 		{
+			newNode->next = m_pTail;
+			newNode->prev = m_pTail;
+
+			m_pTail->next = newNode;
+			m_pTail->prev = newNode;
+
 			m_pHead = newNode;
-
-			m_pHead->next = m_pTail;
-			m_pHead->prev = m_pTail;
-
-			m_pTail->prev = m_pHead;
 
 			++m_count;
 			return true;
