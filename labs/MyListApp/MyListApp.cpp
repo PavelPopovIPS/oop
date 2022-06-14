@@ -10,14 +10,23 @@
 int main()
 {
 	CMyList<int> list;
-	list.push_back(3);
+	list.push_back(2);
+	list.push_back(4);
 	list.push_back(5);
-	// list.push_front(5);
-	//  auto it = list.begin();
+	auto it = list.begin();
+	++it;
+	list.insert(it, 3);
 
-	for (auto it = list.begin(); it != list.end(); ++it)
+	for (it = list.begin(); it != list.end(); ++it)
 	{
 		std::cout << "Main *it is " << *it << std::endl;
 	}
 	std::cout << "size " << list.size() << std::endl;
+
+	// std::list<int> l;
+	// auto it = l.begin();
+	// l.insert(it, 2);
+	// it = l.begin();
+
+	// std::cout << "std list " << *it << std::endl;
 }

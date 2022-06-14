@@ -180,22 +180,26 @@ public:
 	bool insert(Iterator<T>& it, const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
-		if (m_pHead == nullptr && m_pTail == nullptr)
+		Node<T>* curNode = it.GetNode();
+		if (m_pHead == m_pTail)
 		{
 			m_pHead = newNode;
-			m_pTail = newNode;
-		}
-		else
-		{
-			Node<T>* curNode = it.GetNode();
 
-			auto prevNode = curNode->prev;
+			m_pHead->next = m_pTail;
+			m_pHead->prev = m_pTail;
 
-			newNode->prev = prevNode;
-			newNode->next = curNode;
-			curNode->prev = newNode;
-			prevNode->next = newNode;
+			m_pTail->prev = m_pHead;
+
+			++m_count;
+			return true;
 		}
+
+		auto prevNode = curNode->prev;
+
+		newNode->prev = curNode->prev;
+		curNode->prev = newNode;
+		newNode->next = curNode;
+		prevNode->next = newNode;
 
 		// TODO не работает с  пограничными знаениями
 
@@ -205,7 +209,7 @@ public:
 
 	bool erase(Iterator<T>& it)
 	{
-		if (m_pHead == nullptr && m_pTail == nullptr)
+		if (m_pHead == m_pTail)
 		{
 			return false;
 		}
