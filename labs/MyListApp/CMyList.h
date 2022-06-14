@@ -112,13 +112,6 @@ public:
 	{
 		Node<T>* newNode = new Node<T>(elem);
 
-		// if (m_pHead != nullptr)
-		//{
-		//	m_pHead->prev = node;
-		//	node->next = m_pHead;
-		//	m_pHead = node;
-		// }
-
 		if (m_pHead == m_pTail)
 		{
 			m_pHead = newNode;
@@ -142,18 +135,25 @@ public:
 
 	bool push_back(const T& elem)
 	{
-		Node<T>* node = new Node<T>(elem);
+		Node<T>* newNode = new Node<T>(elem);
 
-		if (m_pHead == nullptr && m_pTail == nullptr)
+		if (m_pHead == m_pTail)
 		{
-			m_pHead = node;
-			m_pTail = node;
+			m_pHead = newNode;
+
+			m_pHead->next = m_pTail;
+			m_pHead->prev = m_pTail;
+
+			m_pTail->prev = m_pHead;
 		}
 		else
 		{
-			m_pTail->next = node;
-			node->prev = m_pTail;
-			m_pTail = node;
+			Node<T>* lastNode = m_pTail->prev;
+
+			newNode->next = lastNode->next;
+			lastNode->next = newNode;
+			newNode->prev = lastNode;
+			m_pTail->prev = newNode;
 		}
 
 		++m_count;

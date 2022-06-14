@@ -10,9 +10,10 @@
 int main()
 {
 	CMyList<int> list;
-	list.push_front(3);
-	list.push_front(5);
-	// auto it = list.begin();
+	list.push_back(3);
+	list.push_back(5);
+	// list.push_front(5);
+	//  auto it = list.begin();
 
 	for (auto it = list.begin(); it != list.end(); ++it)
 	{
