@@ -5,6 +5,8 @@
 template <typename T>
 struct Node
 {
+	Node() = default;
+
 	Node(T&& elem)
 		: m_elem(std::move(elem))
 	{
@@ -24,7 +26,12 @@ template <class T>
 class CMyList
 {
 public:
-	CMyList() = default;
+	CMyList()
+		: m_pTail(new Node<T>())
+		, m_pHead(m_pTail)
+	{
+	}
+
 	CMyList(CMyList const& other) = default;
 
 	~CMyList()
@@ -45,8 +52,6 @@ public:
 		using iterator_category = std::bidirectional_iterator_tag;
 
 		// const T& operator*() const;
-
-	protected:
 	};
 
 	template <class T>
@@ -105,19 +110,30 @@ public:
 
 	bool push_front(const T& elem)
 	{
-		Node<T>* node = new Node<T>(elem);
+		Node<T>* newNode = new Node<T>(elem);
 
-		if (m_pHead != nullptr)
+		// if (m_pHead != nullptr)
+		//{
+		//	m_pHead->prev = node;
+		//	node->next = m_pHead;
+		//	m_pHead = node;
+		// }
+
+		if (m_pHead == m_pTail)
 		{
-			m_pHead->prev = node;
-			node->next = m_pHead;
-			m_pHead = node;
+			m_pHead = newNode;
+
+			m_pHead->next = m_pTail;
+			m_pHead->prev = m_pTail;
+
+			m_pTail->prev = m_pHead;
 		}
-
-		if (m_pHead == nullptr && m_pTail == nullptr)
+		else
 		{
-			m_pHead = node;
-			m_pTail = node;
+			newNode->prev = m_pHead->prev;
+			m_pHead->prev = newNode;
+			newNode->next = m_pHead;
+			m_pHead = newNode;
 		}
 
 		++m_count;
@@ -224,7 +240,7 @@ public:
 	}
 
 private:
-	Node<T>* m_pHead = nullptr;
 	Node<T>* m_pTail = nullptr;
+	Node<T>* m_pHead = nullptr;
 	size_t m_count = 0;
 };
