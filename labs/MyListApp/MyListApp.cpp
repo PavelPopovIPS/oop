@@ -16,6 +16,7 @@ int main()
 	auto it = list.begin();
 	++it;
 	list.insert(it, 3);
+	list.erase(it);
 
 	for (it = list.begin(); it != list.end(); ++it)
 	{

@@ -213,21 +213,19 @@ public:
 		{
 			return false;
 		}
-		else
-		{
-			Node<T>* curNode = it.GetNode();
 
-			Node<T>* prevNode = curNode->prev;
-			Node<T>* nextNode = curNode->next;
+		Node<T>* curNode = it.GetNode();
 
-			prevNode->next = nextNode;
-			nextNode->prev = prevNode;
+		Node<T>* prevNode = curNode->prev;
+		Node<T>* nextNode = curNode->next;
 
-			curNode->next = nullptr;
-			curNode->prev = nullptr;
+		prevNode->next = nextNode;
+		nextNode->prev = prevNode;
 
-			delete curNode;
-		}
+		curNode->next = nullptr;
+		curNode->prev = nullptr;
+
+		delete curNode;
 
 		// TODO не работает с  пограничными знаениями
 
