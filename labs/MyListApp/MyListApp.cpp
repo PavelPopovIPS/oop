@@ -17,12 +17,22 @@ int main()
 
 	auto it = list.begin();
 	++it;
-	++it;
 	list.insert(it, 4);
 	for (it = list.begin(); it != list.end(); ++it)
 	{
-		std::cout << "Main *it2 is " << *it << std::endl;
+		std::cout << "Main *it is " << *it << std::endl;
 	}
-	std::cout << "Main *it2 is " << *it << std::endl;
+	std::cout << "Main *it is " << *it << std::endl;
+	std::cout << "size " << list.size() << std::endl;
+
+	it = list.begin();
+	++it;
+	++it;
+	list.erase(it);
+	for (it = list.begin(); it != list.end(); ++it)
+	{
+		std::cout << "Main *it is " << *it << std::endl;
+	}
+	std::cout << "Main *it is " << *it << std::endl;
 	std::cout << "size " << list.size() << std::endl;
 }

@@ -65,6 +65,7 @@ public:
 		{
 			other.m_pNode = nullptr;
 		}
+
 		Node<T>* GetNode() const
 		{
 			return m_pNode;
@@ -87,7 +88,7 @@ public:
 			return *this;
 		}
 
-		Iterator<T>& operator=(Iterator<T>&& it)
+		Iterator<T>& operator=(const Iterator<T>&& it)
 		{
 			m_pNode = it.m_pNode;
 			return *this;
@@ -163,7 +164,6 @@ public:
 	bool insert(Iterator<T>& it, const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
-		Node<T>* curNode = it.GetNode();
 		if (m_pHead == nullptr && m_pTail == nullptr)
 		{
 			m_pHead = newNode;
@@ -171,6 +171,8 @@ public:
 		}
 		else
 		{
+			Node<T>* curNode = it.GetNode();
+
 			auto prevNode = curNode->prev;
 
 			newNode->prev = prevNode;
@@ -185,8 +187,39 @@ public:
 		return true;
 	}
 
-	CMyList<T> const operator=(const CMyList<T>& list) const
+	bool erase(Iterator<T>& it)
 	{
+		if (m_pHead == nullptr && m_pTail == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			Node<T>* curNode = it.GetNode();
+
+			Node<T>* prevNode = curNode->prev;
+			Node<T>* nextNode = curNode->next;
+
+			prevNode->next = nextNode;
+			nextNode->prev = prevNode;
+
+			curNode->next = nullptr;
+			curNode->prev = nullptr;
+
+			delete curNode;
+		}
+
+		// TODO не работает с  пограничными знаениями
+
+		--m_count;
+		return true;
+	}
+
+	CMyList<T>& operator=(const CMyList<T>& list)
+	{
+		m_pHead = list.m_pHead;
+		m_pTail = list.m_pTail;
+		m_count = list.m_count;
 		return *this;
 	}
 
