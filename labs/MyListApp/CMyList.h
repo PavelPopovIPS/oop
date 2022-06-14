@@ -60,6 +60,11 @@ public:
 
 		Iterator(const Iterator<T>&) = default;
 
+		Iterator(Iterator<T>&& other)
+			: m_pNode(other.m_pNode)
+		{
+			other.m_pNode = nullptr;
+		}
 		Node<T>* GetNode() const
 		{
 			return m_pNode;
@@ -82,9 +87,15 @@ public:
 			return *this;
 		}
 
-		bool operator!=(const Iterator<T>& iterator) const
+		Iterator<T>& operator=(Iterator<T>&& it)
 		{
-			return m_pNode != iterator.m_pNode;
+			m_pNode = it.m_pNode;
+			return *this;
+		}
+
+		bool operator!=(const Iterator<T>& it) const
+		{
+			return m_pNode != it.m_pNode;
 		}
 
 	private:
