@@ -122,6 +122,9 @@ public:
 			m_pTail->prev = newNode;
 
 			m_pHead = newNode;
+
+			++m_count;
+			return true;
 		}
 		else
 		{
@@ -148,6 +151,9 @@ public:
 			m_pTail->prev = newNode;
 
 			m_pHead = newNode;
+
+			++m_count;
+			return true;
 		}
 		else
 		{
