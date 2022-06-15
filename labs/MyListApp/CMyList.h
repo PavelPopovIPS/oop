@@ -115,13 +115,7 @@ public:
 
 		if (m_pHead == m_pTail)
 		{
-			newNode->next = m_pTail;
-			newNode->prev = m_pTail;
-
-			m_pTail->next = newNode;
-			m_pTail->prev = newNode;
-
-			m_pHead = newNode;
+			AddFirstNode(newNode);
 
 			++m_count;
 			return true;
@@ -144,13 +138,7 @@ public:
 
 		if (m_pHead == m_pTail)
 		{
-			newNode->next = m_pTail;
-			newNode->prev = m_pTail;
-
-			m_pTail->next = newNode;
-			m_pTail->prev = newNode;
-
-			m_pHead = newNode;
+			AddFirstNode(newNode);
 
 			++m_count;
 			return true;
@@ -204,13 +192,7 @@ public:
 		Node<T>* curNode = it.GetNode();
 		if (m_pHead == m_pTail)
 		{
-			newNode->next = m_pTail;
-			newNode->prev = m_pTail;
-
-			m_pTail->next = newNode;
-			m_pTail->prev = newNode;
-
-			m_pHead = newNode;
+			AddFirstNode(newNode);
 
 			++m_count;
 			return true;
@@ -264,6 +246,17 @@ public:
 	}
 
 private:
+	void AddFirstNode(Node<T>* newNode)
+	{
+		newNode->next = m_pTail;
+		newNode->prev = m_pTail;
+
+		m_pTail->next = newNode;
+		m_pTail->prev = newNode;
+
+		m_pHead = newNode;
+	}
+
 	Node<T>* m_pTail = nullptr;
 	Node<T>* m_pHead = nullptr;
 	size_t m_count = 0;
