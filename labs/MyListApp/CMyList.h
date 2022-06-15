@@ -120,13 +120,11 @@ public:
 			++m_count;
 			return true;
 		}
-		else
-		{
-			newNode->prev = m_pHead->prev;
-			m_pHead->prev = newNode;
-			newNode->next = m_pHead;
-			m_pHead = newNode;
-		}
+
+		newNode->prev = m_pHead->prev;
+		m_pHead->prev = newNode;
+		newNode->next = m_pHead;
+		m_pHead = newNode;
 
 		++m_count;
 		return true;
@@ -143,15 +141,13 @@ public:
 			++m_count;
 			return true;
 		}
-		else
-		{
-			Node<T>* lastNode = m_pTail->prev;
 
-			newNode->next = lastNode->next;
-			lastNode->next = newNode;
-			newNode->prev = lastNode;
-			m_pTail->prev = newNode;
-		}
+		Node<T>* lastNode = m_pTail->prev;
+
+		newNode->next = lastNode->next;
+		lastNode->next = newNode;
+		newNode->prev = lastNode;
+		m_pTail->prev = newNode;
 
 		++m_count;
 		return true;
@@ -190,6 +186,7 @@ public:
 	{
 		Node<T>* newNode = new Node<T>(elem);
 		Node<T>* curNode = it.GetNode();
+
 		if (m_pHead == m_pTail)
 		{
 			AddFirstNode(newNode);
@@ -200,12 +197,26 @@ public:
 
 		auto prevNode = curNode->prev;
 
+		if (curNode == m_pTail)
+		{
+			prevNode->next = newNode;
+			newNode->prev = prevNode;
+			newNode->next = m_pTail;
+			m_pTail->prev = newNode;
+
+			++m_count;
+			return true;
+		}
+
+		if (curNode == m_pHead)
+		{
+			m_pHead = newNode;
+		}
+
 		newNode->prev = curNode->prev;
 		curNode->prev = newNode;
 		newNode->next = curNode;
 		prevNode->next = newNode;
-
-		// TODO не работает с  пограничными знаениями
 
 		++m_count;
 		return true;
