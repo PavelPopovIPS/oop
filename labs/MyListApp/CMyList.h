@@ -181,6 +181,18 @@ public:
 		return it;
 	}
 
+	Iterator<T> rbegin() const
+	{
+		Iterator<T> it = Iterator<T>(m_pTail->prev);
+		return it;
+	}
+
+	Iterator<T> rend() const
+	{
+		Iterator<T> it = Iterator<T>(m_pHead->prev);
+		return it;
+	}
+
 	size_t size() const
 	{
 		return m_count;

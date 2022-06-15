@@ -24,6 +24,8 @@ int main()
 		std::cout << "Main *it is " << *it << std::endl;
 	}
 	std::cout << "size " << list.size() << std::endl;
+	auto it2 = list.rend();
+	std::cout << "Main *it2 is " << *it2 << std::endl;
 
 	// std::list<int> l;
 	// auto it = l.begin();
