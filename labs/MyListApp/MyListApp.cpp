@@ -3,33 +3,38 @@
 
 #include "CMyList.h"
 #include <iostream>
-#include <list>
-#include <sstream>
 #include <string>
 
 int main()
 {
-	CMyList<int> list;
-	list.push_back(2);
-	// list.push_back(3);
-	list.push_back(4);
-	list.push_back(5);
-	auto it = list.end();
+	CMyList<int> listNum;
+	listNum.push_front(2);
+	listNum.push_back(4);
+	listNum.push_back(5);
+	auto itnum = listNum.begin();
+	++itnum;
+	listNum.insert(itnum, 3);
 
-	list.insert(it, 3);
-
-	// list.erase(it);
-
-	for (it = list.begin(); it != list.end(); ++it)
+	std::cout << "List of numbers:" << std::endl;
+	for (itnum = listNum.begin(); itnum != listNum.end(); ++itnum)
 	{
-		std::cout << "Main *it is " << *it << std::endl;
+		std::cout << *itnum << std::endl;
 	}
-	std::cout << "size " << list.size() << std::endl;
+	std::cout << "Size is " << listNum.size() << std::endl;
 
-	// std::list<int> l;
-	// auto it = l.begin();
-	// l.insert(it, 2);
-	// it = l.begin();
+	std::cout << std::endl;
 
-	// std::cout << "std list " << *it << std::endl;
+	CMyList<std::string> listStr;
+	listStr.push_front("a");
+	listStr.push_back("c");
+	auto itstr = listStr.begin();
+	++itstr;
+	listStr.insert(itstr, "b");
+
+	std::cout << "List of strings:" << std::endl;
+	for (itstr = listStr.begin(); itstr != listStr.end(); ++itstr)
+	{
+		std::cout << *itstr << std::endl;
+	}
+	std::cout << "Size is " << listStr.size() << std::endl;
 }
