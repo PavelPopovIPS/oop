@@ -11,10 +11,11 @@ int main()
 {
 	CMyList<int> list;
 	list.push_back(2);
+	// list.push_back(3);
 	list.push_back(4);
 	list.push_back(5);
 	auto it = list.end();
-	//++it;
+
 	list.insert(it, 3);
 
 	// list.erase(it);

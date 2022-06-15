@@ -215,6 +215,7 @@ public:
 
 		newNode->prev = curNode->prev;
 		curNode->prev = newNode;
+
 		newNode->next = curNode;
 		prevNode->next = newNode;
 
@@ -230,16 +231,24 @@ public:
 		}
 
 		Node<T>* curNode = it.GetNode();
-
 		Node<T>* prevNode = curNode->prev;
 		Node<T>* nextNode = curNode->next;
 
-		prevNode->next = nextNode;
+		if (curNode == m_pHead)
+		{
+			m_pHead = nextNode;
+		}
+
+		if (curNode == m_pTail)
+		{
+			return false;
+		}
+
 		nextNode->prev = prevNode;
+		prevNode->next = nextNode;
 
 		curNode->next = nullptr;
 		curNode->prev = nullptr;
-
 		delete curNode;
 
 		// TODO не работает с  пограничными знаениями
