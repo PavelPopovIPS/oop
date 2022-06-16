@@ -37,6 +37,7 @@ public:
 	{
 		for (auto it = other.begin(); it != other.end(); ++it)
 		{
+			//надо копировать
 			push_back(*it);
 		}
 	}
@@ -56,11 +57,58 @@ public:
 	class ListConstIterator
 	{
 	public:
-		// так стандартные библиотеки смогут работать с итераторами
-		using iterator_category = std::bidirectional_iterator_tag;
-		// j,]zdbnm объявить недостающие заголовки https://en.cppreference.com/w/cpp/iterator/iterator_traits
+		ListConstIterator(Node<T>* node)
+			: m_pNode(node)
+		{
+		}
 
-		// const T& operator*() const;
+		using difference_type = T;
+		using value_type = T;
+		using pointer = T*;
+		using reference = T&;
+		using iterator_category = std::bidirectional_iterator_tag;
+
+		Node<T>* GetNode() const
+		{
+			return m_pNode;
+		}
+
+		const T& operator*() const
+		{
+			return m_pNode->m_elem;
+		}
+
+		const ListConstIterator<T>& operator++() const
+		{
+			m_pNode = m_pNode->next;
+			return *this;
+		}
+
+		const ListConstIterator<T>& operator++(int d) const
+		{
+			m_pNode = m_pNode->next;
+			return *this;
+		}
+
+		const ListConstIterator<T>& operator--() const
+		{
+			m_pNode = m_pNode->prev;
+			return *this;
+		}
+
+		const ListConstIterator<T>& operator--(int d) const
+		{
+			m_pNode = m_pNode->prev;
+			return *this;
+		}
+
+		bool operator!=(const ListConstIterator<T>& it) const
+		{
+			return m_pNode != it.m_pNode;
+		}
+
+	protected:
+		Node<T>* m_pNode = nullptr;
 	};
 
 	template <class T>
@@ -68,41 +116,38 @@ public:
 	{
 	public:
 		Iterator(Node<T>* node)
-			: m_pNode(node)
+			: ListConstIterator<T>(node)
 		{
-		}
-
-		Node<T>* GetNode() const
-		{
-			return m_pNode;
 		}
 
 		T& operator*() const
 		{
-			return m_pNode->m_elem;
+			return this->m_pNode->m_elem;
 		}
 
 		Iterator<T>& operator++()
 		{
-			m_pNode = m_pNode->next;
+			this->m_pNode = this->m_pNode->next;
+			return *this;
+		}
+
+		Iterator<T>& operator++(int d)
+		{
+			this->m_pNode = this->m_pNode->next;
 			return *this;
 		}
 
 		Iterator<T>& operator--()
 		{
-			m_pNode = m_pNode->prev;
+			this->m_pNode = this->m_pNode->prev;
 			return *this;
 		}
 
-		//постфиксный инкремент и инкремент int
-
-		bool operator!=(const Iterator<T>& it) const
+		Iterator<T>& operator--(int d)
 		{
-			return m_pNode != it.m_pNode;
+			this->m_pNode = this->m_pNode->prev;
+			return *this;
 		}
-
-	private:
-		Node<T>* m_pNode = nullptr;
 	};
 
 	bool push_front(const T& elem)
