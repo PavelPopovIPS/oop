@@ -14,7 +14,7 @@ SCENARIO("create list conteiner for diferent types")
 
 		THEN("added element should be 2")
 		{
-			list.push_back(2);
+			list.Push_back(2);
 			auto it = list.begin();
 			int result = *it;
 			int expectedResult = 2;
@@ -28,7 +28,7 @@ SCENARIO("create list conteiner for diferent types")
 
 		THEN("added element should be abc")
 		{
-			list.push_back("abc");
+			list.Push_back("abc");
 			auto it = list.begin();
 			std::string result = *it;
 			std::string expectedResult = "abc";
@@ -42,11 +42,11 @@ SCENARIO("add element to front of list")
 	WHEN("add element to empty list")
 	{
 		CMyList<int> list;
-		list.push_front(3);
+		list.Push_front(3);
 
 		THEN("list should have 1 element")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 1;
 			REQUIRE(result == expectedResult);
 		}
@@ -63,12 +63,12 @@ SCENARIO("add element to front of list")
 	WHEN("add element to list with 1 element")
 	{
 		CMyList<int> list;
-		list.push_front(3);
-		list.push_front(1);
+		list.Push_front(3);
+		list.Push_front(1);
 
 		THEN("list should have 2 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);
 		}
@@ -88,11 +88,11 @@ SCENARIO("add element to end of list")
 	WHEN("add element to empty list")
 	{
 		CMyList<int> list;
-		list.push_back(3);
+		list.Push_back(3);
 
 		THEN("list should have 1 element")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 1;
 			REQUIRE(result == expectedResult);
 		}
@@ -109,12 +109,12 @@ SCENARIO("add element to end of list")
 	WHEN("add element to list with 1 element")
 	{
 		CMyList<int> list;
-		list.push_back(3);
-		list.push_back(1);
+		list.Push_back(3);
+		list.Push_back(1);
 
 		THEN("list should have 2 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);
 		}
@@ -130,18 +130,18 @@ SCENARIO("add element to end of list")
 	}
 }
 
-SCENARIO("insert element to list")
+SCENARIO("Insert element to list")
 {
-	WHEN("insert element to empty list")
+	WHEN("Insert element to empty list")
 	{
 		CMyList<int> list;
 		auto it = list.begin();
 
-		list.insert(it, 5);
+		list.Insert(it, 5);
 
 		THEN("list should have 1 element")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 1;
 			REQUIRE(result == expectedResult);
 		}
@@ -155,20 +155,20 @@ SCENARIO("insert element to list")
 		}
 	}
 
-	WHEN("insert element to start position")
+	WHEN("Insert element to start position")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.begin();
 
-		list.insert(it, 5);
+		list.Insert(it, 5);
 
 		THEN("list should have 4 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 4;
 			REQUIRE(result == expectedResult);
 		}
@@ -196,20 +196,20 @@ SCENARIO("insert element to list")
 		}
 	}
 
-	WHEN("insert element to last position")
+	WHEN("Insert element to last position")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.end();
 
-		list.insert(it, 5);
+		list.Insert(it, 5);
 
 		THEN("list should have 4 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 4;
 			REQUIRE(result == expectedResult);
 		}
@@ -238,21 +238,21 @@ SCENARIO("insert element to list")
 		}
 	}
 
-	WHEN("insert element to center")
+	WHEN("Insert element to center")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.begin();
 		++it;
 
-		list.insert(it, 5);
+		list.Insert(it, 5);
 
 		THEN("list should have 4 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 4;
 			REQUIRE(result == expectedResult);
 		}
@@ -281,11 +281,11 @@ SCENARIO("erase element from list")
 		CMyList<int> list;
 		auto it = list.begin();
 
-		list.erase(it);
+		list.Erase(it);
 
 		THEN("list should be empty")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 0;
 			REQUIRE(result == expectedResult);
 		}
@@ -294,17 +294,17 @@ SCENARIO("erase element from list")
 	WHEN("erase element from start position")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.begin();
 
-		list.erase(it);
+		list.Erase(it);
 
 		THEN("list should have 2 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);
 		}
@@ -327,17 +327,17 @@ SCENARIO("erase element from list")
 	WHEN("erase element from last position")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.end();
 
-		list.erase(it);
+		list.Erase(it);
 
 		THEN("list should have 3 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 3;
 			REQUIRE(result == expectedResult);
 		}
@@ -360,17 +360,17 @@ SCENARIO("erase element from list")
 	WHEN("erase last element")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.end();
 		--it;
-		list.erase(it);
+		list.Erase(it);
 
 		THEN("list should have 2 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);
 		}
@@ -393,18 +393,18 @@ SCENARIO("erase element from list")
 	WHEN("erase element from center")
 	{
 		CMyList<int> list;
-		list.push_back(1);
-		list.push_back(2);
-		list.push_back(3);
+		list.Push_back(1);
+		list.Push_back(2);
+		list.Push_back(3);
 
 		auto it = list.begin();
 		++it;
 
-		list.erase(it);
+		list.Erase(it);
 
 		THEN("list should have 2 elements")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);
 		}
@@ -426,15 +426,15 @@ SCENARIO("erase element from list")
 	}
 }
 
-SCENARIO("size of list depends on elements count")
+SCENARIO("Size of list depends on elements count")
 {
 	WHEN("list is empty")
 	{
 		CMyList<int> list;
 
-		THEN("size equal 0")
+		THEN("Size equal 0")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 
 			size_t expectedResult = 0;
 			REQUIRE(result == expectedResult);
@@ -444,12 +444,12 @@ SCENARIO("size of list depends on elements count")
 	WHEN("list contains any elements")
 	{
 		CMyList<int> list;
-		list.push_back(2);
-		list.push_front(1);
+		list.Push_back(2);
+		list.Push_front(1);
 
-		THEN("count added elements should be equal size of list")
+		THEN("count added elements should be equal Size of list")
 		{
-			size_t result = list.size();
+			size_t result = list.Size();
 
 			size_t expectedResult = 2;
 			REQUIRE(result == expectedResult);

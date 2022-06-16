@@ -150,7 +150,7 @@ public:
 		}
 	};
 
-	bool push_front(const T& elem)
+	bool Push_front(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
 
@@ -171,7 +171,7 @@ public:
 		return true;
 	}
 
-	bool push_back(const T& elem)
+	bool Push_back(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
 
@@ -194,13 +194,25 @@ public:
 		return true;
 	}
 
-	Iterator<T> begin() const
+	ListConstIterator<T> begin() const
+	{
+		ListConstIterator<T> it = ListConstIterator<T>(m_pHead);
+		return it;
+	}
+
+	Iterator<T> begin()
 	{
 		Iterator<T> it = Iterator<T>(m_pHead);
 		return it;
 	}
 
-	Iterator<T> end() const
+	ListConstIterator<T> end() const
+	{
+		ListConstIterator<T> it = ListConstIterator<T>(m_pTail);
+		return it;
+	}
+
+	Iterator<T> end()
 	{
 		Iterator<T> it = Iterator<T>(m_pTail);
 		return it;
@@ -220,12 +232,12 @@ public:
 		return it;
 	}
 
-	size_t size() const
+	size_t Size() const
 	{
 		return m_count;
 	}
 
-	bool insert(Iterator<T>& it, const T& elem)
+	bool Insert(Iterator<T>& it, const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
 		Node<T>* curNode = it.GetNode();
@@ -265,8 +277,8 @@ public:
 		++m_count;
 		return true;
 	}
-	// с большой буквы
-	bool erase(Iterator<T>& it)
+
+	bool Erase(Iterator<T>& it)
 	{
 		if (m_pHead == m_pTail)
 		{
@@ -299,6 +311,7 @@ public:
 		return true;
 	}
 
+	// нужно копировать объект а не ссылку
 	CMyList<T>& operator=(const CMyList<T>& list)
 	{
 		m_pHead = list.m_pHead;
