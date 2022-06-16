@@ -3,6 +3,7 @@
 
 #include "CMyList.h"
 #include <iostream>
+#include <list>
 #include <string>
 
 int main()
@@ -40,8 +41,8 @@ int main()
 
 	std::cout << std::endl;
 
-	CMyList<std::string> listStr2;
-	listStr2.Push_front("a");
-	listStr2.Push_back("c");
-	// auto itstr2 = listStr2.rbegin();
+	// CMyList<std::string> listStr2;
+	// listStr2.Push_front("a");
+	// listStr2.Push_back("c");
+	//// auto itstr2 = listStr2.rbegin();
 }

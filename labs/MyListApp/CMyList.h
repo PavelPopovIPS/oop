@@ -33,12 +33,36 @@ public:
 	{
 	}
 
-	CMyList(CMyList const& other)
+	CMyList(CMyList const& list)
+		: m_pTail(new Node<T>())
+		, m_pHead(m_pTail)
 	{
-		for (auto it = other.begin(); it != other.end(); ++it)
+		if (this != &list)
 		{
-			//надо копировать
-			push_back(*it);
+			for (auto it = list.begin(); it != list.end(); ++it)
+			{
+				Node<T>* newNode = new Node<T>(*it);
+
+				if (m_pHead == m_pTail)
+				{
+					newNode->next = m_pTail;
+					newNode->prev = m_pTail;
+
+					m_pTail->next = newNode;
+					m_pTail->prev = newNode;
+
+					m_pHead = newNode;
+				}
+				else
+				{
+					Node<T>* lastNode = m_pTail->prev;
+
+					newNode->next = lastNode->next;
+					lastNode->next = newNode;
+					newNode->prev = lastNode;
+					m_pTail->prev = newNode;
+				}
+			}
 		}
 	}
 
@@ -78,25 +102,25 @@ public:
 			return m_pNode->m_elem;
 		}
 
-		const ListConstIterator<T>& operator++() const
+		const ListConstIterator<T>& operator++()
 		{
 			m_pNode = m_pNode->next;
 			return *this;
 		}
 
-		const ListConstIterator<T>& operator++(int d) const
+		const ListConstIterator<T>& operator++(int d)
 		{
 			m_pNode = m_pNode->next;
 			return *this;
 		}
 
-		const ListConstIterator<T>& operator--() const
+		const ListConstIterator<T>& operator--()
 		{
 			m_pNode = m_pNode->prev;
 			return *this;
 		}
 
-		const ListConstIterator<T>& operator--(int d) const
+		const ListConstIterator<T>& operator--(int d)
 		{
 			m_pNode = m_pNode->prev;
 			return *this;
@@ -311,12 +335,14 @@ public:
 		return true;
 	}
 
-	// нужно копировать объект а не ссылку
 	CMyList<T>& operator=(const CMyList<T>& list)
 	{
-		m_pHead = list.m_pHead;
-		m_pTail = list.m_pTail;
-		m_count = list.m_count;
+		if (std::addressof(list) != this)
+		{
+			CMyList tmpCopy(list);
+			std::swap(m_pTail, tmpCopy.m_pTail);
+			std::swap(m_pHead, tmpCopy.m_pHead);
+		}
 		return *this;
 	}
 
