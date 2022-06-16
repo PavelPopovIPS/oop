@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iterator>
 #include <sstream>
 
 template <typename T>
@@ -32,7 +33,13 @@ public:
 	{
 	}
 
-	CMyList(CMyList const& other) = default;
+	CMyList(CMyList const& other)
+	{
+		for (auto it = other.begin(); it != other.end(); ++it)
+		{
+			push_back(*it);
+		}
+	}
 
 	~CMyList()
 	{
@@ -51,6 +58,7 @@ public:
 	public:
 		// так стандартные библиотеки смогут работать с итераторами
 		using iterator_category = std::bidirectional_iterator_tag;
+		// j,]zdbnm объявить недостающие заголовки https://en.cppreference.com/w/cpp/iterator/iterator_traits
 
 		// const T& operator*() const;
 	};
@@ -62,14 +70,6 @@ public:
 		Iterator(Node<T>* node)
 			: m_pNode(node)
 		{
-		}
-
-		Iterator(const Iterator<T>&) = default;
-
-		Iterator(Iterator<T>&& other)
-			: m_pNode(other.m_pNode)
-		{
-			other.m_pNode = nullptr;
 		}
 
 		Node<T>* GetNode() const
@@ -94,11 +94,7 @@ public:
 			return *this;
 		}
 
-		Iterator<T>& operator=(const Iterator<T>&& it)
-		{
-			m_pNode = it.m_pNode;
-			return *this;
-		}
+		//постфиксный инкремент и инкремент int
 
 		bool operator!=(const Iterator<T>& it) const
 		{
@@ -165,15 +161,17 @@ public:
 		return it;
 	}
 
-	Iterator<T> rbegin() const
+	std::reverse_iterator<T> rbegin() const
 	{
-		Iterator<T> it = Iterator<T>(m_pTail->prev);
+		// Iterator<T> it = Iterator<T>(m_pTail->prev);
+		std::reverse_iterator<T> it = std::make_reverse_iterator(end());
 		return it;
 	}
 
-	Iterator<T> rend() const
+	std::reverse_iterator<T> rend() const
 	{
-		Iterator<T> it = Iterator<T>(m_pHead->prev);
+		// Iterator<T> it = Iterator<T>(m_pHead->prev);
+		std::reverse_iterator<T> it = std::make_reverse_iterator(begin());
 		return it;
 	}
 
@@ -222,7 +220,7 @@ public:
 		++m_count;
 		return true;
 	}
-
+	// с большой буквы
 	bool erase(Iterator<T>& it)
 	{
 		if (m_pHead == m_pTail)

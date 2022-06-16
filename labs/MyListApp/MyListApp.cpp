@@ -37,4 +37,11 @@ int main()
 		std::cout << *itstr << std::endl;
 	}
 	std::cout << "Size is " << listStr.size() << std::endl;
+
+	std::cout << std::endl;
+
+	CMyList<std::string> listStr2;
+	listStr2.push_front("a");
+	listStr2.push_back("c");
+	// auto itstr2 = listStr2.rbegin();
 }
