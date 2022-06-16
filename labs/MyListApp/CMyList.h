@@ -33,7 +33,7 @@ public:
 	{
 	}
 
-	CMyList(CMyList const& list)
+	CMyList(CMyList<T> const& list)
 		: m_pTail(new Node<T>())
 		, m_pHead(m_pTail)
 	{
@@ -336,9 +336,9 @@ public:
 		return true;
 	}
 
-	CMyList<T>& operator=(const CMyList<T>& list)
+	CMyList<T>& operator=(CMyList<T> const& list)
 	{
-		if (std::addressof(list) != this)
+		if (this != &list)
 		{
 			CMyList tmpCopy(list);
 			std::swap(m_pTail, tmpCopy.m_pTail);
