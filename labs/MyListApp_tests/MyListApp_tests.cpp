@@ -51,7 +51,7 @@ SCENARIO("add element to front of list")
 			REQUIRE(result == expectedResult);
 		}
 
-		THEN("element should be 3")
+		THEN("element should be equal 3")
 		{
 			auto it = list.begin();
 			int result = *it;
@@ -73,7 +73,7 @@ SCENARIO("add element to front of list")
 			REQUIRE(result == expectedResult);
 		}
 
-		THEN("first element should be 1")
+		THEN("first element should be equal 1")
 		{
 			auto it = list.begin();
 			int result = *it;
@@ -97,7 +97,7 @@ SCENARIO("add element to end of list")
 			REQUIRE(result == expectedResult);
 		}
 
-		THEN("element should be 3")
+		THEN("element should be equal 3")
 		{
 			auto it = list.begin();
 			int result = *it;
@@ -119,12 +119,156 @@ SCENARIO("add element to end of list")
 			REQUIRE(result == expectedResult);
 		}
 
-		THEN("last element should be 1")
+		THEN("last element should be equal 1")
 		{
-			auto it = list.begin();
-			++it;
+			auto it = list.end();
+			--it;
 			int result = *it;
 			int expectedResult = 1;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
+
+SCENARIO("insert element to list")
+{
+	WHEN("insert element to empty list")
+	{
+		CMyList<int> list;
+		auto it = list.begin();
+
+		list.insert(it, 5);
+
+		THEN("list should have 1 element")
+		{
+			size_t result = list.size();
+			size_t expectedResult = 1;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("element should be equal 5")
+		{
+			auto it = list.begin();
+			int result = *it;
+			int expectedResult = 5;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("insert element to start position")
+	{
+		CMyList<int> list;
+		list.push_back(1);
+		list.push_back(2);
+		list.push_back(3);
+
+		auto it = list.begin();
+
+		list.insert(it, 5);
+
+		THEN("list should have 4 elements")
+		{
+			size_t result = list.size();
+			size_t expectedResult = 4;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("first element should be equal 5")
+		{
+			auto it = list.begin();
+			int result = *it;
+			int expectedResult = 5;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("sequence should be 5 1 2 3")
+		{
+			auto it = list.begin();
+			std::vector<int> result;
+
+			for (it = list.begin(); it != list.end(); ++it)
+			{
+				result.push_back(*it);
+			}
+
+			std::vector<int> expectedResult = { 5, 1, 2, 3 };
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("insert element to last position")
+	{
+		CMyList<int> list;
+		list.push_back(1);
+		list.push_back(2);
+		list.push_back(3);
+
+		auto it = list.end();
+
+		list.insert(it, 5);
+
+		THEN("list should have 4 elements")
+		{
+			size_t result = list.size();
+			size_t expectedResult = 4;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("last element should be equal 5")
+		{
+			auto it = list.end();
+			--it;
+			int result = *it;
+			int expectedResult = 5;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("sequence should be 1 2 3 5")
+		{
+			auto it = list.begin();
+			std::vector<int> result;
+
+			for (it = list.begin(); it != list.end(); ++it)
+			{
+				result.push_back(*it);
+			}
+
+			std::vector<int> expectedResult = { 1, 2, 3, 5 };
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("insert element to center")
+	{
+		CMyList<int> list;
+		list.push_back(1);
+		list.push_back(2);
+		list.push_back(3);
+
+		auto it = list.begin();
+		++it;
+
+		list.insert(it, 5);
+
+		THEN("list should have 4 elements")
+		{
+			size_t result = list.size();
+			size_t expectedResult = 4;
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("sequence should be 1 5 2 3")
+		{
+			auto it = list.begin();
+
+			std::vector<int> result;
+
+			for (it = list.begin(); it != list.end(); ++it)
+			{
+				result.push_back(*it);
+			}
+
+			std::vector<int> expectedResult = { 1, 5, 2, 3 };
 			REQUIRE(result == expectedResult);
 		}
 	}
