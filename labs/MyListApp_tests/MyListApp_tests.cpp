@@ -425,3 +425,34 @@ SCENARIO("erase element from list")
 		}
 	}
 }
+
+SCENARIO("size of list depends on elements count")
+{
+	WHEN("list is empty")
+	{
+		CMyList<int> list;
+
+		THEN("size equal 0")
+		{
+			size_t result = list.size();
+
+			size_t expectedResult = 0;
+			REQUIRE(result == expectedResult);
+		}
+	}
+
+	WHEN("list contains any elements")
+	{
+		CMyList<int> list;
+		list.push_back(2);
+		list.push_front(1);
+
+		THEN("count added elements should be equal size of list")
+		{
+			size_t result = list.size();
+
+			size_t expectedResult = 2;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
