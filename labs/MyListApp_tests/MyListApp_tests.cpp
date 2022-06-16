@@ -456,3 +456,39 @@ SCENARIO("Size of list depends on elements count")
 		}
 	}
 }
+
+SCENARIO("copy list")
+{
+	WHEN("list was copied")
+	{
+		CMyList<int> list;
+		list.Push_back(2);
+		list.Push_back(3);
+		list.Push_back(4);
+
+		CMyList<int> list2 = list;
+
+		THEN("new list sequence should be 2 3 4")
+		{
+			auto it = list2.begin();
+
+			std::vector<int> result;
+
+			for (it = list2.begin(); it != list2.end(); ++it)
+			{
+				result.push_back(*it);
+			}
+
+			std::vector<int> expectedResult = { 2, 3, 4 };
+			REQUIRE(result == expectedResult);
+		}
+
+		THEN("size of new list should be 3")
+		{
+			size_t result = list2.Size();
+
+			size_t expectedResult = 3;
+			REQUIRE(result == expectedResult);
+		}
+	}
+}

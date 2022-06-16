@@ -62,6 +62,7 @@ public:
 					newNode->prev = lastNode;
 					m_pTail->prev = newNode;
 				}
+				++m_count;
 			}
 		}
 	}
@@ -342,6 +343,7 @@ public:
 			CMyList tmpCopy(list);
 			std::swap(m_pTail, tmpCopy.m_pTail);
 			std::swap(m_pHead, tmpCopy.m_pHead);
+			std::swap(m_count, tmpCopy.m_count);
 		}
 		return *this;
 	}
