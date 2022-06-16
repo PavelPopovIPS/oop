@@ -249,9 +249,8 @@ public:
 
 		curNode->next = nullptr;
 		curNode->prev = nullptr;
-		delete curNode;
 
-		// TODO не работает с  пограничными знаениями
+		delete curNode;
 
 		--m_count;
 		return true;
