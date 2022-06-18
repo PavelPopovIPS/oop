@@ -37,11 +37,12 @@ public:
 		: m_pTail(new Node<T>())
 		, m_pHead(m_pTail)
 	{
+		// проверка не нужна
 		if (this != &list)
 		{
 			for (auto it = list.begin(); it != list.end(); ++it)
 			{
-				Node<T>* newNode = new Node<T>(*it);
+				Node<T>* newNode = new Node<T>(*it); //возможна утечка, созадть временный спск а потом переметсить значения
 
 				if (m_pHead == m_pTail)
 				{
@@ -87,10 +88,10 @@ public:
 		{
 		}
 
-		using difference_type = T;
-		using value_type = T;
-		using pointer = T*;
-		using reference = T&;
+		using difference_type = std::ptrdiff_t;
+		using value_type = const T;
+		using pointer = const T*;
+		using reference = const T&;
 		using iterator_category = std::bidirectional_iterator_tag;
 
 		Node<T>* GetNode() const
@@ -196,6 +197,8 @@ public:
 		return true;
 	}
 
+	//убрать булеан и выбрасывать исключения в невалидных ситуациях
+	// PushBack
 	bool Push_back(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
@@ -243,14 +246,13 @@ public:
 		return it;
 	}
 
-	std::reverse_iterator<T> rbegin() const
+	std::reverse_iterator<ListConstIterator<T>> rbegin() const
 	{
 		// Iterator<T> it = Iterator<T>(m_pTail->prev);
-		std::reverse_iterator<T> it = std::make_reverse_iterator(end());
-		return it;
+		return std::make_reverse_iterator(end());
 	}
 
-	std::reverse_iterator<T> rend() const
+	std::reverse_iterator<ListConstIterator<T>> rend() const
 	{
 		// Iterator<T> it = Iterator<T>(m_pHead->prev);
 		std::reverse_iterator<T> it = std::make_reverse_iterator(begin());
