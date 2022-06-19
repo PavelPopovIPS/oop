@@ -40,9 +40,4 @@ int main()
 	std::cout << "Size is " << listStr.Size() << std::endl;
 
 	std::cout << std::endl;
-
-	CMyList<std::string> listStr2;
-	listStr2.PushFront("a");
-	listStr2.PushBack("c");
-	auto itstr2 = listStr2.rbegin();
 }

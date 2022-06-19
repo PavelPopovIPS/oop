@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+#include <utility>
 
 template <typename T>
 struct Node
@@ -37,32 +38,16 @@ public:
 		: m_pTail(new Node<T>())
 		, m_pHead(m_pTail)
 	{
+		CMyList<T> tmpList;
+
 		for (auto it = list.begin(); it != list.end(); ++it)
 		{
-			Node<T>* newNode = new Node<T>(*it); //возможна утечка, созадть временный спск, а потом переметсить значения
-
-			if (m_pHead == m_pTail)
-			{
-				newNode->next = m_pTail;
-				newNode->prev = m_pTail;
-
-				m_pTail->next = newNode;
-				m_pTail->prev = newNode;
-
-				m_pHead = newNode;
-			}
-			else
-			{
-				Node<T>* lastNode = m_pTail->prev;
-
-				newNode->next = lastNode->next;
-				lastNode->next = newNode;
-				newNode->prev = lastNode;
-				m_pTail->prev = newNode;
-			}
-
-			++m_count;
+			tmpList.PushBack(*it);
 		}
+
+		std::swap(m_pTail, tmpList.m_pTail);
+		std::swap(m_pHead, tmpList.m_pHead);
+		std::swap(m_count, tmpList.m_count);
 	}
 
 	~CMyList()
@@ -342,7 +327,7 @@ public:
 	{
 		if (this != &list)
 		{
-			CMyList tmpCopy(list);
+			CMyList<T> tmpCopy(list);
 			std::swap(m_pTail, tmpCopy.m_pTail);
 			std::swap(m_pHead, tmpCopy.m_pHead);
 			std::swap(m_count, tmpCopy.m_count);
