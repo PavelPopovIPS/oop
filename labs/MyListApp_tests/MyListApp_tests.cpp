@@ -281,10 +281,20 @@ SCENARIO("erase element from list")
 		CMyList<int> list;
 		auto it = list.begin();
 
-		list.Erase(it);
-
 		THEN("list should be empty")
 		{
+			try
+			{
+				list.Erase(it);
+				REQUIRE(FALSE);
+			}
+			catch (std::exception& e)
+			{
+				std::string expectedMsg = "List is empty\n";
+				std::string msg = e.what();
+				REQUIRE(msg == expectedMsg);
+			}
+
 			size_t result = list.Size();
 			size_t expectedResult = 0;
 			REQUIRE(result == expectedResult);
@@ -333,10 +343,20 @@ SCENARIO("erase element from list")
 
 		auto it = list.end();
 
-		list.Erase(it);
-
 		THEN("list should have 3 elements")
 		{
+			try
+			{
+				list.Erase(it);
+				REQUIRE(FALSE);
+			}
+			catch (std::exception& e)
+			{
+				std::string expectedMsg = "Element not exist\n";
+				std::string msg = e.what();
+				REQUIRE(msg == expectedMsg);
+			}
+
 			size_t result = list.Size();
 			size_t expectedResult = 3;
 			REQUIRE(result == expectedResult);

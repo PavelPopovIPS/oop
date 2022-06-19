@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 #include <iterator>
 #include <sstream>
@@ -39,7 +39,7 @@ public:
 	{
 		for (auto it = list.begin(); it != list.end(); ++it)
 		{
-			Node<T>* newNode = new Node<T>(*it); //возможна утечка, созадть временный спск, а потом переметсить значения
+			Node<T>* newNode = new Node<T>(*it); //РІРѕР·РјРѕР¶РЅР° СѓС‚РµС‡РєР°, СЃРѕР·Р°РґС‚СЊ РІСЂРµРјРµРЅРЅС‹Р№ СЃРїСЃРє, Р° РїРѕС‚РѕРј РїРµСЂРµРјРµС‚СЃРёС‚СЊ Р·РЅР°С‡РµРЅРёСЏ
 
 			if (m_pHead == m_pTail)
 			{
@@ -194,7 +194,6 @@ public:
 		}
 	}
 
-	//убрать булеан и выбрасывать исключения в невалидных ситуациях
 	void PushBack(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
@@ -263,6 +262,7 @@ public:
 		return m_count;
 	}
 
+	//СѓР±СЂР°С‚СЊ Р±СѓР»РµР°РЅ
 	bool Insert(Iterator<T>& it, const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
@@ -304,37 +304,38 @@ public:
 		return true;
 	}
 
-	bool Erase(Iterator<T>& it)
+	void Erase(Iterator<T>& it)
 	{
 		if (m_pHead == m_pTail)
 		{
-			return false;
+			throw std::runtime_error("List is empty\n");
 		}
-
-		Node<T>* curNode = it.GetNode();
-		Node<T>* prevNode = curNode->prev;
-		Node<T>* nextNode = curNode->next;
-
-		if (curNode == m_pHead)
+		else
 		{
-			m_pHead = nextNode;
+			Node<T>* curNode = it.GetNode();
+			Node<T>* prevNode = curNode->prev;
+			Node<T>* nextNode = curNode->next;
+
+			if (curNode == m_pHead)
+			{
+				m_pHead = nextNode;
+			}
+
+			if (curNode == m_pTail)
+			{
+				throw std::runtime_error("Element not exist\n");
+			}
+
+			nextNode->prev = prevNode;
+			prevNode->next = nextNode;
+
+			curNode->next = nullptr;
+			curNode->prev = nullptr;
+
+			delete curNode;
+
+			--m_count;
 		}
-
-		if (curNode == m_pTail)
-		{
-			return false;
-		}
-
-		nextNode->prev = prevNode;
-		prevNode->next = nextNode;
-
-		curNode->next = nullptr;
-		curNode->prev = nullptr;
-
-		delete curNode;
-
-		--m_count;
-		return true;
 	}
 
 	CMyList<T>& operator=(CMyList<T> const& list)
