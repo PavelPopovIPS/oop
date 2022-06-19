@@ -247,7 +247,7 @@ public:
 		return m_count;
 	}
 
-	//убрать булеан
+	//убрать булеан - будет слишком кудряво
 	bool Insert(Iterator<T>& it, const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);

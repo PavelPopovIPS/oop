@@ -512,3 +512,64 @@ SCENARIO("copy list")
 		}
 	}
 }
+
+SCENARIO("Create copy")
+{
+	GIVEN("list was created by copy constructor")
+	{
+		CMyList<std::string> list;
+		list.PushFront("a");
+		list.PushBack("b");
+		list.PushBack("c");
+
+		CMyList<std::string> newList(list);
+
+		WHEN("remove elemen in base list")
+		{
+			auto it = list.begin();
+			it++;
+			list.Erase(it);
+
+			THEN("new list should not be change")
+			{
+				std::vector<std::string> result;
+
+				for (auto newIt = newList.begin(); newIt != newList.end(); ++newIt)
+				{
+					result.push_back(*newIt);
+				}
+
+				std::vector<std::string> expectedResult = { "a", "b", "c" };
+				REQUIRE(result == expectedResult);
+			}
+		}
+	}
+
+	GIVEN("list was created by operator =")
+	{
+		CMyList<std::string>* list = new CMyList<std::string>();
+		list->PushFront("a");
+		list->PushBack("b");
+		list->PushBack("c");
+
+		CMyList<std::string> newList = *list;
+
+		WHEN("remove old list")
+		{
+			delete list;
+
+			THEN("new list should not be change")
+			{
+				std::vector<std::string> result;
+
+				for (auto newIt = newList.begin(); newIt != newList.end(); ++newIt)
+				{
+					result.push_back(*newIt);
+				}
+
+				std::vector<std::string> expectedResult = { "a", "b", "c" };
+				REQUIRE(result == expectedResult);
+			}
+		}
+	}
+}
