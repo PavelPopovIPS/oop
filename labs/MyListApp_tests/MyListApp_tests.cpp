@@ -573,3 +573,27 @@ SCENARIO("Create copy")
 		}
 	}
 }
+
+SCENARIO("work with iterators")
+{
+	WHEN("use revers iterators")
+	{
+		CMyList<std::string> list;
+		list.PushFront("a");
+		list.PushBack("b");
+		list.PushBack("c");
+
+		THEN("elements will be used from last element to first")
+		{
+			std::vector<std::string> result;
+
+			for (auto newIt = list.rbegin(); newIt != list.rend(); ++newIt)
+			{
+				result.push_back(*newIt);
+			}
+
+			std::vector<std::string> expectedResult = { "c", "b", "a" };
+			REQUIRE(result == expectedResult);
+		}
+	}
+}
