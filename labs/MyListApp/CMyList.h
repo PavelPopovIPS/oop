@@ -176,7 +176,7 @@ public:
 		}
 	};
 
-	bool Push_front(const T& elem)
+	void PushFront(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
 
@@ -185,21 +185,20 @@ public:
 			AddFirstNode(newNode);
 
 			++m_count;
-			return true;
 		}
+		else
+		{
+			newNode->prev = m_pHead->prev;
+			m_pHead->prev = newNode;
+			newNode->next = m_pHead;
+			m_pHead = newNode;
 
-		newNode->prev = m_pHead->prev;
-		m_pHead->prev = newNode;
-		newNode->next = m_pHead;
-		m_pHead = newNode;
-
-		++m_count;
-		return true;
+			++m_count;
+		}
 	}
 
 	//убрать булеан и выбрасывать исключения в невалидных ситуациях
-	// PushBack
-	bool Push_back(const T& elem)
+	void PushBack(const T& elem)
 	{
 		Node<T>* newNode = new Node<T>(elem);
 
@@ -208,18 +207,18 @@ public:
 			AddFirstNode(newNode);
 
 			++m_count;
-			return true;
 		}
+		else
+		{
+			Node<T>* lastNode = m_pTail->prev;
 
-		Node<T>* lastNode = m_pTail->prev;
+			newNode->next = lastNode->next;
+			lastNode->next = newNode;
+			newNode->prev = lastNode;
+			m_pTail->prev = newNode;
 
-		newNode->next = lastNode->next;
-		lastNode->next = newNode;
-		newNode->prev = lastNode;
-		m_pTail->prev = newNode;
-
-		++m_count;
-		return true;
+			++m_count;
+		}
 	}
 
 	ListConstIterator<T> begin() const
@@ -248,15 +247,13 @@ public:
 
 	std::reverse_iterator<ListConstIterator<T>> rbegin() const
 	{
-		// Iterator<T> it = Iterator<T>(m_pTail->prev);
 		return std::make_reverse_iterator(end());
 	}
 
 	std::reverse_iterator<ListConstIterator<T>> rend() const
 	{
-		// Iterator<T> it = Iterator<T>(m_pHead->prev);
-		std::reverse_iterator<T> it = std::make_reverse_iterator(begin());
-		return it;
+
+		return std::make_reverse_iterator(begin());
 	}
 
 	size_t Size() const

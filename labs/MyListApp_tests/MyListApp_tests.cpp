@@ -14,7 +14,7 @@ SCENARIO("create list conteiner for diferent types")
 
 		THEN("added element should be 2")
 		{
-			list.Push_back(2);
+			list.PushBack(2);
 			auto it = list.begin();
 			int result = *it;
 			int expectedResult = 2;
@@ -28,7 +28,7 @@ SCENARIO("create list conteiner for diferent types")
 
 		THEN("added element should be abc")
 		{
-			list.Push_back("abc");
+			list.PushBack("abc");
 			auto it = list.begin();
 			std::string result = *it;
 			std::string expectedResult = "abc";
@@ -42,7 +42,7 @@ SCENARIO("add element to front of list")
 	WHEN("add element to empty list")
 	{
 		CMyList<int> list;
-		list.Push_front(3);
+		list.PushFront(3);
 
 		THEN("list should have 1 element")
 		{
@@ -63,8 +63,8 @@ SCENARIO("add element to front of list")
 	WHEN("add element to list with 1 element")
 	{
 		CMyList<int> list;
-		list.Push_front(3);
-		list.Push_front(1);
+		list.PushFront(3);
+		list.PushFront(1);
 
 		THEN("list should have 2 elements")
 		{
@@ -88,7 +88,7 @@ SCENARIO("add element to end of list")
 	WHEN("add element to empty list")
 	{
 		CMyList<int> list;
-		list.Push_back(3);
+		list.PushBack(3);
 
 		THEN("list should have 1 element")
 		{
@@ -109,8 +109,8 @@ SCENARIO("add element to end of list")
 	WHEN("add element to list with 1 element")
 	{
 		CMyList<int> list;
-		list.Push_back(3);
-		list.Push_back(1);
+		list.PushBack(3);
+		list.PushBack(1);
 
 		THEN("list should have 2 elements")
 		{
@@ -158,9 +158,9 @@ SCENARIO("Insert element to list")
 	WHEN("Insert element to start position")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.begin();
 
@@ -199,9 +199,9 @@ SCENARIO("Insert element to list")
 	WHEN("Insert element to last position")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.end();
 
@@ -241,9 +241,9 @@ SCENARIO("Insert element to list")
 	WHEN("Insert element to center")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.begin();
 		++it;
@@ -294,9 +294,9 @@ SCENARIO("erase element from list")
 	WHEN("erase element from start position")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.begin();
 
@@ -327,9 +327,9 @@ SCENARIO("erase element from list")
 	WHEN("erase element from last position")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.end();
 
@@ -360,9 +360,9 @@ SCENARIO("erase element from list")
 	WHEN("erase last element")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.end();
 		--it;
@@ -393,9 +393,9 @@ SCENARIO("erase element from list")
 	WHEN("erase element from center")
 	{
 		CMyList<int> list;
-		list.Push_back(1);
-		list.Push_back(2);
-		list.Push_back(3);
+		list.PushBack(1);
+		list.PushBack(2);
+		list.PushBack(3);
 
 		auto it = list.begin();
 		++it;
@@ -444,8 +444,8 @@ SCENARIO("Size of list depends on elements count")
 	WHEN("list contains any elements")
 	{
 		CMyList<int> list;
-		list.Push_back(2);
-		list.Push_front(1);
+		list.PushBack(2);
+		list.PushFront(1);
 
 		THEN("count added elements should be equal Size of list")
 		{
@@ -462,9 +462,9 @@ SCENARIO("copy list")
 	WHEN("list was copied")
 	{
 		CMyList<int> list;
-		list.Push_back(2);
-		list.Push_back(3);
-		list.Push_back(4);
+		list.PushBack(2);
+		list.PushBack(3);
+		list.PushBack(4);
 
 		CMyList<int> list2 = list;
 

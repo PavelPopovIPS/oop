@@ -9,9 +9,9 @@
 int main()
 {
 	CMyList<int> listNum;
-	listNum.Push_front(2);
-	listNum.Push_back(4);
-	listNum.Push_back(5);
+	listNum.PushFront(2);
+	listNum.PushBack(4);
+	listNum.PushBack(5);
 	auto itnum = listNum.begin();
 	itnum++;
 	listNum.Insert(itnum, 3);
@@ -26,8 +26,8 @@ int main()
 	std::cout << std::endl;
 
 	CMyList<std::string> listStr;
-	listStr.Push_front("a");
-	listStr.Push_back("c");
+	listStr.PushFront("a");
+	listStr.PushBack("c");
 	auto itstr = listStr.begin();
 	++itstr;
 	listStr.Insert(itstr, "b");
@@ -42,7 +42,7 @@ int main()
 	std::cout << std::endl;
 
 	CMyList<std::string> listStr2;
-	listStr2.Push_front("a");
-	listStr2.Push_back("c");
+	listStr2.PushFront("a");
+	listStr2.PushBack("c");
 	auto itstr2 = listStr2.rbegin();
 }
