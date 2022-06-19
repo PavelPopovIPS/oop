@@ -37,34 +37,31 @@ public:
 		: m_pTail(new Node<T>())
 		, m_pHead(m_pTail)
 	{
-		// проверка не нужна
-		if (this != &list)
+		for (auto it = list.begin(); it != list.end(); ++it)
 		{
-			for (auto it = list.begin(); it != list.end(); ++it)
+			Node<T>* newNode = new Node<T>(*it); //возможна утечка, созадть временный спск, а потом переметсить значения
+
+			if (m_pHead == m_pTail)
 			{
-				Node<T>* newNode = new Node<T>(*it); //возможна утечка, созадть временный спск а потом переметсить значения
+				newNode->next = m_pTail;
+				newNode->prev = m_pTail;
 
-				if (m_pHead == m_pTail)
-				{
-					newNode->next = m_pTail;
-					newNode->prev = m_pTail;
+				m_pTail->next = newNode;
+				m_pTail->prev = newNode;
 
-					m_pTail->next = newNode;
-					m_pTail->prev = newNode;
-
-					m_pHead = newNode;
-				}
-				else
-				{
-					Node<T>* lastNode = m_pTail->prev;
-
-					newNode->next = lastNode->next;
-					lastNode->next = newNode;
-					newNode->prev = lastNode;
-					m_pTail->prev = newNode;
-				}
-				++m_count;
+				m_pHead = newNode;
 			}
+			else
+			{
+				Node<T>* lastNode = m_pTail->prev;
+
+				newNode->next = lastNode->next;
+				lastNode->next = newNode;
+				newNode->prev = lastNode;
+				m_pTail->prev = newNode;
+			}
+
+			++m_count;
 		}
 	}
 
@@ -223,26 +220,22 @@ public:
 
 	ListConstIterator<T> begin() const
 	{
-		ListConstIterator<T> it = ListConstIterator<T>(m_pHead);
-		return it;
+		return ListConstIterator<T>(m_pHead);
 	}
 
 	Iterator<T> begin()
 	{
-		Iterator<T> it = Iterator<T>(m_pHead);
-		return it;
+		return Iterator<T>(m_pHead);
 	}
 
 	ListConstIterator<T> end() const
 	{
-		ListConstIterator<T> it = ListConstIterator<T>(m_pTail);
-		return it;
+		return ListConstIterator<T>(m_pTail);
 	}
 
 	Iterator<T> end()
 	{
-		Iterator<T> it = Iterator<T>(m_pTail);
-		return it;
+		return Iterator<T>(m_pTail);
 	}
 
 	std::reverse_iterator<ListConstIterator<T>> rbegin() const
@@ -250,9 +243,18 @@ public:
 		return std::make_reverse_iterator(end());
 	}
 
+	std::reverse_iterator<Iterator<T>> rbegin()
+	{
+		return std::make_reverse_iterator(end());
+	}
+
 	std::reverse_iterator<ListConstIterator<T>> rend() const
 	{
+		return std::make_reverse_iterator(begin());
+	}
 
+	std::reverse_iterator<Iterator<T>> rend()
+	{
 		return std::make_reverse_iterator(begin());
 	}
 
@@ -344,6 +346,7 @@ public:
 			std::swap(m_pHead, tmpCopy.m_pHead);
 			std::swap(m_count, tmpCopy.m_count);
 		}
+
 		return *this;
 	}
 
