@@ -28,15 +28,10 @@ template <class T>
 class CMyList
 {
 public:
-	CMyList()
-		: m_pTail(new Node<T>())
-		, m_pHead(m_pTail)
-	{
-	}
+	CMyList() = default;
 
 	CMyList(CMyList<T> const& list)
-		: m_pTail(new Node<T>())
-		, m_pHead(m_pTail)
+		: CMyList()
 	{
 		CMyList<T> tmpList;
 
@@ -52,9 +47,9 @@ public:
 
 	~CMyList()
 	{
+		m_pTail->next = nullptr;
 		while (m_pHead)
 		{
-			m_pTail->next = nullptr;
 			Node<T>* tmp = m_pHead;
 			m_pHead = m_pHead->next;
 			delete tmp;
@@ -65,6 +60,7 @@ public:
 	class ListConstIterator
 	{
 	public:
+		// конструктор по умолчанию объявить
 		ListConstIterator(Node<T>* node)
 			: m_pNode(node)
 		{
@@ -76,6 +72,7 @@ public:
 		using reference = const T&;
 		using iterator_category = std::bidirectional_iterator_tag;
 
+		//сделать метод приватным, объявить список своим другом
 		Node<T>* GetNode() const
 		{
 			return m_pNode;
@@ -110,6 +107,7 @@ public:
 			return *this;
 		}
 
+		// добавить пергрузку оператора ==
 		bool operator!=(const ListConstIterator<T>& it) const
 		{
 			return m_pNode != it.m_pNode;
@@ -123,10 +121,14 @@ public:
 	class Iterator : public ListConstIterator<T>
 	{
 	public:
+		// Нужно переопреелить типы pointer reference
 		Iterator(Node<T>* node)
 			: ListConstIterator<T>(node)
 		{
 		}
+
+		// добавить перегрузку оператора стрелочка ->
+		// Для * -> выбрасывать исключение
 
 		T& operator*() const
 		{
@@ -348,7 +350,7 @@ private:
 		m_pHead = newNode;
 	}
 
-	Node<T>* m_pTail = nullptr;
-	Node<T>* m_pHead = nullptr;
+	Node<T>* m_pTail = new Node<T>();
+	Node<T>* m_pHead = m_pTail;
 	size_t m_count = 0;
 };

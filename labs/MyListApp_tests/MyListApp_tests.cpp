@@ -597,3 +597,5 @@ SCENARIO("work with iterators")
 		}
 	}
 }
+
+//Нет тестов на удаление
